@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { Client } from '../../_models/Client.model';
+import { DataChica } from '../../_models/DataChica.model';
+import { ReceiptViewPage } from '../receipt-view/receipt-view';
 
 /**
  * Generated class for the ClientsPage page.
@@ -17,17 +19,29 @@ import { Client } from '../../_models/Client.model';
 })
 export class ClientsPage {
 
+  private ReceiptView
+
   clients: Client[];
+  miChica: DataChica;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     // public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) {
+    this.miChica = navParams.data.pChica;
+    this.ReceiptView = ReceiptViewPage;
   }
 
   ionViewDidLoad() {
     this.loadClients();
+  }
+
+  goToReceiptView() {
+    var params = {
+      pChica: this.miChica
+    };
+    this.navCtrl.push(this.ReceiptView, params);
   }
 
   loadClients() {
@@ -40,6 +54,9 @@ export class ClientsPage {
 
   selectedClient(client: Client) {
     this.showToast("Cliente: " + client.name);
+    this.miChica.idClient = client.id;
+    this.miChica.client = client.name;
+    this.goToReceiptView();
   }
 
   doRefresh(refresher) {

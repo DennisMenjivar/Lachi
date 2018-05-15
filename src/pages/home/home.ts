@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { ClientsPage } from '../clients/clients';
+import { ButtonCalculatorClass } from '../../_models/ButtonCalculatorClass.model';
+import { DataChica } from '../../_models/DataChica.model';
 
 @Component({
   selector: 'page-home',
@@ -15,14 +17,16 @@ export class HomePage {
   principalButtons: ButtonCalculatorClass[];
   option: string = 'Lempiras'
 
-  lempiras: number;
-  number: number;
+  chica: DataChica;
+  // lempiras: number;
+  // number: number;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     // public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) {
+    this.chica = new DataChica(0, 0, 0, 0, '', new Date());
     this.principalText = '0'
     this.Clients = ClientsPage;
     this.loadButtons();
@@ -31,8 +35,8 @@ export class HomePage {
   cleanPrincipal() {
     this.option = "Lempiras"
     this.principalText = '0';
-    this.lempiras = 0;
-    this.number = 0;
+    this.chica.lempiras = 0;
+    this.chica.number = 0;
   }
 
   doRefresh(refresher) {
@@ -57,17 +61,12 @@ export class HomePage {
 
   goToClients() {
     var params = {
-      // param_cliente: this.cliente
+      pChica: this.chica
     };
-
     this.navCtrl.push(this.Clients, params);
-
   }
 
   click(pOption: ButtonCalculatorClass) {
-    this.lempiras = 0
-    this.number = 0;
-
     if (this.option == 'Lempiras') {
       if (this.principalText.length <= 5 || pOption.id == -1 || pOption.id == -2) {
         if (pOption.id == -1) {
@@ -77,8 +76,8 @@ export class HomePage {
           if (this.principalText == '0') {
             this.showToast('Ingrese un monto, por favor!')
           } else {
-            this.lempiras = parseInt(this.principalText);
-            console.log("Lempiras: ", this.lempiras);
+            this.chica.lempiras = parseInt(this.principalText);
+            console.log("Lempiras: ", this.chica.lempiras);
             this.option = 'Número';
             this.principalText = '0'
           }
@@ -94,8 +93,8 @@ export class HomePage {
         if (pOption.id == -1) {
           this.principalText = '0';
         } else if (pOption.id == -2) {
-          this.number = parseInt(this.principalText);
-          console.log("Numero: ", this.number);
+          this.chica.number = parseInt(this.principalText);
+          console.log("Numero: ", this.chica.number);
 
           this.principalText = '0'
           this.goToClients();
@@ -134,17 +133,5 @@ export class HomePage {
       content: msg
     });
     this.loader.present();
-  }
-}
-
-export class ButtonCalculatorClass {
-  id: number;
-  name: string;
-  enabled: boolean;
-
-  constructor(pID: number, pName: string, pEnabled: any) {
-    this.id = pID;
-    this.name = pName;
-    this.enabled = pEnabled;
   }
 }
