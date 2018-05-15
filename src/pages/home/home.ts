@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Toast, LoadingController, Button } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
+import { ClientsPage } from '../clients/clients';
 
 @Component({
   selector: 'page-home',
@@ -8,19 +9,34 @@ import { ToastController } from 'ionic-angular';
 })
 export class HomePage {
 
+  private Clients
+
   principalText: string = '0';
   principalButtons: ButtonCalculatorClass[];
   option: string = 'Lempiras'
 
   lempiras: number = 0;
-  pedazos: number = 0;
+  number: number = 0;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     // public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) {
+    this.Clients = ClientsPage;
     this.loadButtons();
+  }
+
+  cleanPrincipal() {
+    this.option = "Lempiras"
+    this.principalText = '0';
+    this.lempiras = 0;
+    this.number = 0;
+  }
+
+  doRefresh(refresher) {
+    this.cleanPrincipal();
+    refresher.complete();
   }
 
   loadButtons() {
@@ -38,32 +54,81 @@ export class HomePage {
 
   }
 
+  goToClients() {
+    var params = {
+      // param_cliente: this.cliente
+    };
+
+    this.navCtrl.push(this.Clients, params);
+
+  }
+
   click(pOption: ButtonCalculatorClass) {
-    if (this.principalText.length < 5 || pOption.id == -1 || pOption.id == -2) {
-      if (pOption.id == -1) {
-        this.principalText = '0';
-      } else if (pOption.id == -2) {
-        // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
-        if (this.principalText == '0' && this.option == 'Lempiras') {
-          this.showToast('Ingrese un monto, por favor!')
-        } else {
-          if (this.option == 'Lempiras') {
+    // if (this.principalText.length < 5 || pOption.id == -1 || pOption.id == -2) {
+    //   if (pOption.id == -1) {
+    //     this.principalText = '0';
+    //   } else if (pOption.id == -2) {
+    //     // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
+    //     if (this.principalText == '0' && this.option == 'Lempiras') {
+    //       this.showToast('Ingrese un monto, por favor!')
+    //     } else {
+    //       if (this.option == 'Lempiras') {
+    //         this.lempiras = parseInt(this.principalText);
+    //         this.option = 'Número';
+    //         this.principalText = '0'
+    //         console.log("Lempiras: ", this.lempiras);
+    //       } else if (this.option == 'Número') {
+    //         this.number = parseInt(this.principalText);
+    //         this.principalText = '0'
+    //         this.goToClients();
+    //       }
+    //     }
+    //   } else {
+    //     if (this.principalText == '0') {
+    //       this.principalText = '';
+    //     }
+    //     this.principalText += pOption.id;
+    //   }
+    // }
+
+    if (this.option == 'Lempiras') {
+      if (this.principalText.length <= 5 || pOption.id == -1 || pOption.id == -2) {
+        if (pOption.id == -1) {
+          this.principalText = '0';
+        } else if (pOption.id == -2) {
+          // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
+          if (this.principalText == '0') {
+            this.showToast('Ingrese un monto, por favor!')
+          } else {
             this.lempiras = parseInt(this.principalText);
-            this.option = 'Pedazos';
-            this.principalText = '0'
             console.log("Lempiras: ", this.lempiras);
-          } else if (this.option == 'Pedazos') {
-            this.pedazos = parseInt(this.principalText);
+            this.option = 'Número';
             this.principalText = '0'
-            console.log("Pedazos: ", this.pedazos);
           }
+        } else {
+          this.principalText += pOption.id;
         }
-      } else {
-        if (this.principalText == '0') {
-          this.principalText = '';
-        }
-        this.principalText += pOption.id;
       }
+    } else if (this.option == 'Número') {
+      if (this.principalText.length <= 2 || pOption.id == -1 || pOption.id == -2) {
+        if (pOption.id == -1) {
+          this.principalText = '0';
+        } else if (pOption.id == -2) {
+          this.number = parseInt(this.principalText);
+          console.log("Numero: ", this.number);
+
+          this.principalText = '0'
+          this.goToClients();
+        } else {
+          this.principalText += pOption.id;
+        }
+      }
+    }
+    else {
+      // if (this.principalText == '0') {
+      //   this.principalText = '';
+      // }
+      this.principalText += pOption.id;
     }
   }
 
