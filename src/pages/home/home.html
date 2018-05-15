@@ -3,16 +3,28 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Lachi</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+<ion-content padding style="padding: 0%; margin: 0%; border: 0%;  width: 100%; height: 100%">
+  <div class="container" style="height: 20%; padding: 0%; margin: 0%; border: 0%">
+    <h1 style="font-size: 100px; width: 100%;height: 100%; text-align: center;">0</h1>
+  </div>
+  <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 55%">
+    <div class="row" style="width: 100%; height: 100%">
+      <div class="col-4" *ngFor="let b of principalButtons" style="width: 33.33%; margin: 0%; padding: 0%; border: 0%">
+        <button large ion-button style="width: 100%; margin: 0%; padding: 0%; border: 0%;height: 100%;">{{b.name}}</button>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%;">
+    <div class="row" style="padding: 0%; border: 0%; margin: 0%; width: 100%; height: 100%;">
+      <div class="col-3" *ngFor="let op of principalButtons" style="margin: 0%; padding: 0.99%; border: 0%">
+        <button *ngIf="op == 'Contactos'" (click)="accion($event)" style="font-weight: bold; margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%; border-radius: 0%; background-color: slateblue" large ion-button >{{op}}</button>
+        <button style="font-weight: bold; margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%; border-radius: 0%; background-color: slateblue"
+          large ion-button>{{op.name}}</button>
+      </div>
+    </div>
+  </div> -->
 </ion-content>
