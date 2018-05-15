@@ -7,6 +7,7 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
+  principalText: string = '0';
   principalButtons: ButtonCalculatorClass[];
 
   constructor(public navCtrl: NavController) {
@@ -18,14 +19,30 @@ export class HomePage {
     let numbers: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, -1, 0, -2];
     for (let n of numbers) {
       if (n == -1) {
-        this.principalButtons.push(new ButtonCalculatorClass(n, '', false));
+        this.principalButtons.push(new ButtonCalculatorClass(n, 'AC', false));
       } else if (n == -2) {
-        this.principalButtons.push(new ButtonCalculatorClass(n, 'AC', true));
+        this.principalButtons.push(new ButtonCalculatorClass(n, '>', true));
       } else {
         this.principalButtons.push(new ButtonCalculatorClass(n, n.toString(), true));
       }
     }
 
+  }
+  click(option: ButtonCalculatorClass) {
+    if (option.id == -1) {
+      this.principalText = '0';
+    } else if (option.id == -2) {
+      // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
+      if (this.principalText == '0') {
+        console.log("No chele no se puede");
+        
+      }
+    } else {
+      if (this.principalText == '0') {
+        this.principalText = '';
+      }
+      this.principalText += option.id;
+    }
   }
 
 }
