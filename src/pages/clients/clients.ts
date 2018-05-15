@@ -37,6 +37,10 @@ export class ClientsPage {
     this.loadClients();
   }
 
+  createNewClient(){
+    
+  }
+
   goToReceiptView() {
     var params = {
       pChica: this.miChica

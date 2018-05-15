@@ -15,11 +15,9 @@ export class HomePage {
 
   principalText: string;
   principalButtons: ButtonCalculatorClass[];
-  option: string = 'Lempiras'
+  option: string = 'Número';
 
   chica: DataChica;
-  // lempiras: number;
-  // number: number;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -33,7 +31,7 @@ export class HomePage {
   }
 
   cleanPrincipal() {
-    this.option = "Lempiras"
+    this.option = "Número"
     this.principalText = '0';
     this.chica.lempiras = 0;
     this.chica.number = 0;
@@ -78,8 +76,8 @@ export class HomePage {
           } else {
             this.chica.lempiras = parseInt(this.principalText);
             console.log("Lempiras: ", this.chica.lempiras);
-            this.option = 'Número';
             this.principalText = '0'
+            this.goToClients();
           }
         } else {
           if (this.principalText == '0') {
@@ -94,10 +92,11 @@ export class HomePage {
           this.principalText = '0';
         } else if (pOption.id == -2) {
           this.chica.number = parseInt(this.principalText);
+          this.option = 'Lempiras';
           console.log("Numero: ", this.chica.number);
 
           this.principalText = '0'
-          this.goToClients();
+
         } else {
           if (this.principalText == '0') {
             this.principalText = '';
