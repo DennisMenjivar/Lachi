@@ -38,13 +38,13 @@ export class HomePage {
 
   }
 
-  click(option: ButtonCalculatorClass) {
-    if (this.principalText.length < 5 || option.id == -1 || option.id == -2) {
-      if (option.id == -1) {
+  click(pOption: ButtonCalculatorClass) {
+    if (this.principalText.length < 5 || pOption.id == -1 || pOption.id == -2) {
+      if (pOption.id == -1) {
         this.principalText = '0';
-      } else if (option.id == -2) {
+      } else if (pOption.id == -2) {
         // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
-        if (this.principalText == '0') {
+        if (this.principalText == '0' && this.option == 'Lempiras') {
           this.showToast('Ingrese un monto, por favor!')
         } else {
           if (this.option == 'Lempiras') {
@@ -62,7 +62,7 @@ export class HomePage {
         if (this.principalText == '0') {
           this.principalText = '';
         }
-        this.principalText += option.id;
+        this.principalText += pOption.id;
       }
     }
   }
