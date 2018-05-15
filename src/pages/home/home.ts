@@ -9,6 +9,7 @@ export class HomePage {
 
   principalText: string = '0';
   principalButtons: ButtonCalculatorClass[];
+  lempiras: number = 0;
 
   constructor(public navCtrl: NavController) {
     this.loadButtons();
@@ -29,22 +30,25 @@ export class HomePage {
 
   }
   click(option: ButtonCalculatorClass) {
-    if (option.id == -1) {
-      this.principalText = '0';
-    } else if (option.id == -2) {
-      // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
-      if (this.principalText == '0') {
-        console.log("No chele no se puede");
-        
+    if (this.principalText.length < 5 || option.id == -1) {
+      if (option.id == -1) {
+        this.principalText = '0';
+      } else if (option.id == -2) {
+        // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
+        if (this.principalText == '0') {
+          console.log("No chele no se puede");
+        } else {
+          this.lempiras = parseInt(this.principalText);
+          console.log("Lempiras: ", this.lempiras);
+        }
+      } else {
+        if (this.principalText == '0') {
+          this.principalText = '';
+        }
+        this.principalText += option.id;
       }
-    } else {
-      if (this.principalText == '0') {
-        this.principalText = '';
-      }
-      this.principalText += option.id;
     }
   }
-
 }
 
 export class ButtonCalculatorClass {
