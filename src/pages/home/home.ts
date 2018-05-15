@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams, Toast, LoadingController, Button } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -9,9 +10,16 @@ export class HomePage {
 
   principalText: string = '0';
   principalButtons: ButtonCalculatorClass[];
-  lempiras: number = 0;
+  option: string = 'Lempiras'
 
-  constructor(public navCtrl: NavController) {
+  lempiras: number = 0;
+  pedazos: number = 0;
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    // public _auxiliarService: AuxiliarService,
+    public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController) {
     this.loadButtons();
   }
 
@@ -29,17 +37,26 @@ export class HomePage {
     }
 
   }
+
   click(option: ButtonCalculatorClass) {
-    if (this.principalText.length < 5 || option.id == -1) {
+    if (this.principalText.length < 5 || option.id == -1 || option.id == -2) {
       if (option.id == -1) {
         this.principalText = '0';
       } else if (option.id == -2) {
         // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
         if (this.principalText == '0') {
-          console.log("No chele no se puede");
+          this.showToast('Ingrese un monto, por favor!')
         } else {
-          this.lempiras = parseInt(this.principalText);
-          console.log("Lempiras: ", this.lempiras);
+          if (this.option == 'Lempiras') {
+            this.lempiras = parseInt(this.principalText);
+            this.option = 'Pedazos';
+            this.principalText = '0'
+            console.log("Lempiras: ", this.lempiras);
+          } else if (this.option == 'Pedazos') {
+            this.pedazos = parseInt(this.principalText);
+            this.principalText = '0'
+            console.log("Pedazos: ", this.pedazos);
+          }
         }
       } else {
         if (this.principalText == '0') {
@@ -48,6 +65,27 @@ export class HomePage {
         this.principalText += option.id;
       }
     }
+  }
+
+  showToast(msg: string) {
+    this.loader.dismiss();
+
+    const toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  loader = this.loadingCtrl.create({
+    content: "Cargando..."
+  });
+
+  presentLoading(msg: string) {
+    this.loader = this.loadingCtrl.create({
+      content: msg
+    });
+    this.loader.present();
   }
 }
 
