@@ -11,18 +11,19 @@ export class HomePage {
 
   private Clients
 
-  principalText: string = '0';
+  principalText: string;
   principalButtons: ButtonCalculatorClass[];
   option: string = 'Lempiras'
 
-  lempiras: number = 0;
-  number: number = 0;
+  lempiras: number;
+  number: number;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     // public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) {
+    this.principalText = '0'
     this.Clients = ClientsPage;
     this.loadButtons();
   }
@@ -64,32 +65,8 @@ export class HomePage {
   }
 
   click(pOption: ButtonCalculatorClass) {
-    // if (this.principalText.length < 5 || pOption.id == -1 || pOption.id == -2) {
-    //   if (pOption.id == -1) {
-    //     this.principalText = '0';
-    //   } else if (pOption.id == -2) {
-    //     // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
-    //     if (this.principalText == '0' && this.option == 'Lempiras') {
-    //       this.showToast('Ingrese un monto, por favor!')
-    //     } else {
-    //       if (this.option == 'Lempiras') {
-    //         this.lempiras = parseInt(this.principalText);
-    //         this.option = 'Número';
-    //         this.principalText = '0'
-    //         console.log("Lempiras: ", this.lempiras);
-    //       } else if (this.option == 'Número') {
-    //         this.number = parseInt(this.principalText);
-    //         this.principalText = '0'
-    //         this.goToClients();
-    //       }
-    //     }
-    //   } else {
-    //     if (this.principalText == '0') {
-    //       this.principalText = '';
-    //     }
-    //     this.principalText += pOption.id;
-    //   }
-    // }
+    this.lempiras = 0
+    this.number = 0;
 
     if (this.option == 'Lempiras') {
       if (this.principalText.length <= 5 || pOption.id == -1 || pOption.id == -2) {
@@ -106,11 +83,14 @@ export class HomePage {
             this.principalText = '0'
           }
         } else {
+          if (this.principalText == '0') {
+            this.principalText = '';
+          }
           this.principalText += pOption.id;
         }
       }
     } else if (this.option == 'Número') {
-      if (this.principalText.length <= 2 || pOption.id == -1 || pOption.id == -2) {
+      if (this.principalText.length < 2 || pOption.id == -1 || pOption.id == -2) {
         if (pOption.id == -1) {
           this.principalText = '0';
         } else if (pOption.id == -2) {
@@ -120,6 +100,9 @@ export class HomePage {
           this.principalText = '0'
           this.goToClients();
         } else {
+          if (this.principalText == '0') {
+            this.principalText = '';
+          }
           this.principalText += pOption.id;
         }
       }
