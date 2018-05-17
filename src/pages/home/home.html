@@ -5,8 +5,8 @@
     </button>
     <ion-title>Lachi</ion-title>
     <ion-buttons end *ngIf="option == 'Lempiras'">
-      <button ion-button icon-only> <!-- (click)="createNewClient()" -->
-        1
+      <button ion-button icon-only (click)="createNewNumber()"> <!-- (click)="createNewClient()" -->
+        {{_auxiliarService.chicas.length}}
         <ion-icon name="add"></ion-icon>
       </button>
       <!-- <button ion-button icon-only (click)="action2()">

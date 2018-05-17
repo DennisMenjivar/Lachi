@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { DataChica } from '../../_models/DataChica.model';
+import { AuxiliarService } from '../../_lib/auxiliar.service';
 /**
  * Generated class for the ReceiptViewPage page.
  *
@@ -20,14 +21,14 @@ export class ReceiptViewPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    // public _auxiliarService: AuxiliarService,
+    public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) {
-    this.miChica = navParams.data.pChica;
+    // this.miChica = navParams.data.pChica;
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReceiptViewPage');
+
   }
 
 }
