@@ -24,7 +24,7 @@ export class ReceiptViewPage {
     public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) {
-    // this.miChica = navParams.data.pChica;
+    this.miChica = navParams.data.pChica;
   }
 
   ionViewDidLoad() {
