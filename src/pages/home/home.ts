@@ -33,14 +33,21 @@ export class HomePage {
   }
 
   createNewNumber() {
-    this._auxiliarService.chicas.push(this.miChica);
+    if (this.principalText == '0') {
+      this.showToast('Ingrese un monto, por favor!')
+    }
+    else {
+      this.miChica.lempiras = parseInt(this.principalText);
+      this._auxiliarService.chicas.push(this.miChica);
+    }
+    console.log("CreateNewNumber: ", this.miChica);
     this.cleanPrincipal();
   }
 
   cleanPrincipal() {
     this.option = "Número"
     this.principalText = '0';
-    this._auxiliarService.chicas = [];
+    // this._auxiliarService.chicas = [];
     this.miChica = new DataChica(0, 0, 0, 0, '', new Date());
   }
 
@@ -81,17 +88,14 @@ export class HomePage {
           this.principalText = '0';
         }
         else if (pOption.id == -2) {
-          // Si el texto principal esta en 0 que no haga nada por que no tiene un valor
-          if (this.principalText == '0') {
-            this.showToast('Ingrese un monto, por favor!')
-          }
-          else {
-            this.miChica.lempiras = parseInt(this.principalText);
-            this._auxiliarService.chicas.push(this.miChica);
-            console.log("Lempiras: ", this.miChica.lempiras);
-            this.principalText = '0'
-            this.goToClients();
-          }
+          this.miChica.lempiras = parseInt(this.principalText);
+          this._auxiliarService.chicas.push(this.miChica);
+          console.log("Lempiras: ", this.miChica.lempiras);
+          console.log("GoToClient: ", this.miChica);
+          this.principalText = '0'
+          this.goToClients();
+          this.option = 'Número';
+          this.miChica = new DataChica(0, 0, 0, 0, '', new Date());
         }
         else {
           if (this.principalText == '0') {
@@ -106,7 +110,6 @@ export class HomePage {
           this.principalText = '0';
         } else if (pOption.id == -2) {
           this.miChica.number = parseInt(this.principalText);
-          this._auxiliarService.chicas.push(this.miChica);
           this.option = 'Lempiras';
           console.log("Numero: ", this.miChica.number);
           this.principalText = '0'
