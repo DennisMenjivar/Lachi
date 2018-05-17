@@ -7,12 +7,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 //library for social-sharing
 import { SocialSharing } from '@ionic-native/social-sharing';
-/**
- * Generated class for the SendDataPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
