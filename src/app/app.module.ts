@@ -10,6 +10,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ClientsPage } from '../pages/clients/clients'
 import { ReceiptViewPage } from '../pages/receipt-view/receipt-view';
 import { AuxiliarService } from '../_lib/auxiliar.service'
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { SendDataPage } from '../pages/send-data/send-data';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 
 @NgModule({
   declarations: [
@@ -17,7 +21,8 @@ import { AuxiliarService } from '../_lib/auxiliar.service'
     HomePage,
     ListPage,
     ClientsPage,
-    ReceiptViewPage
+    ReceiptViewPage,
+    SendDataPage
   ],
   imports: [
     HttpModule,
@@ -30,12 +35,14 @@ import { AuxiliarService } from '../_lib/auxiliar.service'
     HomePage,
     ListPage,
     ClientsPage,
-    ReceiptViewPage
+    ReceiptViewPage,
+    SendDataPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     AuxiliarService,
+    SocialSharing,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

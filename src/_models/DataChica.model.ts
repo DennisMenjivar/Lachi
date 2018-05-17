@@ -15,4 +15,8 @@ export class DataChica {
         this.fecha = pFecha;
     }
 
+    toStringDC(): string {
+        return String(this.id) + " - " + String(this.number) + " - " + String(this.lempiras) + " - " + this.client + "\n";
+    }
+
 }

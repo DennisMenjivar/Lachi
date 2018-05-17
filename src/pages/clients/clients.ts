@@ -62,7 +62,7 @@ export class ClientsPage {
     this.miChica.idClient = client.id;
     this.miChica.client = client.name;
     this._auxiliarService.chicas.forEach(element => {
-      element.id = client.id;
+      element.id = 0; //id
       element.client = client.name;
     });
     console.log("Clients: ", this._auxiliarService.chicas);

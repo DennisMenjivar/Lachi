@@ -5,14 +5,15 @@ import { ClientsPage } from '../clients/clients';
 import { ButtonCalculatorClass } from '../../_models/ButtonCalculatorClass.model';
 import { DataChica } from '../../_models/DataChica.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
+import { SendDataPage } from '../send-data/send-data';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-
   private Clients
+  private SendData
 
   principalText: string;
   principalButtons: ButtonCalculatorClass[];
@@ -25,9 +26,11 @@ export class HomePage {
     public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) {
+
     this.miChica = new DataChica(0, 0, 0, 0, '', new Date());
     this.principalText = '0'
     this.Clients = ClientsPage;
+    this.SendData = SendDataPage;
     this.loadButtons();
     _auxiliarService.chicas = [];
   }
@@ -42,6 +45,13 @@ export class HomePage {
     }
     console.log("CreateNewNumber: ", this.miChica);
     this.cleanPrincipal();
+  }
+
+  gotoSendData() {
+    var params = {
+      // pChica: this.miChica
+    };
+    this.navCtrl.push(this.SendData, params);
   }
 
   cleanPrincipal() {
