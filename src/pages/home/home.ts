@@ -9,7 +9,9 @@ import { SendDataPage } from '../send-data/send-data';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  styles: ['home.scss']
+  
 })
 export class HomePage {
   private Clients
