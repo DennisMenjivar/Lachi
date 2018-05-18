@@ -95,7 +95,7 @@ export class HomePage {
 
   click(pOption: ButtonCalculatorClass) {
     if (this.option == 'Lempiras') {
-      if (this.principalText.length <= 5 || pOption.id == -1 || pOption.id == -2) {
+      if (this.principalText.length <= 4 || pOption.id == -1 || pOption.id == -2) {
         if (pOption.id == -1) {
           this.principalText = '0';
         }
