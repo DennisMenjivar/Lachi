@@ -14,6 +14,9 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { SendDataPage } from '../pages/send-data/send-data';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import { DatabaseProvider } from '../providers/database/database';
+import { SQLite } from '@ionic-native/sqlite';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import 'rxjs/add/operator/toPromise';
   ],
   imports: [
     HttpModule,
+    HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
   ],
@@ -43,7 +47,9 @@ import 'rxjs/add/operator/toPromise';
     SplashScreen,
     AuxiliarService,
     SocialSharing,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    SQLite,
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    DatabaseProvider
   ]
 })
 export class AppModule { }
