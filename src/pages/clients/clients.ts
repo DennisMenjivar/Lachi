@@ -58,7 +58,7 @@ export class ClientsPage {
   }
 
   selectedClient(client: Client) {
-    this.showToast("Cliente: " + client.name);
+    // this.showToast("Cliente: " + client.name);
     this.miChica.idClient = client.id;
     this.miChica.client = client.name;
     this._auxiliarService.chicas.forEach(element => {
