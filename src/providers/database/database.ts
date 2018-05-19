@@ -9,13 +9,17 @@ export class DatabaseProvider {
   private isOpen: Boolean;
 
   constructor(public http: HttpClient, public storare: SQLite) {
+    this.createDataBase();
+  }
+
+  createDataBase() {
     if (!this.isOpen) {
       this.storare.create({ name: 'Lachi.db', location: 'default' }).then((db: SQLiteObject) => {
-        this.db = db
+        this.db = db;
         db.executeSql("CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, telephone TEXT, address TEXT, email TEXT) ", []);
         this.isOpen = true;
       }).catch((error) => {
-        console.log(error);
+        console.log("Error al crear BD: ", error);
       })
     }
   }
