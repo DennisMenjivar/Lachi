@@ -58,14 +58,6 @@ export class ClientsPage {
     this.navCtrl.push(this.ReceiptView, params);
   }
 
-  loadClients() {
-    this.clients = [];
-    this.clients.push(new Client(0, 'Kevin Garcia', '9897-9690', 'Col. Los Carajos.', 'kvngarcia@guarup.com'));
-    this.clients.push(new Client(1, 'Melvin Melgar', '9992-7135', 'Col. Reparto los Angeles.', 'leomel@guarup.com'));
-    this.clients.push(new Client(2, 'Dennis Menjivar', '9663-1616', 'Res. Los Naranjos', 'dnsmenjivar@guarup.com'));
-    this.clients.push(new Client(3, 'Angie Elvir', '9897-9090', 'Tampa, Florida', 'angiemgarcia@guarup.com'));
-  }
-
   selectedClient(client: Client) {
     // this.showToast("Cliente: " + client.name);
     this.miChica.idClient = client.id;
@@ -79,7 +71,7 @@ export class ClientsPage {
   }
 
   doRefresh(refresher) {
-    this.loadClients();
+    this.getAllClients();
     refresher.complete();
   }
 

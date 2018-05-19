@@ -38,7 +38,7 @@
 
   <ion-list>
     <ion-item-sliding *ngFor="let client of clients">
-      <ion-item>
+      <ion-item (click)="selectedClient(client)">
         <!-- <ion-avatar item-start>
           <img src="img/slimer.png">
         </ion-avatar> -->
