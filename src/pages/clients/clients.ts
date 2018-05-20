@@ -35,7 +35,7 @@ export class ClientsPage {
   }
 
   createNewClient() {
-    this.database.CreateClient('General', '9999-9999', 'San Pedro Sula', 'general@gmail.com').then((data) => {
+    this.database.CreateClient('Dennis Menjivar', '+1 (813)812-2373', 'San Pedro Sula', 'dnsmenjivar@gmail.com').then((data) => {
       console.log(data);
     }, (error) => {
       console.log("Error: ", error);
