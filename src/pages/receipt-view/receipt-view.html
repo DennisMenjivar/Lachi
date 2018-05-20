@@ -28,7 +28,7 @@
       <ion-row>
         <ion-col>
           <ion-card-header style="color: tomato; font-size: 100px; margin: 0%; padding: 0%; border: 0%">
-            {{chica.number}}
+            {{chica.number | number:'2.0-0'}}
           </ion-card-header>
           <!-- [innerHtml]=chica.lempiras  -->
           <ion-card-content style="color: salmon; font-size: 30px; margin: 0%; padding: 0%; border: 0%">{{chica.lempiras | currency:'Lps.':true:'1.2-2'}}</ion-card-content>

@@ -105,9 +105,9 @@ export class HomePage {
           console.log("Lempiras: ", this.miChica.lempiras);
           console.log("GoToClient: ", this.miChica);
           this.principalText = '0'
-          this.goToClients();
           this.option = 'Número';
           this.miChica = new DataChica(0, 0, 0, 0, '', new Date());
+          this.goToClients();
         }
         else {
           if (this.principalText == '0') {

@@ -31,14 +31,18 @@ export class ReceiptViewPage {
   }
 
   ionViewDidLoad() {
-
+    
   }
 
   goToCreateNumber() {
     var params = {
       pChica: this.miChica
     };
-    this.navCtrl.push(this.Home, params);
+    // this.navCtrl.setRoot(HomePage);
+    this.navCtrl.popToRoot()
+    // this.navCtrl.pop();
+    // this.navCtrl.pop();
+    // this.navCtrl.push(this.Home, params);
   }
 
 }
