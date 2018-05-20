@@ -4,12 +4,7 @@ import { ToastController } from 'ionic-angular';
 import { DataChica } from '../../_models/DataChica.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { HomePage } from '../home/home';
-/**
- * Generated class for the ReceiptViewPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { DatabaseProvider } from '../../providers/database/database';
 
 @IonicPage()
 @Component({
@@ -25,13 +20,38 @@ export class ReceiptViewPage {
     public navParams: NavParams,
     public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
-    public loadingCtrl: LoadingController) {
+    public loadingCtrl: LoadingController,
+    public database: DatabaseProvider) {
     this.Home = HomePage;
     this.miChica = navParams.data.pChica;
   }
 
   ionViewDidLoad() {
-    
+
+  }
+
+  finalize() {
+    let status: number = 0;
+    this._auxiliarService.chicas.forEach(element => {
+      this.database.CreateChica(element).then((data) => {
+        status = 0;
+      }, (error) => {
+        status = 1;
+        console.log("Error: ", error);
+      })
+    });
+    if (status == 0) {
+      this.showToast("Finalizado con éxito!!");
+      this._auxiliarService.chicas = [];
+      this.navCtrl.popToRoot();
+    } else {
+      this.showToast("ERROR al guardar.");
+    }
+  }
+
+  delete() {
+    this.navCtrl.popToRoot();
+    this._auxiliarService.chicas = [];
   }
 
   goToCreateNumber() {
@@ -39,10 +59,35 @@ export class ReceiptViewPage {
       pChica: this.miChica
     };
     // this.navCtrl.setRoot(HomePage);
-    this.navCtrl.popToRoot()
+    this.navCtrl.popToRoot();
     // this.navCtrl.pop();
     // this.navCtrl.pop();
     // this.navCtrl.push(this.Home, params);
+  }
+
+  doRefresh(refresher) {
+    refresher.complete();
+  }
+
+  showToast(msg: string) {
+    this.loader.dismiss();
+
+    const toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  loader = this.loadingCtrl.create({
+    content: "Cargando..."
+  });
+
+  presentLoading(msg: string) {
+    this.loader = this.loadingCtrl.create({
+      content: msg
+    });
+    this.loader.present();
   }
 
 }

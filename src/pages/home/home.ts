@@ -11,7 +11,7 @@ import { SendDataPage } from '../send-data/send-data';
   selector: 'page-home',
   templateUrl: 'home.html',
   styles: ['home.scss']
-  
+
 })
 export class HomePage {
   private Clients
@@ -29,7 +29,7 @@ export class HomePage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController) {
 
-    this.miChica = new DataChica(0, 0, 0, 0, '', new Date());
+    this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
     this.principalText = '0'
     this.Clients = ClientsPage;
     this.SendData = SendDataPage;
@@ -60,7 +60,7 @@ export class HomePage {
     this.option = "Número"
     this.principalText = '0';
     // this._auxiliarService.chicas = [];
-    this.miChica = new DataChica(0, 0, 0, 0, '', new Date());
+    this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
   }
 
   doRefresh(refresher) {
@@ -104,10 +104,10 @@ export class HomePage {
           this._auxiliarService.chicas.push(this.miChica);
           console.log("Lempiras: ", this.miChica.lempiras);
           console.log("GoToClient: ", this.miChica);
+          this.goToClients();
           this.principalText = '0'
           this.option = 'Número';
-          this.miChica = new DataChica(0, 0, 0, 0, '', new Date());
-          this.goToClients();
+          this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
         }
         else {
           if (this.principalText == '0') {

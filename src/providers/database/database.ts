@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Platform } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { DataChica } from '../../_models/DataChica.model';
 
 @Injectable()
 export class DatabaseProvider {
@@ -38,6 +39,17 @@ export class DatabaseProvider {
       , name TEXT, telephone TEXT
       , address TEXT
       , email TEXT);`, {})
+      .then(() => {
+        return this.database.executeSql(
+          `CREATE TABLE IF NOT EXISTS chicas 
+          (id INTEGER PRIMARY KEY AUTOINCREMENT
+            , lempiras INTEGER
+            , number INTEGER
+            , idClient INTEGER
+            , client TEXT
+            , fecha TEXT
+            , status INTEGER);`, {})
+      })
       .catch((err) => console.log("error detected creating tables", err));
   }
 
@@ -58,6 +70,78 @@ export class DatabaseProvider {
     })
   }
 
+  getChicasById(id: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM chicas WHERE id = ${id}`, [])
+          .then((data) => {
+            let lists = [];
+            if (data.rows.length > 0) {
+              for (let i = 0; i < data.rows.length; i++) {
+                lists.push({
+                  id: data.rows.item(i).id,
+                  lempiras: data.rows.item(i).lempiras,
+                  number: data.rows.item(i).number,
+                  idClient: data.rows.item(i).idClient,
+                  client: data.rows.item(i).client,
+                  fecha: data.rows.item(i).fecha,
+                  status: data.rows.item(i).status
+                });
+              }
+            }
+            return lists;
+          })
+      })
+  }
+
+  CreateChica(chica: DataChica) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`INSERT INTO chicas (number, lempiras, idClient, client, fecha, status) VALUES ('${chica.number}','${chica.lempiras}','${chica.idClient}','${chica.client}','${chica.fecha}','${chica.status}');`, {}).then((result) => {
+          if (result.insertId) {
+            return this.getListChicas(result.insertId);
+          }
+        })
+      });
+  }
+
+  getListChicas(id: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM chicas WHERE id = ${id}`, [])
+          .then((data) => {
+            if (data.rows.length) {
+              return data.rows.item(0);
+            }
+            return null;
+          })
+      })
+  }
+
+  getChicas() {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql("SELECT * FROM chicas", [])
+          .then((data) => {
+            let lists = [];
+            if (data.rows.length > 0) {
+              for (let i = 0; i < data.rows.length; i++) {
+                lists.push({
+                  id: data.rows.item(i).id,
+                  lempiras: data.rows.item(i).lempiras,
+                  number: data.rows.item(i).number,
+                  idClient: data.rows.item(i).idClient,
+                  client: data.rows.item(i).client,
+                  fecha: data.rows.item(i).fecha,
+                  status: data.rows.item(i).status
+                });
+              }
+            }
+            return lists;
+          })
+      })
+  }
+
   getAllClients() {
     return this.isReady()
       .then(() => {
@@ -70,6 +154,7 @@ export class DatabaseProvider {
                   id: data.rows.item(i).id,
                   name: data.rows.item(i).name,
                   telephone: data.rows.item(i).telephone,
+                  address: data.rows.item(i).address,
                   email: data.rows.item(i).email
                 });
               }
