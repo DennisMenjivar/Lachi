@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { SendDataPage } from '../pages/send-data/send-data';
+import { ControlPedazosPage } from '../pages/control-pedazos/control-pedazos';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,7 +24,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Principal', component: HomePage },
-      { title: 'Enviar Datos', component: SendDataPage }
+      { title: 'Enviar Datos', component: SendDataPage },
+      { title: 'Configurar Números', component: ControlPedazosPage }
     ];
 
   }

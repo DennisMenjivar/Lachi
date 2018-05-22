@@ -4,6 +4,7 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Platform } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataChica } from '../../_models/DataChica.model';
+import { Pedazo } from '../../_models/Pedazo.model';
 
 @Injectable()
 export class DatabaseProvider {
@@ -49,8 +50,15 @@ export class DatabaseProvider {
             , client TEXT
             , fecha TEXT
             , status INTEGER);`, {})
+          .then(() => {
+            return this.database.executeSql(
+              `CREATE TABLE IF NOT EXISTS pedazos 
+                (id INTEGER PRIMARY KEY AUTOINCREMENT
+                  ,number INTEGER
+                  , pedazos INTEGER);`, {})
+          })
       })
-      .catch((err) => console.log("error detected creating tables", err));
+      .catch((err) => console.log("Error detected creating tables", err));
   }
 
   private isReady() {
@@ -70,7 +78,57 @@ export class DatabaseProvider {
     })
   }
 
-  getChicasById(id: number) {
+  createPedazo(pedazo: Pedazo) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`INSERT INTO pedazos (number, pedazos) VALUES (${pedazo.number},${pedazo.pedazos});`, {}).then((result) => {
+          if (result.insertId) {
+            console.log("Data a Guardar: ", result);
+            return this.getListChicas(result.insertId);
+          }
+        })
+      });
+  }
+
+  getPedazos() {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql("SELECT * FROM pedazos", [])
+          .then((data) => {
+            let lists = [];
+            if (data.rows.length > 0) {
+              for (let i = 0; i < data.rows.length; i++) {
+                lists.push({
+                  number: data.rows.item(i).number,
+                  pedazos: data.rows.item(i).pedazos
+                });
+              }
+            }
+            return lists;
+          })
+      })
+  }
+
+  getPedazosById(number: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM pedazos WHERE number = ${number}`, [])
+          .then((data) => {
+            let lists = [];
+            if (data.rows.length > 0) {
+              for (let i = 0; i < data.rows.length; i++) {
+                lists.push({
+                  number: data.rows.item(i).number,
+                  pedazos: data.rows.item(i).pedazos
+                });
+              }
+            }
+            return lists;
+          })
+      })
+  }
+
+  getChicaById(id: number) {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`SELECT * FROM chicas WHERE id = ${id}`, [])
