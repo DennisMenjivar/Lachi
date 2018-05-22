@@ -4,18 +4,26 @@ import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-an
 import { ToastController } from 'ionic-angular';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { DatabaseProvider } from '../../providers/database/database';
-import { RangeNumbersPage } from '../range-numbers/range-numbers';
+
+/**
+ * Generated class for the RangeNumbersPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
 @IonicPage()
 @Component({
-  selector: 'page-control-pedazos',
-  templateUrl: 'control-pedazos.html',
+  selector: 'page-range-numbers',
+  templateUrl: 'range-numbers.html',
 })
-export class ControlPedazosPage {
+export class RangeNumbersPage {
 
-  private RangeNumber
+  from: number = null;
+  until: number = null;
+  amount: number = null;
 
-  pedazos: any;
+  number: number;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -23,34 +31,7 @@ export class ControlPedazosPage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public database: DatabaseProvider) {
-    this.RangeNumber = RangeNumbersPage;
-  }
 
-  ionViewDidLoad() {
-    this.initialize();
-  }
-
-  getPedazos() {
-    this.database.getPedazos().then((data: any) => {
-      this.pedazos = data;
-    }, (error) => {
-      console.log("Error al consultar: ", error);
-    });
-  }
-
-  initialize() {
-    this.getPedazos();
-    if (this.pedazos.length <= 0) {
-      this.createPedazos();
-    }
-  }
-
-  goToRangeNumber() {
-    // this.initialize();
-    var params = {
-      // pChica: this.miChica
-    };
-    this.navCtrl.push(this.RangeNumber, params);
   }
 
   createPedazos() {
@@ -72,8 +53,39 @@ export class ControlPedazosPage {
     }
   }
 
+  setNumbers() {
+    if (this.from != null && this.until != null) {
+      this.setNumberRange(this.from, this.until, this.amount);
+    } else if (this.from == null) {
+      this.showToast("Ingrese un rango por favor.")
+    }
+  }
+
+  setNumberRange(from: number, until: number, amount: number) {
+    let status: boolean = false;
+    let cont: number = from;
+    while (cont <= until) {
+      let miPedazo: Pedazo = new Pedazo(cont, cont, amount);
+      this.database.editPedazo(miPedazo).then((data) => {
+        status = true;
+      }, (error) => {
+        console.log("Error al crear: ", error);
+      });
+      cont++;
+    }
+    if (status = true) {
+      this.showToast("Numeros editado correctamente.")
+    } else {
+      this.showToast("Error al editar numeros.")
+    }
+  }
+
+  ionViewDidLoad() {
+
+  }
+
   doRefresh(refresher) {
-    this.getPedazos();
+    // this.getPedazos();
     refresher.complete();
   }
 

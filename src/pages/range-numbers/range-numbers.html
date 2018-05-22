@@ -1,0 +1,36 @@
+<!--
+  Generated template for the RangeNumbersPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Editar Numeros</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="createPedazos()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+
+      <!-- <button ion-button icon-only (click)="action2()">
+            <ion-icon name="trash"></ion-icon>
+          </button> -->
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-input type="tel" min="0" max="99" [value]="from" [(ngModel)]="from" placeholder="Desde" clearInput></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input type="tel" min="0" max="99" [value]="until" [(ngModel)]="until" placeholder="Hasta" clearInput></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input type="tel" [value]="amount" [(ngModel)]="amount" placeholder="Cantidad" clearInput></ion-input>
+  </ion-item>
+
+  <button ion-button full outline (click)="setNumbers()" *ngIf="from != null">Finalizar</button>
+
+</ion-content>

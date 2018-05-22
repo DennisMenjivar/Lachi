@@ -6,6 +6,7 @@ import { ButtonCalculatorClass } from '../../_models/ButtonCalculatorClass.model
 import { DataChica } from '../../_models/DataChica.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { SendDataPage } from '../send-data/send-data';
+import { RangeNumbersPage } from '../range-numbers/range-numbers';
 
 @Component({
   selector: 'page-home',
@@ -16,6 +17,7 @@ import { SendDataPage } from '../send-data/send-data';
 export class HomePage {
   private Clients
   private SendData
+  private RangeNumbers
 
   principalText: string;
   principalButtons: ButtonCalculatorClass[];
@@ -33,6 +35,7 @@ export class HomePage {
     this.principalText = '0'
     this.Clients = ClientsPage;
     this.SendData = SendDataPage;
+    this.RangeNumbers = this.RangeNumbers;
     this.loadButtons();
     _auxiliarService.chicas = [];
   }

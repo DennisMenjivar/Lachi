@@ -90,6 +90,18 @@ export class DatabaseProvider {
       });
   }
 
+  editPedazo(pedazo: Pedazo) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE pedazos SET number = ?, pedazos = ? WHERE number = ?`, [pedazo.number, pedazo.pedazos, pedazo.number]).then((result) => {
+          if (result.insertId) {
+            console.log("Data a Editar: ", result);
+            return this.getListChicas(result.insertId);
+          }
+        })
+      });
+  }
+
   getPedazos() {
     return this.isReady()
       .then(() => {
