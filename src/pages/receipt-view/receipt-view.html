@@ -22,36 +22,34 @@
 </ion-header>
 
 
-<ion-content padding style="margin: 0%; padding: 0%; border: 0%; width: 100%; height: 100%;;">
+<ion-content padding>
   <ion-card *ngFor="let chica of _auxiliarService.chicas; let i = index;">
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-card>
-            <ion-card-header style="color: tomato; font-size: 100px; margin: 0%; padding: 0%; border: 0%">
-              {{chica.number | number:'2.0-0'}}
-            </ion-card-header>
-            <!-- [innerHtml]=chica.lempiras  -->
-            <ion-card-content style="color: salmon; font-size: 30px; margin: 0%; padding: 0%; border: 0%">
-              {{chica.lempiras | currency:'Lps.':true:'1.2-2'}}
-            </ion-card-content>
+          <ion-card-header style="color: tomato; font-size: 100px; margin: 0%; padding: 0%; border: 0%">
+            {{chica.number | number:'2.0-0'}}
+          </ion-card-header>
+          <!-- [innerHtml]=chica.lempiras  -->
+          <ion-card-content style="color: salmon; font-size: 30px; margin: 0%; padding: 0%; border: 0%">
+            {{chica.lempiras | currency:'Lps.':true:'1.2-2'}}
             <ion-fab bottom right>
               <button ion-fab (click)="deleteNumber(chica)" color="danger">
                 <ion-icon name="trash"></ion-icon>
               </button>
             </ion-fab>
-            <!-- <button ion-button icon-only (click)="compileData()" color="primary" clear>
-                <ion-icon class="share-icon" name="logo-whatsapp"></ion-icon>
-              </button> -->
-          </ion-card>
+          </ion-card-content>
+          <!-- <button ion-button icon-only (click)="compileData()" color="primary" clear>
+              <ion-icon class="share-icon" name="logo-whatsapp"></ion-icon>
+            </button> -->
         </ion-col>
         <!-- <ion-col>
           </ion-col> -->
       </ion-row>
     </ion-grid>
   </ion-card>
-  <button ion-button full outline (click)="finalize()">Finalizar</button>
-  <button ion-button full outline color="danger" (click)="delete()">Eliminar</button>
+  <button ion-button full outline (click)="showConfirmMessage()">Finalizar</button>
+  <button ion-button full outline color="danger" (click)="presentConfirmDeleteData()">Eliminar todo</button>
 </ion-content>
 <!-- 
 <ion-list>

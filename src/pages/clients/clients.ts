@@ -51,9 +51,10 @@ export class ClientsPage {
     });
   }
 
-  goToReceiptView() {
+  goToReceiptView(telephone: string) {
     var params = {
-      pChica: this.miChica
+      pChica: this.miChica,
+      pTelephone: telephone
     };
     this.navCtrl.push(this.ReceiptView, params);
   }
@@ -67,7 +68,7 @@ export class ClientsPage {
       element.client = client.name;
     });
     console.log("Clients: ", this._auxiliarService.chicas);
-    this.goToReceiptView();
+    this.goToReceiptView(client.telephone);
   }
 
   doRefresh(refresher) {

@@ -9,6 +9,8 @@ import { DataChica } from '../_models/DataChica.model';
 export class AuxiliarService {
 
     chicas: DataChica[];
+    totalDataToSendViaWhatsapp: string = '';
+
     constructor(private _http: Http) {
     }
 
