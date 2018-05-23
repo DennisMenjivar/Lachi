@@ -89,10 +89,35 @@ export class DatabaseProvider {
         return this.database.executeSql(`INSERT INTO stocktaking (number, pedazos) VALUES (${pedazo.number},${pedazo.pedazos});`, {}).then((result) => {
           if (result.insertId) {
             console.log("Data a Guardar: ", result);
+            return this.getStockById(result.insertId);
+          }
+        })
+      });
+  }
+
+  editStock(pedazo: Pedazo) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE stocktaking SET pedazos = ? WHERE number = ?`, [pedazo.pedazos, pedazo.number]).then((result) => {
+          if (result.insertId) {
+            console.log("Data a Editar: ", result);
             return this.getListChicas(result.insertId);
           }
         })
       });
+  }
+
+  getStockById(number: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM stocktaking WHERE number = ${number}`, [])
+          .then((data) => {
+            if (data.rows.length) {
+              return data.rows.item(0);
+            }
+            return null;
+          })
+      })
   }
 
   createPedazo(pedazo: Pedazo) {
@@ -107,10 +132,10 @@ export class DatabaseProvider {
       });
   }
 
-  getListPedazos(number: number) {
+  getListPedazos(id: number) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM pedazos WHERE number = ${number}`, [])
+        return this.database.executeSql(`SELECT * FROM pedazos WHERE id = ${id}`, [])
           .then((data) => {
             if (data.rows.length) {
               return data.rows.item(0);
