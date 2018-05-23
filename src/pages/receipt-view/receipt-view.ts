@@ -10,6 +10,7 @@ import { DatabaseProvider } from '../../providers/database/database';
 @Component({
   selector: 'page-receipt-view',
   templateUrl: 'receipt-view.html',
+  styles: ['receipt-view.scss']
 })
 export class ReceiptViewPage {
 
@@ -63,6 +64,14 @@ export class ReceiptViewPage {
     // this.navCtrl.pop();
     // this.navCtrl.pop();
     // this.navCtrl.push(this.Home, params);
+  }
+
+  deleteNumber(index: DataChica) {
+    var miChi = this._auxiliarService.chicas.indexOf(index, 0);
+    if (miChi > -1) {
+      this._auxiliarService.chicas.splice(miChi, 1);
+      this.showToast("Numero: " + index.number + " Eliminado!!");
+    }
   }
 
   doRefresh(refresher) {

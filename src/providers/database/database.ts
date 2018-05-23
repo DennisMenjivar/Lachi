@@ -30,7 +30,6 @@ export class DatabaseProvider {
             this.dbReady.next(true);
           });
         })
-
     });
   }
 
@@ -185,6 +184,13 @@ export class DatabaseProvider {
             }
             return null;
           })
+      })
+  }
+
+  removeChica(id: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`DELETE FROM chicas WHERE id = ${id}`, [])
       })
   }
 
