@@ -55,6 +55,12 @@ export class DatabaseProvider {
                 (id INTEGER PRIMARY KEY AUTOINCREMENT
                   ,number INTEGER
                   , pedazos INTEGER);`, {})
+          }).then(() => {
+            return this.database.executeSql(
+              `CREATE TABLE IF NOT EXISTS stocktaking 
+                  (id INTEGER PRIMARY KEY AUTOINCREMENT
+                  ,number INTEGER
+                  , pedazos INTEGER);`, {})
           })
       })
       .catch((err) => console.log("Error detected creating tables", err));
@@ -77,16 +83,66 @@ export class DatabaseProvider {
     })
   }
 
+  createStock(pedazo: Pedazo) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`INSERT INTO stocktaking (number, pedazos) VALUES (${pedazo.number},${pedazo.pedazos});`, {}).then((result) => {
+          if (result.insertId) {
+            console.log("Data a Guardar: ", result);
+            return this.getStockById(result.insertId);
+          }
+        })
+      });
+  }
+
+  editStock(pedazo: Pedazo) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE stocktaking SET pedazos = ? WHERE number = ?`, [pedazo.pedazos, pedazo.number]).then((result) => {
+          if (result.insertId) {
+            console.log("Data a Editar: ", result);
+            return this.getListChicas(result.insertId);
+          }
+        })
+      });
+  }
+
+  getStockById(number: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM stocktaking WHERE number = ${number}`, [])
+          .then((data) => {
+            if (data.rows.length) {
+              return data.rows.item(0);
+            }
+            return null;
+          })
+      })
+  }
+
   createPedazo(pedazo: Pedazo) {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`INSERT INTO pedazos (number, pedazos) VALUES (${pedazo.number},${pedazo.pedazos});`, {}).then((result) => {
           if (result.insertId) {
             console.log("Data a Guardar: ", result);
-            return this.getListChicas(result.insertId);
+            return this.getListPedazos(result.insertId);
           }
         })
       });
+  }
+
+  getListPedazos(id: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM pedazos WHERE id = ${id}`, [])
+          .then((data) => {
+            if (data.rows.length) {
+              return data.rows.item(0);
+            }
+            return null;
+          })
+      })
   }
 
   editPedazo(pedazo: Pedazo) {
