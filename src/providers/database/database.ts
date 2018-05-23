@@ -55,6 +55,12 @@ export class DatabaseProvider {
                 (id INTEGER PRIMARY KEY AUTOINCREMENT
                   ,number INTEGER
                   , pedazos INTEGER);`, {})
+          }).then(() => {
+            return this.database.executeSql(
+              `CREATE TABLE IF NOT EXISTS stocktaking 
+                  (id INTEGER PRIMARY KEY AUTOINCREMENT
+                  ,number INTEGER
+                  , pedazos INTEGER);`, {})
           })
       })
       .catch((err) => console.log("Error detected creating tables", err));
@@ -77,16 +83,41 @@ export class DatabaseProvider {
     })
   }
 
-  createPedazo(pedazo: Pedazo) {
+  createStock(pedazo: Pedazo) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`INSERT INTO pedazos (number, pedazos) VALUES (${pedazo.number},${pedazo.pedazos});`, {}).then((result) => {
+        return this.database.executeSql(`INSERT INTO stocktaking (number, pedazos) VALUES (${pedazo.number},${pedazo.pedazos});`, {}).then((result) => {
           if (result.insertId) {
             console.log("Data a Guardar: ", result);
             return this.getListChicas(result.insertId);
           }
         })
       });
+  }
+
+  createPedazo(pedazo: Pedazo) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`INSERT INTO pedazos (number, pedazos) VALUES (${pedazo.number},${pedazo.pedazos});`, {}).then((result) => {
+          if (result.insertId) {
+            console.log("Data a Guardar: ", result);
+            return this.getListPedazos(result.insertId);
+          }
+        })
+      });
+  }
+
+  getListPedazos(number: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM pedazos WHERE number = ${number}`, [])
+          .then((data) => {
+            if (data.rows.length) {
+              return data.rows.item(0);
+            }
+            return null;
+          })
+      })
   }
 
   editPedazo(pedazo: Pedazo) {
