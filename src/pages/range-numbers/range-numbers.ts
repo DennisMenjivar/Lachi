@@ -72,7 +72,11 @@ export class RangeNumbersPage {
     while (cont <= until) {
       let miPedazo: Pedazo = new Pedazo(cont, cont, amount);
       this.database.editPedazo(miPedazo).then((data) => {
-        status = true;
+        this.database.editStock(miPedazo).then((data) => {
+          status = true;
+        }, (error) => {
+          console.log("Error al crear: ", error);
+        })
       }, (error) => {
         console.log("Error al crear: ", error);
       });
