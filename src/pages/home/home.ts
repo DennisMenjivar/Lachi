@@ -112,6 +112,7 @@ export class HomePage {
       if (this.validatePedazo(parseInt(this.principalText))) {
         this.miChica.lempiras = parseInt(this.principalText);
         this._auxiliarService.chicas.push(this.miChica);
+        this.showToast("Se agregó el número: " + this.miChica.number)
         console.log("Lempiras: ", this.miChica.lempiras);
         console.log("GoToClient: ", this.miChica);
         this.goToClients();
@@ -140,6 +141,7 @@ export class HomePage {
               this.principalButtons[11].name = '>'
               this.miChica.lempiras = parseInt(this.principalText);
               this._auxiliarService.chicas.push(this.miChica);
+              this.showToast("Se agregó el número: " + this.miChica.number)
               this.cleanPrincipal();
             }
           }
