@@ -107,6 +107,32 @@ export class DatabaseProvider {
       });
   }
 
+  getStock() {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql("SELECT * FROM stocktaking", [])
+          .then((data) => {
+            let lists: Pedazo[] = [];
+            if (data.rows.length > 0) {
+              for (let i = 0; i < data.rows.length; i++) {
+                let id: number = data.rows.item(i).id as number;
+                let number: number = data.rows.item(i).number as number;
+                let pedazos: number = data.rows.item(i).pedazos as number;
+                let pedazo: Pedazo = new Pedazo(id, number, pedazos);
+                // console.log("Pedazo: ", JSON.stringify(pedazo));
+                // console.log("ID: ", id ," Pedazos: ", pedazos, " Numero: ", number);
+                lists.push(pedazo);
+                // lists.push({
+                //   number: data.rows.item(i).number,
+                //   pedazos: data.rows.item(i).pedazos
+                // });
+              }
+            }
+            return lists;
+          })
+      })
+  }
+
   getStockById(number: number) {
     return this.isReady()
       .then(() => {

@@ -7,6 +7,8 @@ import { DataChica } from '../../_models/DataChica.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { SendDataPage } from '../send-data/send-data';
 import { RangeNumbersPage } from '../range-numbers/range-numbers';
+import { Pedazo } from '../../_models/Pedazo.model';
+import { DatabaseProvider } from '../../providers/database/database';
 
 @Component({
   selector: 'page-home',
@@ -25,12 +27,16 @@ export class HomePage {
 
   miChica: DataChica;
 
+  stocks: Pedazo[];
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
-    public loadingCtrl: LoadingController) {
+    public loadingCtrl: LoadingController,
+    public database: DatabaseProvider) {
 
+    this.loadStock();
     this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
     this.principalText = '0'
     this.Clients = ClientsPage;
@@ -40,23 +46,40 @@ export class HomePage {
     _auxiliarService.chicas = [];
   }
 
-  gotoSendData() {
-    var params = {
-      // pChica: this.miChica
-    };
-    this.navCtrl.push(this.SendData, params);
+  numberSelected: Pedazo;
+
+  loadStock() {
+    this.database.getStock().then((data: Pedazo[]) => {
+      this.stocks = data as Pedazo[];
+    }, (error) => {
+      console.log("Error al consultar: ", error);
+    });
   }
 
-  cleanPrincipal() {
-    this.option = "Número"
-    this.principalText = '0';
-    // this._auxiliarService.chicas = [];
-    this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
+  getStockByNumber(pNumber: number) {
+    this.numberSelected = new Pedazo(0, 0, 0);
+    this.stocks.forEach(element => {
+      if (element.number == pNumber) {
+        this.numberSelected = element;
+      }
+    });
   }
 
-  doRefresh(refresher) {
-    this.cleanPrincipal();
-    refresher.complete();
+  validatePedazo(pPedazos: number): boolean {
+    if (pPedazos <= this.numberSelected.pedazos) {
+      this.updateStockByNumber(this.miChica.number, pPedazos);
+      return true;
+    }
+    this.showToast("Solo tiene disponible: " + this.numberSelected.pedazos)
+    return false;
+  }
+
+  updateStockByNumber(number: number, pPedazos: number) {
+    this.stocks.forEach(element => {
+      if (number == element.number) {
+        element.pedazos -= pPedazos;
+      }
+    });
   }
 
   loadButtons() {
@@ -84,16 +107,18 @@ export class HomePage {
     }
   }
 
-  finish() {
+  checkOut() {
     if (this.principalText != '0') {
-      this.miChica.lempiras = parseInt(this.principalText);
-      this._auxiliarService.chicas.push(this.miChica);
-      console.log("Lempiras: ", this.miChica.lempiras);
-      console.log("GoToClient: ", this.miChica);
-      this.goToClients();
-      this.principalText = '0'
-      this.option = 'Número';
-      this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
+      if (this.validatePedazo(parseInt(this.principalText))) {
+        this.miChica.lempiras = parseInt(this.principalText);
+        this._auxiliarService.chicas.push(this.miChica);
+        console.log("Lempiras: ", this.miChica.lempiras);
+        console.log("GoToClient: ", this.miChica);
+        this.goToClients();
+        this.principalText = '0'
+        this.option = 'Número';
+        this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
+      }
     } else {
       this.showToast('Ingrese un monto, por favor!')
     }
@@ -111,12 +136,13 @@ export class HomePage {
             return;
           }
           else {
-            this.principalButtons[11].name = '>'
-            this.miChica.lempiras = parseInt(this.principalText);
-            this._auxiliarService.chicas.push(this.miChica);
+            if (this.validatePedazo(parseInt(this.principalText))) {
+              this.principalButtons[11].name = '>'
+              this.miChica.lempiras = parseInt(this.principalText);
+              this._auxiliarService.chicas.push(this.miChica);
+              this.cleanPrincipal();
+            }
           }
-          console.log("CreateNewNumber: ", this.miChica);
-          this.cleanPrincipal();
         }
         else {
           if (this.principalText == '0') {
@@ -132,6 +158,7 @@ export class HomePage {
         } else if (pOption.id == -2) {
           this.principalButtons[11].name = '+'
           this.miChica.number = parseInt(this.principalText);
+          this.getStockByNumber(this.miChica.number);
           this.option = 'Lempiras';
           console.log("Numero: ", this.miChica.number);
           this.principalText = '0'
@@ -167,5 +194,24 @@ export class HomePage {
       content: msg
     });
     this.loader.present();
+  }
+
+  cleanPrincipal() {
+    this.option = "Número"
+    this.principalText = '0';
+    // this._auxiliarService.chicas = [];
+    this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
+  }
+
+  doRefresh(refresher) {
+    this.cleanPrincipal();
+    refresher.complete();
+  }
+
+  gotoSendData() {
+    var params = {
+      // pChica: this.miChica
+    };
+    this.navCtrl.push(this.SendData, params);
   }
 }
