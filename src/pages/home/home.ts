@@ -40,18 +40,6 @@ export class HomePage {
     _auxiliarService.chicas = [];
   }
 
-  createNewNumber() {
-    if (this.principalText == '0') {
-      this.showToast('Ingrese un monto, por favor!')
-    }
-    else {
-      this.miChica.lempiras = parseInt(this.principalText);
-      this._auxiliarService.chicas.push(this.miChica);
-    }
-    console.log("CreateNewNumber: ", this.miChica);
-    this.cleanPrincipal();
-  }
-
   gotoSendData() {
     var params = {
       // pChica: this.miChica
@@ -96,6 +84,17 @@ export class HomePage {
     }
   }
 
+  finish() {
+    this.miChica.lempiras = parseInt(this.principalText);
+    this._auxiliarService.chicas.push(this.miChica);
+    console.log("Lempiras: ", this.miChica.lempiras);
+    console.log("GoToClient: ", this.miChica);
+    this.goToClients();
+    this.principalText = '0'
+    this.option = 'Número';
+    this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
+  }
+
   click(pOption: ButtonCalculatorClass) {
     if (this.option == 'Lempiras') {
       if (this.principalText.length <= 4 || pOption.id == -1 || pOption.id == -2) {
@@ -103,14 +102,16 @@ export class HomePage {
           this.principalText = '0';
         }
         else if (pOption.id == -2) {
-          this.miChica.lempiras = parseInt(this.principalText);
-          this._auxiliarService.chicas.push(this.miChica);
-          console.log("Lempiras: ", this.miChica.lempiras);
-          console.log("GoToClient: ", this.miChica);
-          this.goToClients();
-          this.principalText = '0'
-          this.option = 'Número';
-          this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
+          this.principalButtons[11].name = '>'
+          if (this.principalText == '0') {
+            this.showToast('Ingrese un monto, por favor!')
+          }
+          else {
+            this.miChica.lempiras = parseInt(this.principalText);
+            this._auxiliarService.chicas.push(this.miChica);
+          }
+          console.log("CreateNewNumber: ", this.miChica);
+          this.cleanPrincipal();
         }
         else {
           if (this.principalText == '0') {
@@ -124,6 +125,7 @@ export class HomePage {
         if (pOption.id == -1) {
           this.principalText = '0';
         } else if (pOption.id == -2) {
+          this.principalButtons[11].name = '+'
           this.miChica.number = parseInt(this.principalText);
           this.option = 'Lempiras';
           console.log("Numero: ", this.miChica.number);
