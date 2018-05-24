@@ -85,14 +85,18 @@ export class HomePage {
   }
 
   finish() {
-    this.miChica.lempiras = parseInt(this.principalText);
-    this._auxiliarService.chicas.push(this.miChica);
-    console.log("Lempiras: ", this.miChica.lempiras);
-    console.log("GoToClient: ", this.miChica);
-    this.goToClients();
-    this.principalText = '0'
-    this.option = 'Número';
-    this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
+    if (this.principalText != '0') {
+      this.miChica.lempiras = parseInt(this.principalText);
+      this._auxiliarService.chicas.push(this.miChica);
+      console.log("Lempiras: ", this.miChica.lempiras);
+      console.log("GoToClient: ", this.miChica);
+      this.goToClients();
+      this.principalText = '0'
+      this.option = 'Número';
+      this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
+    } else {
+      this.showToast('Ingrese un monto, por favor!')
+    }
   }
 
   click(pOption: ButtonCalculatorClass) {
@@ -102,11 +106,12 @@ export class HomePage {
           this.principalText = '0';
         }
         else if (pOption.id == -2) {
-          this.principalButtons[11].name = '>'
           if (this.principalText == '0') {
             this.showToast('Ingrese un monto, por favor!')
+            return;
           }
           else {
+            this.principalButtons[11].name = '>'
             this.miChica.lempiras = parseInt(this.principalText);
             this._auxiliarService.chicas.push(this.miChica);
           }

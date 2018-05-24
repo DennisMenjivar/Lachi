@@ -40,8 +40,10 @@ export class RangeNumbersPage {
     while (cont < 100) {
       let miPedazo: Pedazo = new Pedazo(0, cont, 100);
       this.database.createPedazo(miPedazo).then((data) => {
-        this.database.createStock(miPedazo).then((data) =>{
-
+        this.database.createStock(miPedazo).then((data) => {
+          
+        }, (error) => {
+          console.log("Error al crear: ", error);
         })
         status = true;
       }, (error) => {
