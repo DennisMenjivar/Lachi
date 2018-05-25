@@ -68,7 +68,7 @@ export class HomePage {
       this.updateStockByNumber(this.miChica.number, pPedazos);
       return true;
     }
-    this.showToast("Solo tiene disponible: " + this.numberSelected.pedazos)
+    this.showToast("Solo tiene disponible: Lps." + this.numberSelected.pedazos + ".00 del: " + this.miChica.number)
     return false;
   }
 
@@ -110,7 +110,7 @@ export class HomePage {
       if (this.validatePedazo(parseInt(this.principalText))) {
         this.miChica.lempiras = parseInt(this.principalText);
         this._auxiliarService.chicas.push(this.miChica);
-        this.showToast("Se agregó el número: " + this.miChica.number)
+        this.showToast("Se agregó el número: " + this.miChica.number);
         console.log("Lempiras: ", this.miChica.lempiras);
         console.log("GoToClient: ", this.miChica);
         this.goToClients();
