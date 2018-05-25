@@ -19,7 +19,7 @@ export class DatabaseProvider {
   createDataBase() {
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'Lachi.db',
+        name: 'Panda.db',
         location: 'default'
       })
         .then((db: SQLiteObject) => {

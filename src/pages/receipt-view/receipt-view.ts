@@ -7,6 +7,7 @@ import { HomePage } from '../home/home';
 import { DatabaseProvider } from '../../providers/database/database';
 //library for social-sharing
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Pedazo } from '../../_models/Pedazo.model';
 
 @IonicPage()
 @Component({
@@ -72,10 +73,28 @@ export class ReceiptViewPage {
     }
   }
 
+  loadStock() {
+    this._auxiliarService.stocks = [];
+    this.database.getStock().then((data: Pedazo[]) => {
+      this._auxiliarService.stocks = data as Pedazo[];
+    }, (error) => {
+      console.log("Error al consultar: ", error);
+    });
+  }
+
   delete() {
+    this.loadStock();
     this.navCtrl.popToRoot();
     this._auxiliarService.chicas = [];
     this.showToast("Todos los datos fueron eliminados!");
+  }
+
+  updateStockByNumber(number: number, pPedazos: number) {
+    this._auxiliarService.stocks.forEach(element => {
+      if (number == element.number) {
+        element.pedazos += pPedazos;
+      }
+    });
   }
 
   goToCreateNumber() {
@@ -92,6 +111,7 @@ export class ReceiptViewPage {
   deleteNumber(index: DataChica) {
     var miChi = this._auxiliarService.chicas.indexOf(index, 0);
     if (miChi > -1) {
+      this.updateStockByNumber(index.number, index.lempiras);
       this._auxiliarService.chicas.splice(miChi, 1);
       this.showToast("Numero: " + index.number + " Eliminado!!");
     }
@@ -148,13 +168,19 @@ export class ReceiptViewPage {
           text: cancel,
           role: 'cancel',
           handler: () => {
-            this.compileData(1)
+            this.showToast("Cancelado!");
           }
         },
         {
           text: accept,
           handler: () => {
             this.compileData(0);
+          }
+        },
+        {
+          text: accept,
+          handler: () => {
+            this.compileData(1);
           }
         }
       ]

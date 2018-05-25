@@ -136,7 +136,7 @@ export class HomePage {
           }
           else {
             if (this.validatePedazo(parseInt(this.principalText))) {
-              this.principalButtons[11].name = '>'
+              this.principalButtons[11].name = '>';
               this.miChica.lempiras = parseInt(this.principalText);
               this._auxiliarService.chicas.push(this.miChica);
               this.showToast("Se agregó el número: " + this.miChica.number)
@@ -197,6 +197,7 @@ export class HomePage {
   }
 
   cleanPrincipal() {
+    this.principalButtons[11].name = '>';
     this.option = "Número"
     this.principalText = '0';
     // this._auxiliarService.chicas = [];
