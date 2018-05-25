@@ -165,22 +165,22 @@ export class ReceiptViewPage {
       message: message,
       buttons: [
         {
-          text: cancel,
-          role: 'cancel',
-          handler: () => {
-            this.showToast("Cancelado!");
-          }
-        },
-        {
           text: accept,
           handler: () => {
             this.compileData(0);
           }
         },
         {
-          text: accept,
+          text: 'Guardar y Enviar',
           handler: () => {
             this.compileData(1);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            this.showToast("Cancelado!");
           }
         }
       ]
