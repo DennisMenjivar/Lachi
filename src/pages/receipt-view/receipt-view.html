@@ -48,6 +48,7 @@
       </ion-row>
     </ion-grid>
   </ion-card>
+  <button ion-button full outline disabled color="dark">Total: {{this.getTotal() | currency:'Lps.':true:'1.2-2'}}</button>
   <button ion-button full outline (click)="showConfirmMessage()">Finalizar</button>
   <button ion-button full outline color="danger" (click)="presentConfirmDeleteData()">Eliminar todo</button>
 </ion-content>

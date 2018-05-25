@@ -120,6 +120,14 @@ export class ReceiptViewPage {
     this.presentConfirm("Whatsapp", "Desea enviar via Whatsapp estos datos?", "Guardar", "Enviar y Guardar");
   }
 
+  getTotal(): number {
+    let total: number = 0;
+    this._auxiliarService.chicas.forEach(element => {
+      total += element.lempiras;
+    });
+    return total;
+  }
+
   presentConfirm(title: string, message: string, accept: string, cancel: string) {
     let alert = this.alertCtrl.create({
       title: title,
@@ -152,7 +160,7 @@ export class ReceiptViewPage {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => {
-            
+
           }
         },
         {
