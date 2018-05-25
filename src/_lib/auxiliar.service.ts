@@ -4,11 +4,13 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { DataChica } from '../_models/DataChica.model';
+import { Pedazo } from '../_models/Pedazo.model';
 
 @Injectable()
 export class AuxiliarService {
 
     chicas: DataChica[];
+    stocks: Pedazo[];
     totalDataToSendViaWhatsapp: string = '';
 
     constructor(private _http: Http) {

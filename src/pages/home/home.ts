@@ -27,8 +27,6 @@ export class HomePage {
 
   miChica: DataChica;
 
-  stocks: Pedazo[];
-
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public _auxiliarService: AuxiliarService,
@@ -50,7 +48,7 @@ export class HomePage {
 
   loadStock() {
     this.database.getStock().then((data: Pedazo[]) => {
-      this.stocks = data as Pedazo[];
+      this._auxiliarService.stocks = data as Pedazo[];
     }, (error) => {
       console.log("Error al consultar: ", error);
     });
@@ -58,7 +56,7 @@ export class HomePage {
 
   getStockByNumber(pNumber: number) {
     this.numberSelected = new Pedazo(0, 0, 0);
-    this.stocks.forEach(element => {
+    this._auxiliarService.stocks.forEach(element => {
       if (element.number == pNumber) {
         this.numberSelected = element;
       }
@@ -75,7 +73,7 @@ export class HomePage {
   }
 
   updateStockByNumber(number: number, pPedazos: number) {
-    this.stocks.forEach(element => {
+    this._auxiliarService.stocks.forEach(element => {
       if (number == element.number) {
         element.pedazos -= pPedazos;
       }
