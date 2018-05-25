@@ -36,6 +36,16 @@ export class ReceiptViewPage {
 
   }
 
+  updateStock() {
+    this._auxiliarService.stocks.forEach(element => {
+      this.database.editStock(element).then((data) => {
+
+      }, (error) => {
+        console.log("Error al modificar stock", error);
+      })
+    });
+  }
+
   compileData(viaWhatsapp: number) {
     let status: number = 0;
     this._auxiliarService.totalDataToSendViaWhatsapp = '';
@@ -50,6 +60,7 @@ export class ReceiptViewPage {
       status = 0;
     });
     if (status == 0) {
+      this.updateStock();
       if (viaWhatsapp == 1) {
         this.whatsappShare(this._auxiliarService.totalDataToSendViaWhatsapp);
       }
