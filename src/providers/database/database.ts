@@ -276,6 +276,30 @@ export class DatabaseProvider {
       })
   }
 
+  getChicasToSendData(pStatus: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM chicas WHERE status = ${pStatus}`, [])
+          .then((data) => {
+            let lists = [];
+            if (data.rows.length > 0) {
+              for (let i = 0; i < data.rows.length; i++) {
+                lists.push({
+                  id: data.rows.item(i).id,
+                  lempiras: data.rows.item(i).lempiras,
+                  number: data.rows.item(i).number,
+                  idClient: data.rows.item(i).idClient,
+                  client: data.rows.item(i).client,
+                  fecha: data.rows.item(i).fecha,
+                  status: data.rows.item(i).status
+                });
+              }
+            }
+            return lists;
+          })
+      })
+  }
+
   getChicas() {
     return this.isReady()
       .then(() => {

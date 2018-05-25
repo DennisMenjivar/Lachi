@@ -22,15 +22,15 @@
 
 
 <ion-content padding>
-  <ion-card *ngFor="let chica of _auxiliarService.chicas; let i = index;">
+  <ion-card *ngFor="let chi of chicas; let i = index;">
     <ion-grid>
       <ion-row>
         <ion-col>
           <ion-card-header style="color: tomato; font-size: 100px; margin: 0%; padding: 0%; border: 0%">
-            {{chica.number}}
+            {{chi.number}}
           </ion-card-header>
           <!-- [innerHtml]=chica.lempiras  -->
-          <ion-card-content style="color: salmon; font-size: 30px; margin: 0%; padding: 0%; border: 0%">{{chica.lempiras | currency:'Lps.':true:'1.2-2'}}</ion-card-content>
+          <ion-card-content style="color: salmon; font-size: 30px; margin: 0%; padding: 0%; border: 0%">{{chi.lempiras | currency:'Lps.':true:'1.2-2'}}</ion-card-content>
           <!-- <button ion-button icon-only (click)="compileData()" color="primary" clear>
             <ion-icon class="share-icon" name="logo-whatsapp"></ion-icon>
           </button> -->
