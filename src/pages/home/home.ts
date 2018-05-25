@@ -95,7 +95,7 @@ export class HomePage {
   }
 
   goToClients() {
-    if (this.miChica.lempiras == 0 && this.option == 'Lempiras') {
+    if (this.principalText == '0' && this.option == 'Lempiras') {
       this.showToast("Ingrese un monto, porfavor!")
     } else {
       var params = {
@@ -106,6 +106,10 @@ export class HomePage {
   }
 
   checkOut() {
+    if (this.option == 'Número' && this._auxiliarService.chicas.length > 0) {
+      this.goToClients();
+      return;
+    }
     if (this.principalText != '0' && this.option == 'Lempiras') {
       if (this.validatePedazo(parseInt(this.principalText))) {
         this.miChica.lempiras = parseInt(this.principalText);
@@ -117,12 +121,10 @@ export class HomePage {
         this.principalText = '0'
         this.option = 'Número';
         this.miChica = new DataChica(0, 0, 0, 0, '', new Date(), 0);
-      } else {
-        this.showToast('Ingrese un monto, por favor!')
-        return;
       }
     } else {
-      this.goToClients();
+      this.showToast('Ingrese un monto, por favor!')
+      return;
     }
   }
 
