@@ -211,4 +211,27 @@ export class ReceiptViewPage {
     alert.present();
   }
 
+  presentConfirmDeleteByNumber(chica: DataChica) {
+    let alert = this.alertCtrl.create({
+      title: 'Eliminar',
+      message: 'Esta seguro que desea eliminar el ' + chica.number + '?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.deleteNumber(chica);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
 }

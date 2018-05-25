@@ -34,7 +34,7 @@
           <ion-card-content style="color: rgb(20, 11, 11); font-size: 30px; margin: 0%; padding: 0%; border: 0%">
             {{chica.lempiras | currency:'Lps.':true:'1.2-2'}}
             <ion-fab bottom right>
-              <button ion-fab (click)="deleteNumber(chica)" color="danger">
+              <button ion-fab (click)="presentConfirmDeleteByNumber(chica)" color="danger">
                 <ion-icon name="trash"></ion-icon>
               </button>
             </ion-fab>
