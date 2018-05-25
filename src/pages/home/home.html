@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Panda</ion-title>
-    <ion-buttons end *ngIf="option == 'Lempiras'">
+    <ion-buttons end *ngIf="option == 'Lempiras' || _auxiliarService.chicas.length > 0">
       <button ion-button icon-only (click)="checkOut()">
         <!-- (click)="createNewClient()" -->
         {{_auxiliarService.chicas.length}}
