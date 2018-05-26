@@ -32,10 +32,7 @@ export class SendDataPage {
   }
 
   compileData() {
-    let totalData: string = '';
-    this._auxiliarService.chicas.forEach(element => {
-      totalData += element.toStringDC();
-    });
+    let totalData = JSON.stringify(this.chicas);
     this.whatsappShare(totalData);
   }
 
