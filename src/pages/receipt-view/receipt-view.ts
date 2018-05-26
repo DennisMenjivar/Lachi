@@ -82,13 +82,6 @@ export class ReceiptViewPage {
     });
   }
 
-  delete() {
-    this.loadStock();
-    this.navCtrl.popToRoot();
-    this._auxiliarService.chicas = [];
-    this.showToast("Todos los datos fueron eliminados!");
-  }
-
   updateStockByNumber(number: number, pPedazos: number) {
     this._auxiliarService.stocks.forEach(element => {
       if (number == element.number) {
@@ -108,12 +101,23 @@ export class ReceiptViewPage {
     // this.navCtrl.push(this.Home, params);
   }
 
+  delete() {
+    this.loadStock();
+    this.navCtrl.popToRoot();
+    this._auxiliarService.chicas = [];
+    this.showToast("Todos los datos fueron eliminados!");
+  }
+
   deleteNumber(index: DataChica) {
     var miChi = this._auxiliarService.chicas.indexOf(index, 0);
     if (miChi > -1) {
       this.updateStockByNumber(index.number, index.lempiras);
       this._auxiliarService.chicas.splice(miChi, 1);
       this.showToast("Numero: " + index.number + " Eliminado!!");
+    }
+    if (this._auxiliarService.chicas.length <= 0) {
+      this.navCtrl.popToRoot();
+      this.showToast("Todos los datos fueron eliminados!");
     }
   }
 
