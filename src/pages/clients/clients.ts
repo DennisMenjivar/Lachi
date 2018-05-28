@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { Client } from '../../_models/Client.model';
-import { DataChica } from '../../_models/DataChica.model';
 import { ReceiptViewPage } from '../receipt-view/receipt-view';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { DatabaseProvider } from '../../providers/database/database';
-
+import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 
 @IonicPage()
 @Component({
@@ -18,7 +17,7 @@ export class ClientsPage {
   private ReceiptView
 
   clients: any;
-  miChica: DataChica;
+  miDiaria: DiariaDetalle;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -26,7 +25,7 @@ export class ClientsPage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public database: DatabaseProvider) {
-    this.miChica = navParams.data.pChica;
+    this.miDiaria = navParams.data.pDiaria;
     this.ReceiptView = ReceiptViewPage;
   }
 
@@ -53,7 +52,7 @@ export class ClientsPage {
 
   goToReceiptView(telephone: string) {
     var params = {
-      pChica: this.miChica,
+      pDiaria: this.miDiaria,
       pTelephone: telephone
     };
     this.navCtrl.push(this.ReceiptView, params);
@@ -61,13 +60,13 @@ export class ClientsPage {
 
   selectedClient(client: Client) {
     // this.showToast("Cliente: " + client.name);
-    this.miChica.idClient = client.id;
-    this.miChica.client = client.name;
-    this._auxiliarService.chicas.forEach(element => {
-      element.id = 0; //id
+    this.miDiaria.id_client = client.id;
+    this.miDiaria.client = client.name;
+    this._auxiliarService.diariaDetalle.forEach(element => {
+      element.id_client = client.id; //id
       element.client = client.name;
     });
-    console.log("Clients: ", this._auxiliarService.chicas);
+    console.log("Clients: ", this._auxiliarService.diariaDetalle);
     this.goToReceiptView(client.telephone);
   }
 

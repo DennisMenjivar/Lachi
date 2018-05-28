@@ -4,10 +4,10 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Panda</ion-title>
-    <ion-buttons end *ngIf="option == 'Lempiras' || _auxiliarService.chicas.length > 0">
+    <ion-buttons end *ngIf="option == 'Lempiras' || _auxiliarService.diariaDetalle.length > 0">
       <button ion-button icon-only (click)="checkOut()">
         <!-- (click)="createNewClient()" -->
-        {{_auxiliarService.chicas.length}}
+        {{_auxiliarService.diariaDetalle.length}}
         <ion-icon name="cash"></ion-icon>
       </button>
       <!-- <button ion-button icon-only (click)="action2()">

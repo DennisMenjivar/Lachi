@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 //library for social-sharing
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 
 @IonicPage()
 @Component({
@@ -16,23 +17,23 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 })
 export class SendDataPage {
 
-  chicas: any;
+  miDiariaDetalle: DiariaDetalle[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing, public _auxiliarService: AuxiliarService,
     public database: DatabaseProvider) {
-    this.getChicas();
+    this.getDiariaDetalle();
   }
 
-  getChicas() {
-    this.database.getChicasToSendData(0).then((data: any) => {
-      this.chicas = data;
+  getDiariaDetalle() {
+    this.database.getDiariaDetalleByStatus(0).then((data: DiariaDetalle[]) => {
+      this.miDiariaDetalle = data as DiariaDetalle[];
     }, (error) => {
       console.log("Error al consultar: ", error);
     });
   }
 
   compileData() {
-    let totalData = JSON.stringify(this.chicas);
+    let totalData = JSON.stringify(this.miDiariaDetalle);
     this.whatsappShare(totalData);
   }
 

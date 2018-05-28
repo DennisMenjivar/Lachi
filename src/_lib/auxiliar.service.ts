@@ -5,11 +5,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { DataChica } from '../_models/DataChica.model';
 import { Pedazo } from '../_models/Pedazo.model';
+import { DiariaDetalle } from '../_models/DiariaDetalle.model';
 
 @Injectable()
 export class AuxiliarService {
 
-    chicas: DataChica[];
+    diariaDetalle: DiariaDetalle[];
     stocks: Pedazo[];
     totalDataToSendViaWhatsapp: string = '';
 

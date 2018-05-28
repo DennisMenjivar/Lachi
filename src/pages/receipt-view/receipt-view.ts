@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
 import { ToastController, AlertController } from 'ionic-angular';
-import { DataChica } from '../../_models/DataChica.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { HomePage } from '../home/home';
 import { DatabaseProvider } from '../../providers/database/database';
+import { Pedazo } from '../../_models/Pedazo.model';
+import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
+
 //library for social-sharing
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { Pedazo } from '../../_models/Pedazo.model';
+import { DiariaControl } from '../../_models/DiariaControl.model';
 
 @IonicPage()
 @Component({
@@ -18,7 +20,8 @@ import { Pedazo } from '../../_models/Pedazo.model';
 export class ReceiptViewPage {
 
   private Home
-  miChica: DataChica;
+  miDiariaControl: DiariaControl;
+  miDiaria: DiariaDetalle;
   telephone: string;
 
   constructor(public navCtrl: NavController,
@@ -30,7 +33,8 @@ export class ReceiptViewPage {
     private alertCtrl: AlertController) {
     this.Home = HomePage;
     this.telephone = navParams.data.pTelephone;
-    this.miChica = navParams.data.pChica;
+    this.miDiaria = navParams.data.pDiaria;
+    this.miDiariaControl = new DiariaControl(0, 0, '', 0);
   }
 
   ionViewDidLoad() {
@@ -48,29 +52,36 @@ export class ReceiptViewPage {
   }
 
   compileData(viaWhatsapp: number) {
-    let status: number = 0;
+    var statusVar: number = -1;
+    let myControl = new DiariaControl(0, 0, '', 0);
     this._auxiliarService.totalDataToSendViaWhatsapp = '';
-    this._auxiliarService.chicas.forEach(element => {
-      this.database.CreateChica(element).then((data) => {
-        status = 0;
-      }, (error) => {
-        status = 1;
-        console.log("Error: ", error);
-      })
-      this._auxiliarService.totalDataToSendViaWhatsapp += element.toStringDC();
-      status = 0;
-    });
-    if (status == 0) {
-      this.updateStock();
-      if (viaWhatsapp == 1) {
-        this.whatsappShare(this._auxiliarService.totalDataToSendViaWhatsapp);
+    this.database.CreateDiariaControl(this.miDiariaControl).then((control) => {
+      myControl = control;
+      // this.showToast("DiariaControl: " + data.toStringNormal());
+    }).then((data) => {
+      this._auxiliarService.diariaDetalle.forEach(element => {
+        element.id_control = myControl.id;
+        element.status = 0;
+        this.database.CreateDiariaDetalle(element).then((detalle) => {
+          statusVar = 0;
+          this.showToast("Diaria Detalle: " + detalle.toStringReceiptView());
+        })
+        this._auxiliarService.totalDataToSendViaWhatsapp += element.toStringReceiptView();
+        statusVar = 0;
+      });
+    }).then((data) => {
+      if (statusVar == 0) {
+        this.updateStock();
+        if (viaWhatsapp == 1) {
+          this.whatsappShare(this._auxiliarService.totalDataToSendViaWhatsapp);
+        }
+        this.showToast("Guardado con éxito!!");
+        this._auxiliarService.diariaDetalle = [];
+        this.navCtrl.popToRoot();
+      } else {
+        this.showToast("ERROR al guardar.");
       }
-      this.showToast("Guardado con éxito!!");
-      this._auxiliarService.chicas = [];
-      this.navCtrl.popToRoot();
-    } else {
-      this.showToast("ERROR al guardar.");
-    }
+    });
   }
 
   loadStock() {
@@ -92,7 +103,7 @@ export class ReceiptViewPage {
 
   goToCreateNumber() {
     var params = {
-      pChica: this.miChica
+      pDiaria: this.miDiaria
     };
     // this.navCtrl.setRoot(HomePage);
     this.navCtrl.popToRoot();
@@ -104,18 +115,18 @@ export class ReceiptViewPage {
   delete() {
     this.loadStock();
     this.navCtrl.popToRoot();
-    this._auxiliarService.chicas = [];
+    this._auxiliarService.diariaDetalle = [];
     this.showToast("Todos los datos fueron eliminados!");
   }
 
-  deleteNumber(index: DataChica) {
-    var miChi = this._auxiliarService.chicas.indexOf(index, 0);
+  deleteNumber(index: DiariaDetalle) {
+    var miChi = this._auxiliarService.diariaDetalle.indexOf(index, 0);
     if (miChi > -1) {
       this.updateStockByNumber(index.number, index.lempiras);
-      this._auxiliarService.chicas.splice(miChi, 1);
+      this._auxiliarService.diariaDetalle.splice(miChi, 1);
       this.showToast("Numero: " + index.number + " Eliminado!!");
     }
-    if (this._auxiliarService.chicas.length <= 0) {
+    if (this._auxiliarService.diariaDetalle.length <= 0) {
       this.navCtrl.popToRoot();
       this.showToast("Todos los datos fueron eliminados!");
     }
@@ -157,7 +168,7 @@ export class ReceiptViewPage {
 
   getTotal(): number {
     let total: number = 0;
-    this._auxiliarService.chicas.forEach(element => {
+    this._auxiliarService.diariaDetalle.forEach(element => {
       total += element.lempiras;
     });
     return total;
@@ -198,16 +209,16 @@ export class ReceiptViewPage {
       message: 'Esta seguro que desea eliminar todo?',
       buttons: [
         {
+          text: 'Eliminar',
+          handler: () => {
+            this.delete();
+          }
+        }
+        , {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => {
 
-          }
-        },
-        {
-          text: 'Eliminar',
-          handler: () => {
-            this.delete();
           }
         }
       ]
@@ -215,22 +226,22 @@ export class ReceiptViewPage {
     alert.present();
   }
 
-  presentConfirmDeleteByNumber(chica: DataChica) {
+  presentConfirmDeleteByNumber(diaria: DiariaDetalle) {
     let alert = this.alertCtrl.create({
       title: 'Eliminar',
-      message: 'Esta seguro que desea eliminar el ' + chica.number + '?',
+      message: 'Esta seguro que desea eliminar el ' + diaria.number + '?',
       buttons: [
         {
+          text: 'Eliminar',
+          handler: () => {
+            this.deleteNumber(diaria);
+          }
+        }
+        , {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => {
 
-          }
-        },
-        {
-          text: 'Eliminar',
-          handler: () => {
-            this.deleteNumber(chica);
           }
         }
       ]
