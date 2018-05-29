@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
 import { ToastController, AlertController } from 'ionic-angular';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
-import { HomePage } from '../home/home';
+// import { HomePage } from '../home/home';
 import { DatabaseProvider } from '../../providers/database/database';
 import { Pedazo } from '../../_models/Pedazo.model';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
@@ -19,7 +19,7 @@ import { DiariaControl } from '../../_models/DiariaControl.model';
 })
 export class ReceiptViewPage {
 
-  private Home
+  // private Home
   miDiariaControl: DiariaControl;
   miDiaria: DiariaDetalle;
   telephone: string;
@@ -31,7 +31,7 @@ export class ReceiptViewPage {
     public loadingCtrl: LoadingController,
     public database: DatabaseProvider, private socialSharing: SocialSharing,
     private alertCtrl: AlertController) {
-    this.Home = HomePage;
+    // this.Home = HomePage;
     this.telephone = navParams.data.pTelephone;
     this.miDiaria = navParams.data.pDiaria;
     this.miDiariaControl = new DiariaControl(0, 0, '', 0);
@@ -102,9 +102,9 @@ export class ReceiptViewPage {
   }
 
   goToCreateNumber() {
-    var params = {
-      pDiaria: this.miDiaria
-    };
+    // var params = {
+    //   pDiaria: this.miDiaria
+    // };
     // this.navCtrl.setRoot(HomePage);
     this.navCtrl.popToRoot();
     // this.navCtrl.pop();

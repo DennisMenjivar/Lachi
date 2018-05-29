@@ -5,7 +5,7 @@ import { ClientsPage } from '../clients/clients';
 import { ButtonCalculatorClass } from '../../_models/ButtonCalculatorClass.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { SendDataPage } from '../send-data/send-data';
-import { RangeNumbersPage } from '../range-numbers/range-numbers';
+// import { RangeNumbersPage } from '../range-numbers/range-numbers';
 import { Pedazo } from '../../_models/Pedazo.model';
 import { DatabaseProvider } from '../../providers/database/database';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';

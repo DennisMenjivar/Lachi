@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Platform } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DataChica } from '../../_models/DataChica.model';
+// import { DataChica } from '../../_models/DataChica.model';
 import { Pedazo } from '../../_models/Pedazo.model';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { DiariaControl } from '../../_models/DiariaControl.model';
