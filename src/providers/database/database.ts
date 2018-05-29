@@ -70,11 +70,19 @@ export class DatabaseProvider {
                   , pedazos INTEGER);`, {})
           }).then(() => {
             return this.database.executeSql(
+              `CREATE TABLE IF NOT EXISTS ConsolidatedNumbers
+              (id INTEGER PRIMARY KEY AUTOINCREMENT
+                , number INTEGER
+                , lempiras INTEGER
+                , date TEXT
+                , status INTEGER);`, {})
+          }).then(() => {
+            return this.database.executeSql(
               `CREATE TABLE IF NOT EXISTS stocktaking 
                   (id INTEGER PRIMARY KEY AUTOINCREMENT
                   ,number INTEGER
                   , pedazos INTEGER);`, {})
-          })
+          }).catch((err) => console.log("Error detected creating tables", err));
       })
       .catch((err) => console.log("Error detected creating tables", err));
   }
