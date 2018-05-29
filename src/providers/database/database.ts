@@ -422,10 +422,10 @@ export class DatabaseProvider {
 
   //------------------DIARIA DETALLE---------------------
 
-  getDiariaDetalleByID(id: number) {
+  getDiariaDetalleByID(detalle: DiariaDetalle) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM DiariaDetalle WHERE id = ${id} `, [])
+        return this.database.executeSql(`SELECT * FROM DiariaDetalle WHERE id = ${detalle.id} and status = ${detalle.status} `, [])
           .then((data) => {
             if (data.rows.length) {
               let detail = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
@@ -450,7 +450,9 @@ export class DatabaseProvider {
       .then(() => {
         return this.database.executeSql(`INSERT INTO DiariaDetalle(id_control, number, lempiras, id_client, client, date, status, id_closure, paid) VALUES(${diaria.id_control}, ${diaria.number}, ${diaria.lempiras}, ${diaria.id_client}, '${diaria.client}', '${diaria.date}', ${diaria.status}, ${diaria.id_closure}, ${diaria.paid}); `, {}).then((result) => {
           if (result.insertId) {
-            return this.getDiariaDetalleByID(result.insertId);
+            let miDiariaDetalle: DiariaDetalle = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
+            miDiariaDetalle.id = parseInt(result.insertId);
+            return this.getDiariaDetalleByID(miDiariaDetalle);
           }
         })
       });

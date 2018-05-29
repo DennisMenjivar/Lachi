@@ -55,17 +55,21 @@ export class ReceiptViewPage {
     var statusVar: number = -1;
     let myControl = new DiariaControl(0, 0, '', 0, 0);
     this._auxiliarService.totalDataToSendViaWhatsapp = '';
+
     this.database.CreateDiariaControl(this.miDiariaControl).then((control) => {
+      control.client = this.miDiaria.client;
       myControl = control;
-      // this.showToast("DiariaControl: " + data.toStringNormal());
+      this._auxiliarService.totalDataToSendViaWhatsapp += control.toStringToReceiptView();
     }).then((data) => {
       this._auxiliarService.diariaDetalle.forEach(element => {
         element.id_control = myControl.id;
         element.status = 0;
+
         this.database.CreateDiariaDetalle(element).then((detalle) => {
+          element.id = detalle.id;
           statusVar = 0;
           this.showToast("Diaria Detalle: " + detalle.toStringReceiptView());
-        })
+        });
         this._auxiliarService.totalDataToSendViaWhatsapp += element.toStringReceiptView();
         statusVar = 0;
       });

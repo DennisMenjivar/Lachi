@@ -25,6 +25,6 @@ export class DiariaDetalle {
 
 
     toStringReceiptView(): string {
-        return String("ID:" + this.id) + " - ID_Control: " + String(this.id_control) + " - Número:" + String(this.number) + " - Lempiras:" + String(this.lempiras) + " - Client:" + this.client + "\n";
+        return String("Número:" + String(this.number) + " - Lempiras:" + String(this.lempiras) + "\n");
     }
 }

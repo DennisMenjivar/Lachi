@@ -9,7 +9,7 @@ export class DiariaControl {
     status: number;
     detalle: DiariaDetalle[];
     id_closure: number;
-    
+
     constructor(id: number, id_client: number, client: string, total: number, id_closure: number) {
         this.id = id;
         this.id_client = id_client;
@@ -19,6 +19,10 @@ export class DiariaControl {
         this.status = 0;
         this.detalle = [];
         this.id_closure = id_closure;
+    }
+
+    toStringToReceiptView(): string {
+        return String("Ticket #: " + this.id + " - Cliente: " + this.client  + " - Cierre: " + this.id_closure + "\n")
     }
 
     toStringNormal(): string {
