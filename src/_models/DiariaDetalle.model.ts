@@ -7,8 +7,10 @@ export class DiariaDetalle {
     client: string;
     date: string;
     status: number;
+    id_closure: number;
+    paid: number;
 
-    constructor(id: number, id_control: number, number: number, lempiras: number, id_client: number, client: string, date: string, status: number) {
+    constructor(id: number, id_control: number, number: number, lempiras: number, id_client: number, client: string, date: string, status: number, id_closure: number, paid: number) {
         this.id = id;
         this.id_control = id_control;
         this.number = number;
@@ -17,6 +19,8 @@ export class DiariaDetalle {
         this.client = client;
         this.date = date;
         this.status = status;
+        this.id_closure = id_closure;
+        this.paid = paid;
     }
 
 

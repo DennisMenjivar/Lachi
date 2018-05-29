@@ -57,7 +57,7 @@ export class ControlPedazosPage {
     let status: boolean = false;
     let cont: number = 0;
     while (cont < 100) {
-      let miPedazo: Pedazo = new Pedazo(0, cont, 100);
+      let miPedazo: Pedazo = new Pedazo(0, cont, 100, 0);
       this.database.createPedazo(miPedazo).then((data) => {
         status = true;
       }, (error) => {

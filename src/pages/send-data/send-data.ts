@@ -45,7 +45,7 @@ export class SendDataPage {
           lempiras += element.lempiras;
         }
       });
-      numbersConsolidated.push(new DiariaDetalle(0, 0, number, lempiras, 0, '', '', 0));
+      numbersConsolidated.push(new DiariaDetalle(0, 0, number, lempiras, 0, '', '', 0, 0, 0));
     }
     return numbersConsolidated;
   }

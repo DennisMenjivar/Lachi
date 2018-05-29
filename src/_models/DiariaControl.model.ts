@@ -8,8 +8,9 @@ export class DiariaControl {
     date: string;
     status: number;
     detalle: DiariaDetalle[];
-
-    constructor(id: number, id_client: number, client: string, total: number) {
+    id_closure: number;
+    
+    constructor(id: number, id_client: number, client: string, total: number, id_closure: number) {
         this.id = id;
         this.id_client = id_client;
         this.client = client;
@@ -17,6 +18,7 @@ export class DiariaControl {
         this.date = '';
         this.status = 0;
         this.detalle = [];
+        this.id_closure = id_closure;
     }
 
     toStringNormal(): string {

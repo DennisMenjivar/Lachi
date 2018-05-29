@@ -38,10 +38,10 @@ export class RangeNumbersPage {
     let status: boolean = false;
     let cont: number = 0;
     while (cont < 100) {
-      let miPedazo: Pedazo = new Pedazo(0, cont, 100);
+      let miPedazo: Pedazo = new Pedazo(0, cont, 100, 0);
       this.database.createPedazo(miPedazo).then((data) => {
         this.database.createStock(miPedazo).then((data) => {
-          
+
         }, (error) => {
           console.log("Error al crear: ", error);
         })
@@ -70,7 +70,7 @@ export class RangeNumbersPage {
     let status: boolean = false;
     let cont: number = from;
     while (cont <= until) {
-      let miPedazo: Pedazo = new Pedazo(cont, cont, amount);
+      let miPedazo: Pedazo = new Pedazo(cont, cont, amount, 0);
       this.database.editPedazo(miPedazo).then((data) => {
         this.database.editStock(miPedazo).then((data) => {
           status = true;

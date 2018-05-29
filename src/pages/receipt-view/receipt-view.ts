@@ -34,7 +34,7 @@ export class ReceiptViewPage {
     // this.Home = HomePage;
     this.telephone = navParams.data.pTelephone;
     this.miDiaria = navParams.data.pDiaria;
-    this.miDiariaControl = new DiariaControl(0, 0, '', 0);
+    this.miDiariaControl = new DiariaControl(0, 0, '', 0, 0);
   }
 
   ionViewDidLoad() {
@@ -53,7 +53,7 @@ export class ReceiptViewPage {
 
   compileData(viaWhatsapp: number) {
     var statusVar: number = -1;
-    let myControl = new DiariaControl(0, 0, '', 0);
+    let myControl = new DiariaControl(0, 0, '', 0, 0);
     this._auxiliarService.totalDataToSendViaWhatsapp = '';
     this.database.CreateDiariaControl(this.miDiariaControl).then((control) => {
       myControl = control;

@@ -34,7 +34,7 @@ export class HomePage {
     public database: DatabaseProvider) {
 
     this.loadStock();
-    this.miDiaria = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0);
+    this.miDiaria = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
     this.principalText = '0';
     this.Clients = ClientsPage;
     this.SendData = SendDataPage;
@@ -54,7 +54,7 @@ export class HomePage {
   }
 
   getStockByNumber(pNumber: number) {
-    this.numberSelected = new Pedazo(0, 0, 0);
+    this.numberSelected = new Pedazo(0, 0, 0, 0);
     this._auxiliarService.stocks.forEach(element => {
       if (element.number == pNumber) {
         this.numberSelected = element;
@@ -119,7 +119,7 @@ export class HomePage {
         this.goToClients();
         this.principalText = '0';
         this.option = 'Número';
-        this.miDiaria = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0);
+        this.miDiaria = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
       }
     } else {
       this.showToast('Ingrese un monto, por favor!');
@@ -205,7 +205,7 @@ export class HomePage {
     this.option = "Número";
     this.principalText = '0';
     // this._auxiliarService.chicas = [];
-    this.miDiaria = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0);
+    this.miDiaria = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
   }
 
   doRefresh(refresher) {
