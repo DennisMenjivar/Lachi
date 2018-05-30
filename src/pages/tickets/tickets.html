@@ -7,6 +7,9 @@
 <ion-header>
 
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Tickets</ion-title>
   </ion-navbar>
 
@@ -14,7 +17,7 @@
 
 
 <ion-content padding>
-  <ion-card *ngFor="let diaria of diariaControl; let i = index;">
+  <ion-card (click)="ticketSelected(diaria)" *ngFor="let diaria of diariaControl; let i = index;">
     <ion-grid>
       <ion-row>
         <ion-col>

@@ -15,6 +15,7 @@ import { SendDataPage } from '../pages/send-data/send-data';
 import { ControlPedazosPage } from '../pages/control-pedazos/control-pedazos';
 import { RangeNumbersPage } from '../pages/range-numbers/range-numbers'
 import { TicketsPage } from '../pages/tickets/tickets';
+import { TicketDetailPage } from '../pages/ticket-detail/ticket-detail';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { DatabaseProvider } from '../providers/database/database';
@@ -31,7 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
     SendDataPage,
     ControlPedazosPage,
     RangeNumbersPage,
-    TicketsPage
+    TicketsPage,
+    TicketDetailPage
   ],
   imports: [
     HttpModule,
@@ -49,7 +51,8 @@ import { HttpClientModule } from '@angular/common/http';
     SendDataPage,
     ControlPedazosPage,
     RangeNumbersPage,
-    TicketsPage
+    TicketsPage,
+    TicketDetailPage
   ],
   providers: [
     StatusBar,

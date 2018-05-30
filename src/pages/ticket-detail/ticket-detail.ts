@@ -8,10 +8,10 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 //library for social-sharing
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { DiariaControl } from '../../_models/DiariaControl.model';
-import { TicketDetailPage } from '../ticket-detail/ticket-detail';
 /**
- * Generated class for the TicketsPage page.
+ * Generated class for the TicketDetailPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -19,46 +19,33 @@ import { TicketDetailPage } from '../ticket-detail/ticket-detail';
 
 @IonicPage()
 @Component({
-  selector: 'page-tickets',
-  templateUrl: 'tickets.html',
+  selector: 'page-ticket-detail',
+  templateUrl: 'ticket-detail.html',
 })
-export class TicketsPage {
-
-  private TicketDetailPage
+export class TicketDetailPage {
 
   miControl: DiariaControl;
-  diariaControl: DiariaControl[];
+  miDetalle: DiariaDetalle = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
+  diariaDetalle: DiariaDetalle[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing, public _auxiliarService: AuxiliarService,
     public database: DatabaseProvider) {
-    this.TicketDetailPage = TicketDetailPage;
-    this.getDiariaControl();
-  }
-
-  getDiariaControl() {
-    this.miControl = new DiariaControl(0, 0, '', 0, 0)
-    this.diariaControl = [];
-    this.database.getDiariaControlByStatus(this.miControl).then((data: DiariaControl[]) => {
-      this.diariaControl = data as DiariaControl[];
-    }, (error) => {
-      console.log("Error al consultar: ", error);
-    });
-    //console.log("Numeros Consolidados: ", this.consolidateNumbers());
+    this.miControl = navParams.data.pControl;
+    this.miDetalle.id_control = this.miControl.id;
+    this.getDiariaDetalle();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TicketsPage');
+    console.log('ionViewDidLoad TicketDetailPage');
   }
 
-  ticketSelected(control: DiariaControl) {
-    var params = {
-      pControl: control
-    };
-    this.navCtrl.push(this.TicketDetailPage, params);
-  }
-
-  goToSeeTicketDetail() {
-
+  getDiariaDetalle() {
+    this.diariaDetalle = [];
+    this.database.getDiariaDetalleByIdControl(this.miDetalle).then((data: DiariaDetalle[]) => {
+      this.diariaDetalle = data as DiariaDetalle[];
+    }, (error) => {
+      console.log("Error al consultar: ", error);
+    });
   }
 
 }

@@ -522,7 +522,7 @@ export class DatabaseProvider {
         return this.database.executeSql(`SELECT * FROM DiariaDetalle where id_control = ${detalle.id_control} `, [])
           .then((data) => {
             let lists: DiariaDetalle[] = [];
-            if (data.rows.length > 0) {
+            if (data.rows.length) {
               for (let i = 0; i < data.rows.length; i++) {
                 let detalle = new DiariaDetalle(parseInt(data.rows.item(i).id), parseInt(data.rows.item(i).id_control), parseInt(data.rows.item(i).number), parseInt(data.rows.item(i).lempiras), parseInt(data.rows.item(i).id_client), data.rows.item(i).client, data.rows.item(i).date, parseInt(data.rows.item(i).status), parseInt(data.rows.item(i).id_closure), parseInt(data.rows.item(i).paid));
                 lists.push(detalle);
