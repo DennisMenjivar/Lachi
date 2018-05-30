@@ -48,4 +48,8 @@ export class TicketDetailPage {
     });
   }
 
+  presentConfirmDeleteByNumber(diaria: DiariaDetalle) {
+
+  }
+
 }

@@ -7,12 +7,40 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>TicketDetail</ion-title>
+    <ion-title>Ticket # {{this.miControl.id}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <button ion-button full outline disabled color="dark">Fecha: {{this.miControl.date | date: 'dd/MM/yyyy'}}</button>
+  <ion-card *ngFor="let diaria of diariaDetalle let i = index;">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card-header style="color: black; font-size: 100px; margin: 0%; padding: 0%; border: 0%">
+            {{diaria.number | number:'2.0-0'}}
+          </ion-card-header>
+          <!-- [innerHtml]=chica.lempiras  -->
+          <ion-card-content style="color: rgb(20, 11, 11); font-size: 30px; margin: 0%; padding: 0%; border: 0%">
+            {{diaria.lempiras | currency:'Lps.':true:'1.2-2'}}
+            <ion-fab bottom right>
+              <button ion-fab (click)="presentConfirmDeleteByNumber(diaria)" color="danger">
+                <ion-icon name="trash"></ion-icon>
+              </button>
+            </ion-fab>
+          </ion-card-content>
+          <!-- <button ion-button icon-only (click)="compileData()" color="primary" clear>
+                <ion-icon class="share-icon" name="logo-whatsapp"></ion-icon>
+              </button> -->
+        </ion-col>
+        <!-- <ion-col>
+            </ion-col> -->
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <button ion-button full outline disabled color="dark">Total: {{this.miControl.total | currency:'Lps.':true:'1.2-2'}}</button>
+  <!-- <button ion-button full outline (click)="showConfirmMessage()">Finalizar</button> -->
+  <!-- <button ion-button full outline color="danger" (click)="presentConfirmDeleteData()">Eliminar todo</button> -->
 </ion-content>
