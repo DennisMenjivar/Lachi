@@ -599,6 +599,27 @@ export class DatabaseProvider {
       })
   }
 
+  getDiariaLenght() {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM DiariaControl ORDER BY id DESC LIMIT 1`, [])
+          .then((data) => {
+            if (data.rows.length) {
+              let control = new DiariaControl(0, 0, '', 0, 0);
+              control.id = data.rows.item(0).id;
+              // control.id_client = data.rows.item(0).id_client;
+              // control.client = data.rows.item(0).client;
+              // control.total = data.rows.item(0).total;
+              // control.date = data.rows.item(0).date;
+              // control.status = data.rows.item(0).status;
+              // control.id_closure = data.rows.item(0).id_closure;
+              return control as DiariaControl;
+            }
+            return null;
+          })
+      })
+  }
+
   // -----------------------------------CLIENT-------------------------------------------
 
   CreateClient(name: string, telephone: string, address: string, email: string) {

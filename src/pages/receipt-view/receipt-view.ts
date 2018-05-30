@@ -35,10 +35,19 @@ export class ReceiptViewPage {
     this.telephone = navParams.data.pTelephone;
     this.miDiaria = navParams.data.pDiaria;
     this.miDiariaControl = new DiariaControl(0, 0, '', 0, 0);
+    this.getLenght();
   }
 
   ionViewDidLoad() {
 
+  }
+
+  lenght: number = 0;
+
+  getLenght() {
+    this.database.getDiariaLenght().then((data) => {
+      this.lenght = data.id + 1;
+    });
   }
 
   updateStock() {
