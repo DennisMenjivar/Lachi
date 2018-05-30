@@ -59,8 +59,12 @@ export class ReceiptViewPage {
       })
     });
   }
-
+  currentDate = new Date();
   compileData(viaWhatsapp: number) {
+    this.miDiariaControl.total = this.getTotal();
+    this.miDiariaControl.id_client = this.miDiaria.id_client;
+    this.miDiariaControl.client = this.miDiaria.client;
+    this.miDiariaControl.date = String(this.currentDate);
     var statusVar: number = -1;
     let myControl = new DiariaControl(0, 0, '', 0, 0);
     this._auxiliarService.totalDataToSendViaWhatsapp = '';
