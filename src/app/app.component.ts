@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { SendDataPage } from '../pages/send-data/send-data';
 import { ControlPedazosPage } from '../pages/control-pedazos/control-pedazos';
+import { TicketsPage } from '../pages/tickets/tickets';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,7 +17,7 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
@@ -24,8 +25,9 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Principal', component: HomePage },
+      { title: 'Tickets', component: TicketsPage },
       { title: 'Enviar Datos', component: SendDataPage },
-      { title: 'Configurar Números', component: ControlPedazosPage }
+      { title: 'Configurar Números', component: ControlPedazosPage },
     ];
 
   }

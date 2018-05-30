@@ -580,18 +580,20 @@ export class DatabaseProvider {
   getDiariaControlByStatus(control: DiariaControl) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM DiariaControl WHERE status = ${control.status} `, [])
+        return this.database.executeSql(`SELECT * FROM DiariaControl WHERE status = ${control.status} ORDER BY id DESC`, [])
           .then((data) => {
-            let lists = [];
-            if (data.rows.length > 0) {
+            let lists: DiariaControl[] = [];
+            if (data.rows.length) {
               for (let i = 0; i < data.rows.length; i++) {
-                lists.push({
-                  id: data.rows.item(i).id,
-                  name: data.rows.item(i).name,
-                  telephone: data.rows.item(i).telephone,
-                  address: data.rows.item(i).address,
-                  email: data.rows.item(i).email
-                });
+                let control = new DiariaControl(0, 0, '', 0, 0);
+                control.id = data.rows.item(i).id;
+                control.id_client = data.rows.item(i).id_client;
+                control.client = data.rows.item(i).client;
+                control.total = data.rows.item(i).total;
+                control.date = data.rows.item(i).date;
+                control.status = data.rows.item(i).status;
+                control.id_closure = data.rows.item(i).id_closure;
+                lists.push(control);
               }
             }
             return lists;
