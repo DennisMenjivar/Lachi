@@ -5,7 +5,6 @@ import { ClientsPage } from '../clients/clients';
 import { ButtonCalculatorClass } from '../../_models/ButtonCalculatorClass.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { SendDataPage } from '../send-data/send-data';
-// import { RangeNumbersPage } from '../range-numbers/range-numbers';
 import { Pedazo } from '../../_models/Pedazo.model';
 import { DatabaseProvider } from '../../providers/database/database';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
@@ -18,8 +17,6 @@ import { Closure } from '../../_models/Closure.model';
 })
 export class HomePage {
   private Clients
-  private SendData
-  private RangeNumbers
 
   principalText: string;
   principalButtons: ButtonCalculatorClass[];
@@ -34,15 +31,13 @@ export class HomePage {
     public loadingCtrl: LoadingController,
     public database: DatabaseProvider,
     private alertCtrl: AlertController) {
+    this.closure();
     this.loadStock();
     this.miDiaria = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
     this.principalText = '0';
     this.Clients = ClientsPage;
-    this.SendData = SendDataPage;
-    this.RangeNumbers = this.RangeNumbers;
     this.loadButtons();
     _auxiliarService.diariaDetalle = [];
-    this.closure();
   }
 
   numberSelected: Pedazo;
@@ -108,17 +103,11 @@ export class HomePage {
 
   checkOut() {
     if (this.option == 'Número' && this._auxiliarService.diariaDetalle.length > 0) {
-      if (!this._auxiliarService.closureStatus) {
-        this.presentConfirmCreateClosure();
-      }
       this.goToClients();
       return;
     }
     if (this.principalText != '0' && this.option == 'Lempiras') {
       if (this.validatePedazo(parseInt(this.principalText))) {
-        if (!this._auxiliarService.closureStatus) {
-          this.presentConfirmCreateClosure();
-        }
         this.miDiaria.lempiras = parseInt(this.principalText);
         this._auxiliarService.diariaDetalle.push(this.miDiaria);
         this.showToast("Se agregó el número: " + this.miDiaria.number);
@@ -134,10 +123,12 @@ export class HomePage {
   }
 
   closure() {
-    this.database.getClosureByStatus(0).then((data: Closure) => {
+    this.database.getClosureID().then((data: Closure) => {
       if (data) {
         this._auxiliarService.closureStatus = true;
         this._auxiliarService.miClosure = data as Closure;
+      } else {
+        this.presentConfirmCreateClosure();
       }
     });
   }
@@ -277,12 +268,5 @@ export class HomePage {
   doRefresh(refresher) {
     this.cleanPrincipal();
     refresher.complete();
-  }
-
-  gotoSendData() {
-    var params = {
-      // pChica: this.miChica
-    };
-    this.navCtrl.push(this.SendData, params);
   }
 }

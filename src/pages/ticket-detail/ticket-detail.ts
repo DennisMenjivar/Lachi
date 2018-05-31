@@ -6,8 +6,6 @@ import { DatabaseProvider } from '../../providers/database/database';
 // import { Http } from '@angular/http'; // don't forget to import HttpModule in app.module.ts
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-//library for social-sharing
-import { SocialSharing } from '@ionic-native/social-sharing';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { DiariaControl } from '../../_models/DiariaControl.model';
 import { Pedazo } from '../../_models/Pedazo.model';
@@ -34,7 +32,7 @@ export class TicketDetailPage {
     public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-    public database: DatabaseProvider, private socialSharing: SocialSharing,
+    public database: DatabaseProvider,
     private alertCtrl: AlertController) {
     this.miControl = navParams.data.pControl;
     this.miDetalle.id_control = this.miControl.id;

@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import { DataChica } from '../_models/DataChica.model';
 import { Pedazo } from '../_models/Pedazo.model';
 import { DiariaDetalle } from '../_models/DiariaDetalle.model';
 import { Closure } from '../_models/Closure.model';
@@ -17,7 +14,7 @@ export class AuxiliarService {
     stocks: Pedazo[];
     totalDataToSendViaWhatsapp: string = '';
 
-    constructor(private _http: Http) {
+    constructor() {
     }
 
     //  current_api: string = "http://creaxisapi.creaxis.xyz/";

@@ -174,21 +174,16 @@ export class DatabaseProvider {
       })
   }
 
-  getClosureByStatus(status: number) {
+  getClosureID() {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM Closure WHERE status = ${status}`, [])
+        return this.database.executeSql(`SELECT * FROM Closure WHERE status = 0 ORDER BY id DESC`, [])
           .then((data) => {
             if (data.rows.length) {
               let closure = new Closure(0, '', '', 0, 0, 0, '', 0);
               closure.id = parseInt(data.rows.item(0).id);
               closure.description = data.rows.item(0).description;
               closure.date = data.rows.item(0).date;
-              closure.status = parseInt(data.rows.item(0).status);
-              closure.total = parseInt(data.rows.item(0).total);
-              closure.id_user = parseInt(data.rows.item(0).id_user);
-              closure.user = data.rows.item(0).user;
-              closure.winningNumber = parseInt(data.rows.item(0).winningNumber);
               return closure as Closure;
             }
             return null;

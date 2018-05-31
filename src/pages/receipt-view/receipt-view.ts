@@ -59,6 +59,7 @@ export class ReceiptViewPage {
       })
     });
   }
+  
   currentDate = new Date();
   compileData(viaWhatsapp: number) {
     this.miDiariaControl.total = this.getTotal();
