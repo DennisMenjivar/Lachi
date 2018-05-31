@@ -81,7 +81,7 @@ export class ReceiptViewPage {
         this.database.CreateDiariaDetalle(element).then((detalle) => {
           element.id = detalle.id;
           statusVar = 0;
-          this.showToast("Diaria Detalle: " + detalle.toStringReceiptView());
+          // this.showToast("Diaria Detalle: " + detalle.toStringReceiptView());
         });
         this._auxiliarService.totalDataToSendViaWhatsapp += element.toStringReceiptView();
         statusVar = 0;

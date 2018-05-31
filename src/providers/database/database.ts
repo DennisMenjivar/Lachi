@@ -574,6 +574,9 @@ export class DatabaseProvider {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`DELETE FROM DiariaControl WHERE id = ${control.id} `, [])
+          .then(() => {
+            return this.database.executeSql(`DELETE FROM DiariaDetalle WHERE id_control = ${control.id}`, [])
+          })
       })
   }
 

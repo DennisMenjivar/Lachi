@@ -25,11 +25,11 @@
           <!-- [innerHtml]=chica.lempiras  -->
           <ion-card-content style="color: rgb(20, 11, 11); font-size: 30px; margin: 0%; padding: 0%; border: 0%">
             {{diaria.lempiras | currency:'Lps.':true:'1.2-2'}}
-            <ion-fab bottom right>
-              <button ion-fab (click)="presentConfirmDeleteByNumber(diaria)" color="danger">
+            <!-- <ion-fab bottom right>
+              <button ion-fab color="danger">
                 <ion-icon name="trash"></ion-icon>
               </button>
-            </ion-fab>
+            </ion-fab> -->
           </ion-card-content>
           <!-- <button ion-button icon-only (click)="compileData()" color="primary" clear>
                 <ion-icon class="share-icon" name="logo-whatsapp"></ion-icon>
@@ -42,5 +42,5 @@
   </ion-card>
   <button ion-button full outline disabled color="dark">Total: {{this.miControl.total | currency:'Lps.':true:'1.2-2'}}</button>
   <!-- <button ion-button full outline (click)="showConfirmMessage()">Finalizar</button> -->
-  <!-- <button ion-button full outline color="danger" (click)="presentConfirmDeleteData()">Eliminar todo</button> -->
+  <button ion-button full outline color="danger" (click)="presentConfirmDelete()">Eliminar Ticket</button>
 </ion-content>
