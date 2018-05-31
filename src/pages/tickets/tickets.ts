@@ -47,7 +47,7 @@ export class TicketsPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TicketsPage');
+    // console.log('ionViewDidLoad TicketsPage');
   }
 
   ticketSelected(control: DiariaControl) {

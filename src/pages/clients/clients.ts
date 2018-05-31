@@ -35,7 +35,7 @@ export class ClientsPage {
 
   createNewClient() {
     this.database.CreateClient('General', '9999-9999', 'San Pedro Sula', 'general@gmail.com').then((data) => {
-      console.log(data);
+      // console.log(data);
     }, (error) => {
       console.log("Error: ", error);
     })
@@ -44,7 +44,7 @@ export class ClientsPage {
   getAllClients() {
     this.database.getAllClients().then((data: any) => {
       this.clients = data;
-      console.log("Data: ", data);
+      // console.log("Data: ", data);
     }, (error) => {
       console.log("Error: ", error);
     });
@@ -66,7 +66,7 @@ export class ClientsPage {
       element.id_client = client.id; //id
       element.client = client.name;
     });
-    console.log("Clients: ", this._auxiliarService.diariaDetalle);
+    // console.log("Clients: ", this._auxiliarService.diariaDetalle);
     this.goToReceiptView(client.telephone);
   }
 

@@ -114,8 +114,6 @@ export class HomePage {
         this.miDiaria.lempiras = parseInt(this.principalText);
         this._auxiliarService.diariaDetalle.push(this.miDiaria);
         this.showToast("Se agregó el número: " + this.miDiaria.number);
-        console.log("Lempiras: ", this.miDiaria.lempiras);
-        console.log("GoToClient: ", this.miDiaria);
         this.goToClients();
         this.principalText = '0';
         this.option = 'Número';
@@ -164,7 +162,6 @@ export class HomePage {
           this.miDiaria.number = parseInt(this.principalText);
           this.getStockByNumber(this.miDiaria.number);
           this.option = 'Lempiras';
-          console.log("Numero: ", this.miDiaria.number);
           this.principalText = '0';
         } else {
           if (this.principalText == '0') {

@@ -289,7 +289,7 @@ export class DatabaseProvider {
       .then(() => {
         return this.database.executeSql(`INSERT INTO stocktaking(number, pedazos, id_closure) VALUES(${pedazo.number}, ${pedazo.pedazos}, ${pedazo.id_closure}); `, {}).then((result) => {
           if (result.insertId) {
-            console.log("Data a Guardar: ", result);
+            // console.log("Data a Guardar: ", result);
             return this.getStockById(result.insertId);
           }
         })
@@ -348,7 +348,7 @@ export class DatabaseProvider {
       .then(() => {
         return this.database.executeSql(`INSERT INTO Pedazos(number, pedazos, id_closure) VALUES(${pedazo.number}, ${pedazo.pedazos}, ${pedazo.id_closure}); `, {}).then((result) => {
           if (result.insertId) {
-            console.log("Data a Guardar: ", result);
+            // console.log("Data a Guardar: ", result);
             return this.getListPedazos(result.insertId);
           }
         })

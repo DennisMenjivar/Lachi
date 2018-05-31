@@ -42,7 +42,6 @@ export class TicketDetailPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TicketDetailPage');
   }
 
   getDiariaDetalle() {
