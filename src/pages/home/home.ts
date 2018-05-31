@@ -137,7 +137,7 @@ export class HomePage {
     this.database.getClosureByStatus(0).then((data: Closure) => {
       if (data) {
         this._auxiliarService.closureStatus = true;
-        this._auxiliarService.miClosure = data;
+        this._auxiliarService.miClosure = data as Closure;
       }
     });
   }
@@ -145,6 +145,7 @@ export class HomePage {
   createClosure() {
     this.database.createClosure(this._auxiliarService.miClosure).then((data) => {
       if (data) {
+        this._auxiliarService.miClosure = data as Closure;
         this._auxiliarService.closureStatus = true;
         this.showToast("Jornada " + data.description + " creada correctamente." + " #" + data.id)
       }

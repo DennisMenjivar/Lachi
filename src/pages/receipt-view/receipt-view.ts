@@ -34,7 +34,7 @@ export class ReceiptViewPage {
     // this.Home = HomePage;
     this.telephone = navParams.data.pTelephone;
     this.miDiaria = navParams.data.pDiaria;
-    this.miDiariaControl = new DiariaControl(0, 0, '', 0, 0);
+    this.miDiariaControl = new DiariaControl(0, 0, '', 0, _auxiliarService.miClosure.id);
     this.getLenght();
   }
 
@@ -65,6 +65,7 @@ export class ReceiptViewPage {
     this.miDiariaControl.id_client = this.miDiaria.id_client;
     this.miDiariaControl.client = this.miDiaria.client;
     this.miDiariaControl.date = String(this.currentDate);
+    this.miDiariaControl.id_closure = this._auxiliarService.miClosure.id;
     var statusVar: number = -1;
     let myControl = new DiariaControl(0, 0, '', 0, 0);
     this._auxiliarService.totalDataToSendViaWhatsapp = '';
@@ -77,6 +78,7 @@ export class ReceiptViewPage {
       this._auxiliarService.diariaDetalle.forEach(element => {
         element.id_control = myControl.id;
         element.status = 0;
+        element.id_closure = this._auxiliarService.miClosure.id;
 
         this.database.CreateDiariaDetalle(element).then((detalle) => {
           element.id = detalle.id;
