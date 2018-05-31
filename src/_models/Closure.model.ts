@@ -1,14 +1,14 @@
 export class Closure {
     id: number;
-    description: number;
+    description: string;
     date: string;
     status: number;
     total: number;
     id_user: number;
-    user: number;
+    user: string;
     winningNumber: number;
 
-    constructor(id: number, description: number, date: string, status: number, total: number, id_user: number, user: number, winningNumber: number) {
+    constructor(id: number, description: string, date: string, status: number, total: number, id_user: number, user: string, winningNumber: number) {
         this.id = id;
         this.description = description;
         this.date = date;

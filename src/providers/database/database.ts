@@ -8,6 +8,7 @@ import { Pedazo } from '../../_models/Pedazo.model';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { DiariaControl } from '../../_models/DiariaControl.model';
 import { Consolidated } from '../../_models/Consolidated.model';
+import { Closure } from '../../_models/Closure.model';
 
 @Injectable()
 export class DatabaseProvider {
@@ -110,7 +111,7 @@ export class DatabaseProvider {
                 , total INTEGER
                 , id_user INTEGER
                 , user TEXT
-                , winnigNumber INTEGER);`, {})
+                , winningNumber INTEGER);`, {})
           }).then(() => {
             return this.database.executeSql(
               `CREATE TABLE IF NOT EXISTS Consolidated
@@ -133,6 +134,68 @@ export class DatabaseProvider {
           }).catch((err) => console.log("Error detected creating tables", err));
       })
       .catch((err) => console.log("Error detected creating tables", err));
+  }
+
+  // ----------------------------CLOSURE----------------------------------
+
+  createClosure(closure: Closure) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`INSERT INTO Closure (description, date, status, total, id_user, user, winningNumber) VALUES ('${closure.description}', '${closure.date}',${closure.status},${closure.total}, ${closure.id_user},'${closure.user}',${closure.winningNumber}); `, {}).then((result) => {
+          if (result.insertId) {
+            let miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+            // El insertId contiene el id agregado en ese momento.
+            miClosure.id = parseInt(result.insertId);
+            return this.getClosureByID(miClosure);
+          }
+        })
+      });
+  }
+
+  getClosureByID(closure: Closure) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM Closure WHERE id = ${closure.id} and status = ${closure.status}`, [])
+          .then((data) => {
+            if (data.rows.length) {
+              let closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+              closure.id = parseInt(data.rows.item(0).id);
+              closure.description = data.rows.item(0).description;
+              closure.date = data.rows.item(0).date;
+              closure.status = parseInt(data.rows.item(0).status);
+              closure.total = parseInt(data.rows.item(0).total);
+              closure.id_user = parseInt(data.rows.item(0).id_user);
+              closure.user = data.rows.item(0).user;
+              closure.winningNumber = parseInt(data.rows.item(0).winningNumber);
+              return closure as Closure;
+            }
+            return null;
+          })
+      })
+  }
+
+  getClosures() {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM Closure`, [])
+          .then((data) => {
+            let lists: Closure[] = [];
+            if (data.rows.length) {
+              for (let i = 0; i < data.rows.length; i++) {
+                let detalle: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+                detalle.id = parseInt(data.rows.item(i).id);
+                detalle.description = data.rows.item(i).description;
+                detalle.date = data.rows.item(i).date;
+                detalle.status = parseInt(data.rows.item(i).status);
+                detalle.id_user = parseInt(data.rows.item(i).id_user);
+                detalle.user = data.rows.item(i).user;
+                detalle.winningNumber = parseInt(data.rows.item(i).winningNumber);
+                lists.push(detalle);
+              }
+            }
+            return lists;
+          })
+      })
   }
 
   // ----------------------------CONSOLIDATED----------------------------------
