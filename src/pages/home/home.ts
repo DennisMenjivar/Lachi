@@ -236,7 +236,7 @@ export class HomePage {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => {
-            this.showToast("Cancelado!");
+            this.presentConfirmCreateClosure();
           }
         }
       ]
