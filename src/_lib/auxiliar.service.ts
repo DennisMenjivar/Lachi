@@ -6,10 +6,13 @@ import 'rxjs/add/operator/toPromise';
 import { DataChica } from '../_models/DataChica.model';
 import { Pedazo } from '../_models/Pedazo.model';
 import { DiariaDetalle } from '../_models/DiariaDetalle.model';
+import { Closure } from '../_models/Closure.model';
 
 @Injectable()
 export class AuxiliarService {
 
+    closureStatus: boolean = false;
+    miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
     diariaDetalle: DiariaDetalle[];
     stocks: Pedazo[];
     totalDataToSendViaWhatsapp: string = '';

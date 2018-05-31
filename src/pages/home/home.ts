@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
-import { ToastController } from 'ionic-angular';
+import { ToastController, AlertController } from 'ionic-angular';
 import { ClientsPage } from '../clients/clients';
 import { ButtonCalculatorClass } from '../../_models/ButtonCalculatorClass.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
@@ -9,6 +9,7 @@ import { SendDataPage } from '../send-data/send-data';
 import { Pedazo } from '../../_models/Pedazo.model';
 import { DatabaseProvider } from '../../providers/database/database';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
+import { Closure } from '../../_models/Closure.model';
 
 @Component({
   selector: 'page-home',
@@ -31,8 +32,8 @@ export class HomePage {
     public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-    public database: DatabaseProvider) {
-
+    public database: DatabaseProvider,
+    private alertCtrl: AlertController) {
     this.loadStock();
     this.miDiaria = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
     this.principalText = '0';
@@ -41,6 +42,7 @@ export class HomePage {
     this.RangeNumbers = this.RangeNumbers;
     this.loadButtons();
     _auxiliarService.diariaDetalle = [];
+    this.closure();
   }
 
   numberSelected: Pedazo;
@@ -106,11 +108,17 @@ export class HomePage {
 
   checkOut() {
     if (this.option == 'Número' && this._auxiliarService.diariaDetalle.length > 0) {
+      if (!this._auxiliarService.closureStatus) {
+        this.presentConfirmCreateClosure();
+      }
       this.goToClients();
       return;
     }
     if (this.principalText != '0' && this.option == 'Lempiras') {
       if (this.validatePedazo(parseInt(this.principalText))) {
+        if (!this._auxiliarService.closureStatus) {
+          this.presentConfirmCreateClosure();
+        }
         this.miDiaria.lempiras = parseInt(this.principalText);
         this._auxiliarService.diariaDetalle.push(this.miDiaria);
         this.showToast("Se agregó el número: " + this.miDiaria.number);
@@ -123,6 +131,24 @@ export class HomePage {
       this.showToast('Ingrese un monto, por favor!');
       return;
     }
+  }
+
+  closure() {
+    this.database.getClosureByStatus(0).then((data: Closure) => {
+      if (data) {
+        this._auxiliarService.closureStatus = true;
+        this._auxiliarService.miClosure = data;
+      }
+    });
+  }
+
+  createClosure() {
+    this.database.createClosure(this._auxiliarService.miClosure).then((data) => {
+      if (data) {
+        this._auxiliarService.closureStatus = true;
+        this.showToast("Jornada " + data.description + " creada correctamente." + " #" + data.id)
+      }
+    })
   }
 
   click(pOption: ButtonCalculatorClass) {
@@ -174,6 +200,48 @@ export class HomePage {
     else {
       this.principalText += pOption.id;
     }
+  }
+
+  presentConfirmCreateClosure() {
+    let miDate = new Date();
+    this._auxiliarService.miClosure.date = String(miDate);
+    this._auxiliarService.miClosure.status = 0;
+
+    let alert = this.alertCtrl.create({
+      title: "Apertura",
+      message: "Que Jornada desea Configurar?",
+      buttons: [
+        {
+          text: "Mañana",
+          handler: () => {
+            this._auxiliarService.miClosure.description = "Mañana";
+            this.createClosure();
+          }
+        },
+        {
+          text: 'Tarde',
+          handler: () => {
+            this._auxiliarService.miClosure.description = "Tarde";
+            this.createClosure();
+          }
+        },
+        {
+          text: 'Noche',
+          handler: () => {
+            this._auxiliarService.miClosure.description = "Noche"
+            this.createClosure();
+          }
+        }
+        , {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            this.showToast("Cancelado!");
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   showToast(msg: string) {

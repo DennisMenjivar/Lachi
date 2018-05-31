@@ -155,7 +155,29 @@ export class DatabaseProvider {
   getClosureByID(closure: Closure) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM Closure WHERE id = ${closure.id} and status = ${closure.status}`, [])
+        return this.database.executeSql(`SELECT * FROM Closure WHERE id = ${closure.id}`, [])
+          .then((data) => {
+            if (data.rows.length) {
+              let closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+              closure.id = parseInt(data.rows.item(0).id);
+              closure.description = data.rows.item(0).description;
+              closure.date = data.rows.item(0).date;
+              closure.status = parseInt(data.rows.item(0).status);
+              closure.total = parseInt(data.rows.item(0).total);
+              closure.id_user = parseInt(data.rows.item(0).id_user);
+              closure.user = data.rows.item(0).user;
+              closure.winningNumber = parseInt(data.rows.item(0).winningNumber);
+              return closure as Closure;
+            }
+            return null;
+          })
+      })
+  }
+
+  getClosureByStatus(status: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM Closure WHERE status = ${status}`, [])
           .then((data) => {
             if (data.rows.length) {
               let closure = new Closure(0, '', '', 0, 0, 0, '', 0);
