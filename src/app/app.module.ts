@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ClientsPage } from '../pages/clients/clients'
@@ -16,6 +15,7 @@ import { ControlPedazosPage } from '../pages/control-pedazos/control-pedazos';
 import { RangeNumbersPage } from '../pages/range-numbers/range-numbers'
 import { TicketsPage } from '../pages/tickets/tickets';
 import { TicketDetailPage } from '../pages/ticket-detail/ticket-detail';
+import { ConsolidatedPage } from '../pages/consolidated/consolidated';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { DatabaseProvider } from '../providers/database/database';
@@ -26,14 +26,14 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     ClientsPage,
     ReceiptViewPage,
     SendDataPage,
     ControlPedazosPage,
     RangeNumbersPage,
     TicketsPage,
-    TicketDetailPage
+    TicketDetailPage,
+    ConsolidatedPage
   ],
   imports: [
     HttpModule,
@@ -45,14 +45,14 @@ import { HttpClientModule } from '@angular/common/http';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     ClientsPage,
     ReceiptViewPage,
     SendDataPage,
     ControlPedazosPage,
     RangeNumbersPage,
     TicketsPage,
-    TicketDetailPage
+    TicketDetailPage,
+    ConsolidatedPage
   ],
   providers: [
     StatusBar,

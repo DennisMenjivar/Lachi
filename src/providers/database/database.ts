@@ -7,8 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Pedazo } from '../../_models/Pedazo.model';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { DiariaControl } from '../../_models/DiariaControl.model';
-import { ConsolidateControl } from '../../_models/ConsolidateControl.model';
-import { ConsolidateDetalle } from '../../_models/ConsolidateDetalle.model';
+import { Consolidated } from '../../_models/Consolidated.model';
 
 @Injectable()
 export class DatabaseProvider {
@@ -114,22 +113,13 @@ export class DatabaseProvider {
                 , winnigNumber INTEGER);`, {})
           }).then(() => {
             return this.database.executeSql(
-              `CREATE TABLE IF NOT EXISTS ConsolidatedControl
+              `CREATE TABLE IF NOT EXISTS Consolidated
               (id INTEGER PRIMARY KEY AUTOINCREMENT
                 , id_user INTEGER
                 , user TEXT
-                , date TEXT
-                , kind INTEGER
-                , total INTEGER
-                , status INTEGER
-                , id_closure INTEGER);`, {})
-          }).then(() => {
-            return this.database.executeSql(
-              `CREATE TABLE IF NOT EXISTS ConsolidatedDetalle
-              (id INTEGER PRIMARY KEY AUTOINCREMENT
-                , id_control INTEGER
                 , number INTEGER
                 , lempiras INTEGER
+                , kind INTEGER
                 , date TEXT
                 , status INTEGER
                 , id_closure INTEGER);`, {})
@@ -145,135 +135,70 @@ export class DatabaseProvider {
       .catch((err) => console.log("Error detected creating tables", err));
   }
 
-  // -----------------------------CONSOLIDATE CONTROL--------------------------------------------
-  createConsolidateControl(consolidated: ConsolidateControl) {
+  // ----------------------------CONSOLIDATED----------------------------------
+
+  createConsolidated(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`INSERT INTO ConsolidatedControl (id_user, user, date, kind, total, status, id_closure) VALUES (${consolidated.id_user},'${consolidated.user}','${consolidated.date}',${consolidated.kind},${consolidated.total},${consolidated.status},${consolidated.id_closure}); `, {}).then((result) => {
+        return this.database.executeSql(`INSERT INTO Consolidated (id_user, user, number, lempiras, kind, date, status, id_closure) VALUES (${consolidated.id_user}, '${consolidated.user}',${consolidated.number},${consolidated.lempiras}, ${consolidated.kind},'${consolidated.date}',${consolidated.status},${consolidated.id_closure}); `, {}).then((result) => {
           if (result.insertId) {
-            let miConsolidatedControl: ConsolidateControl = new ConsolidateControl(0, 0, '', '', 0, 0, 0, 0);
+            let miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
             // El insertId contiene el id agregado en ese momento.
-            miConsolidatedControl.id = parseInt(result.insertId);
-            return this.getConsolidateControlByID(miConsolidatedControl);
+            miConsolidated.id = parseInt(result.insertId);
+            return this.getConsolidatedByID(miConsolidated);
           }
         })
       });
   }
 
-  getConsolidateControlByID(control: ConsolidateControl) {
+  getConsolidatedByID(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM ConsolidatedControl WHERE id = ${control.id} and status = ${control.status} `, [])
+        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id = ${consolidated.id}`, [])
           .then((data) => {
             if (data.rows.length) {
-              let control = new ConsolidateControl(0, 0, '', '', 0, 0, 0, 0);
-              control.id = parseInt(data.rows.item(0).id);
-              control.id_user = parseInt(data.rows.item(0).id_user);
-              control.user = data.rows.item(0).user;
-              control.date = data.rows.item(0).date;
-              control.kind = parseInt(data.rows.item(0).kind);
-              control.total = parseInt(data.rows.item(0).total);
-              control.status = parseInt(data.rows.item(0).status);
-              control.id_closure = parseInt(data.rows.item(0).id_closure);
-              return control as ConsolidateControl;
-            }
-            return null;
-          })
-      })
-  }
-
-  removeConsolidateControlByID(control: ConsolidateControl) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`DELETE FROM ConsolidatedControl WHERE id = ${control.id} `, [])
-      })
-  }
-
-  getConsolidateControlByStatus(control: ConsolidateControl) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`SELECT * FROM ConsolidatedControl WHERE status = ${control.status} `, [])
-          .then((data) => {
-            let lists: ConsolidateControl[] = [];
-            if (data.rows.length > 0) {
-              for (let i = 0; i < data.rows.length; i++) {
-                let control: ConsolidateControl = new ConsolidateControl(0, 0, '', '', 0, 0, 0, 0);
-                control.id = parseInt(data.rows.item(i).id);
-                control.id_user = parseInt(data.rows.item(i).id_user);
-                control.user = data.rows.item(i).user;
-                control.date = data.rows.item(i).date;
-                control.kind = parseInt(data.rows.item(i).kind);
-                control.total = parseInt(data.rows.item(i).total);
-                control.status = parseInt(data.rows.item(i).status);
-                control.id_closure = parseInt(data.rows.item(i).id_closure);
-                lists.push(control);
-              }
-            }
-            return lists;
-          })
-      })
-  }
-
-  // ----------------------------CONSOLIDATED DETALLE----------------------------------
-
-  createConsolidateDetalle(consolidated: ConsolidateDetalle) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`INSERT INTO ConsolidatedDetalle (id_control, number, lempiras, date, status, id_closure) VALUES (${consolidated.id_control},${consolidated.number},${consolidated.lempiras},'${consolidated.date}',${consolidated.status},${consolidated.id_closure}); `, {}).then((result) => {
-          if (result.insertId) {
-            let miConsolidatedDetalle: ConsolidateDetalle = new ConsolidateDetalle(0, 0, 0, 0, '', 0, 0);
-            // El insertId contiene el id agregado en ese momento.
-            miConsolidatedDetalle.id = parseInt(result.insertId);
-            return this.getConsolidateDetalleByID(miConsolidatedDetalle);
-          }
-        })
-      });
-  }
-
-  getConsolidateDetalleByID(pDetalle: ConsolidateDetalle) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`SELECT * FROM ConsolidatedDetalle WHERE id = ${pDetalle.id}`, [])
-          .then((data) => {
-            if (data.rows.length) {
-              let detalle = new ConsolidateDetalle(0, 0, 0, 0, '', 0, 0);
+              let detalle = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
               detalle.id = parseInt(data.rows.item(0).id);
-              detalle.id_control = parseInt(data.rows.item(0).id_control);
+              detalle.id_user = parseInt(data.rows.item(0).id_user);
+              detalle.user = data.rows.item(0).user;
               detalle.number = parseInt(data.rows.item(0).number);
               detalle.lempiras = parseInt(data.rows.item(0).lempiras);
+              detalle.kind = parseInt(data.rows.item(0).kind);
               detalle.date = data.rows.item(0).date;
               detalle.status = parseInt(data.rows.item(0).status);
               detalle.id_closure = parseInt(data.rows.item(0).id_closure);
-              return detalle as ConsolidateDetalle;
+              return detalle as Consolidated;
             }
             return null;
           })
       })
   }
 
-  removeConsolidateDetalleByID(pDetalle: ConsolidateDetalle) {
+  removeConsolidatedByID(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`DELETE FROM ConsolidatedDetalle WHERE id = ${pDetalle.id} `, [])
+        return this.database.executeSql(`DELETE FROM Consolidated WHERE id = ${consolidated.id} `, []);
       })
   }
 
-  getConsolidateDetalleByStatus(pDetalle: ConsolidateDetalle) {
+  getConsolidatedByClosure(pDetalle: Consolidated) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM ConsolidatedDetalle WHERE status = ${pDetalle.status} `, [])
+        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id_closure = ${pDetalle.id_closure} `, [])
           .then((data) => {
-            let lists: ConsolidateDetalle[] = [];
-            if (data.rows.length > 0) {
+            let lists: Consolidated[] = [];
+            if (data.rows.length) {
               for (let i = 0; i < data.rows.length; i++) {
-                let detalle: ConsolidateDetalle = new ConsolidateDetalle(0, 0, 0, 0, '', 0, 0);
-                detalle.id = parseInt(data.rows.item(0).id);
-                detalle.id_control = parseInt(data.rows.item(0).id_control);
-                detalle.number = parseInt(data.rows.item(0).number);
-                detalle.lempiras = parseInt(data.rows.item(0).lempiras);
-                detalle.date = data.rows.item(0).date;
-                detalle.status = parseInt(data.rows.item(0).status);
-                detalle.id_closure = parseInt(data.rows.item(0).id_closure);
+                let detalle: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
+                detalle.id = parseInt(data.rows.item(i).id);
+                detalle.id_user = parseInt(data.rows.item(i).id_user);
+                detalle.user = data.rows.item(i).user;
+                detalle.number = parseInt(data.rows.item(i).number);
+                detalle.lempiras = parseInt(data.rows.item(i).lempiras);
+                detalle.kind = parseInt(data.rows.item(i).kind);
+                detalle.date = data.rows.item(i).date;
+                detalle.status = parseInt(data.rows.item(i).status);
+                detalle.id_closure = parseInt(data.rows.item(i).id_closure);
                 lists.push(detalle);
               }
             }
