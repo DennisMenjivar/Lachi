@@ -155,7 +155,7 @@ export class DatabaseProvider {
   getClosureByID(closure: Closure) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM Closure WHERE id = ${closure.id}`, [])
+        return this.database.executeSql(`SELECT * FROM Closure WHERE id = ${closure.id} ORDER BY id DESC`, [])
           .then((data) => {
             if (data.rows.length) {
               let closure = new Closure(0, '', '', 0, 0, 0, '', 0);
@@ -194,7 +194,7 @@ export class DatabaseProvider {
   getClosures() {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM Closure`, [])
+        return this.database.executeSql(`SELECT * FROM Closure ORDER BY id DESC`, [])
           .then((data) => {
             let lists: Closure[] = [];
             if (data.rows.length) {
@@ -234,7 +234,7 @@ export class DatabaseProvider {
   getConsolidatedByID(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id = ${consolidated.id}`, [])
+        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id = ${consolidated.id} ORDER BY id DESC`, [])
           .then((data) => {
             if (data.rows.length) {
               let detalle = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
@@ -257,7 +257,7 @@ export class DatabaseProvider {
   getConsolidatedByStatus(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM Consolidated WHERE status = ${consolidated.status}`, [])
+        return this.database.executeSql(`SELECT * FROM Consolidated WHERE status = ${consolidated.status} ORDER BY id DESC`, [])
           .then((data) => {
             let lists: Consolidated[] = [];
             if (data.rows.length) {
@@ -283,7 +283,7 @@ export class DatabaseProvider {
   getConsolidatedByClosure(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id_closure = ${consolidated.id_closure} `, [])
+        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id_closure = ${consolidated.id_closure} ORDER BY id DESC`, [])
           .then((data) => {
             let lists: Consolidated[] = [];
             if (data.rows.length) {
