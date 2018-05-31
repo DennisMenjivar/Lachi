@@ -174,17 +174,10 @@ export class DatabaseProvider {
       })
   }
 
-  removeConsolidatedByID(consolidated: Consolidated) {
+  getConsolidatedByStatus(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`DELETE FROM Consolidated WHERE id = ${consolidated.id} `, []);
-      })
-  }
-
-  getConsolidatedByClosure(pDetalle: Consolidated) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id_closure = ${pDetalle.id_closure} `, [])
+        return this.database.executeSql(`SELECT * FROM Consolidated WHERE status = ${consolidated.status}`, [])
           .then((data) => {
             let lists: Consolidated[] = [];
             if (data.rows.length) {
@@ -204,6 +197,39 @@ export class DatabaseProvider {
             }
             return lists;
           })
+      })
+  }
+
+  getConsolidatedByClosure(consolidated: Consolidated) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id_closure = ${consolidated.id_closure} `, [])
+          .then((data) => {
+            let lists: Consolidated[] = [];
+            if (data.rows.length) {
+              for (let i = 0; i < data.rows.length; i++) {
+                let detalle: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
+                detalle.id = parseInt(data.rows.item(i).id);
+                detalle.id_user = parseInt(data.rows.item(i).id_user);
+                detalle.user = data.rows.item(i).user;
+                detalle.number = parseInt(data.rows.item(i).number);
+                detalle.lempiras = parseInt(data.rows.item(i).lempiras);
+                detalle.kind = parseInt(data.rows.item(i).kind);
+                detalle.date = data.rows.item(i).date;
+                detalle.status = parseInt(data.rows.item(i).status);
+                detalle.id_closure = parseInt(data.rows.item(i).id_closure);
+                lists.push(detalle);
+              }
+            }
+            return lists;
+          })
+      })
+  }
+
+  removeConsolidatedByID(consolidated: Consolidated) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`DELETE FROM Consolidated WHERE id = ${consolidated.id} `, []);
       })
   }
 

@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ConsolidatedPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { ToastController } from 'ionic-angular';
+import { AuxiliarService } from '../../_lib/auxiliar.service';
+import { DatabaseProvider } from '../../providers/database/database';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+//library for social-sharing
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { Consolidated } from '../../_models/Consolidated.model';
 
 @IonicPage()
 @Component({
@@ -15,11 +16,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ConsolidatedPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
+  consolidated: Consolidated[];
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing, public _auxiliarService: AuxiliarService,
+    public database: DatabaseProvider) {
+    this.getConsolidated();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ConsolidatedPage');
+    
+  }
+
+  getConsolidated() {
+    this.consolidated = [];
+    this.database.getConsolidatedByClosure(this.miConsolidated).then((data: Consolidated[]) => {
+      this.consolidated = data as Consolidated[];
+    }, (error) => {
+      console.log("Error al consultar: ", error);
+    });
   }
 
 }
