@@ -35,6 +35,11 @@ export class TicketsPage {
     this.getDiariaControl();
   }
 
+  ionViewDidEnter() {
+    this.getDiariaControl();
+  }
+
+
   getDiariaControl() {
     this.miControl = new DiariaControl(0, 0, '', 0, 0)
     this.diariaControl = [];
