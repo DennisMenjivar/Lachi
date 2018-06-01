@@ -604,9 +604,12 @@ export class DatabaseProvider {
   removeDiariaControlByID(control: DiariaControl) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`DELETE FROM DiariaControl WHERE id = ${control.id} `, [])
+        // this.database.executeSql(`UPDATE Pedazos SET number = ?, pedazos = ? WHERE number = ? `, [pedazo.number, pedazo.pedazos, pedazo.number]
+        // return this.database.executeSql(`DELETE FROM DiariaControl WHERE id = ${control.id} `, [])
+        return this.database.executeSql(`UPDATE DiariaControl SET status = 7 WHERE id = ${control.id} `, [])
           .then(() => {
-            return this.database.executeSql(`DELETE FROM DiariaDetalle WHERE id_control = ${control.id}`, [])
+            // return this.database.executeSql(`DELETE FROM DiariaDetalle WHERE id_control = ${control.id}`, [])
+            return this.database.executeSql(`UPDATE DiariaDetalle SET status = 7 WHERE id = ${control.id}`, [])
           })
       })
   }
