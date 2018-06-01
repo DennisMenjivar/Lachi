@@ -59,7 +59,7 @@ export class ReceiptViewPage {
       })
     });
   }
-  
+
   currentDate = new Date();
   compileData(viaWhatsapp: number) {
     this.miDiariaControl.total = this.getTotal();
@@ -96,6 +96,7 @@ export class ReceiptViewPage {
           this.whatsappShare(this._auxiliarService.totalDataToSendViaWhatsapp);
         }
         this.showToast("Guardado con éxito!!");
+        this._auxiliarService.totalTicket = 0;
         this._auxiliarService.diariaDetalle = [];
         this.navCtrl.popToRoot();
       } else {
@@ -136,6 +137,7 @@ export class ReceiptViewPage {
     this.loadStock();
     this.navCtrl.popToRoot();
     this._auxiliarService.diariaDetalle = [];
+    this._auxiliarService.totalTicket = 0;
     this.showToast("Todos los datos fueron eliminados!");
   }
 
@@ -143,10 +145,12 @@ export class ReceiptViewPage {
     var miChi = this._auxiliarService.diariaDetalle.indexOf(index, 0);
     if (miChi > -1) {
       this.updateStockByNumber(index.number, index.lempiras);
+      this._auxiliarService.totalTicket -= index.lempiras;
       this._auxiliarService.diariaDetalle.splice(miChi, 1);
       this.showToast("Numero: " + index.number + " Eliminado!!");
     }
     if (this._auxiliarService.diariaDetalle.length <= 0) {
+      this._auxiliarService.totalTicket = 0;
       this.navCtrl.popToRoot();
       this.showToast("Todos los datos fueron eliminados!");
     }

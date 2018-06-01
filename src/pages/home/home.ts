@@ -109,6 +109,7 @@ export class HomePage {
     if (this.principalText != '0' && this.option == 'Lempiras') {
       if (this.validatePedazo(parseInt(this.principalText))) {
         this.miDiaria.lempiras = parseInt(this.principalText);
+        this._auxiliarService.totalTicket += parseInt(this.principalText);
         this._auxiliarService.diariaDetalle.push(this.miDiaria);
         this.showToast("Se agregó el número: " + this.miDiaria.number);
         this.goToClients();
@@ -158,6 +159,7 @@ export class HomePage {
             if (this.validatePedazo(parseInt(this.principalText))) {
               this.principalButtons[11].name = '>';
               this.miDiaria.lempiras = parseInt(this.principalText);
+              this._auxiliarService.totalTicket += parseInt(this.principalText);
               this._auxiliarService.diariaDetalle.push(this.miDiaria);
               this.showToast("Se agregó el número: " + this.miDiaria.number);
               this.cleanPrincipal();

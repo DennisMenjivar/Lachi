@@ -10,6 +10,9 @@ export class AuxiliarService {
 
     closureStatus: boolean = false;
     miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+
+    totalTicket: number = 0;
+    
     diariaDetalle: DiariaDetalle[];
     stocks: Pedazo[];
     totalDataToSendViaWhatsapp: string = '';

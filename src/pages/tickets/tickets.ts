@@ -35,6 +35,7 @@ export class TicketsPage {
   }
 
   ionViewDidEnter() {
+    this._auxiliarService.totalTicket = 0;
     this.getDiariaControl();
   }
 
