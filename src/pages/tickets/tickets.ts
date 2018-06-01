@@ -66,4 +66,9 @@ export class TicketsPage {
 
   }
 
+  doRefresh(refresher) {
+    this.getDiariaControl();
+    refresher.complete();
+  }
+
 }

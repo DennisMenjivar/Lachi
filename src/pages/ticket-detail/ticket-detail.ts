@@ -52,11 +52,16 @@ export class TicketDetailPage {
   }
 
   deleteTicket() {
+    let status = 0;
     this.diariaDetalle.forEach(element => {
       this.database.removeDiariaControlByID(this.miControl).then((data) => {
         this.updateStockByNumber(element.number, element.lempiras);
       });
+      status == 1;
     });
+    if (status = 1) {
+      this.showToast("Ticket #" + this.miControl.id + " Eliminado.");
+    }
   }
 
   updateStockByNumber(number: number, pPedazos: number) {

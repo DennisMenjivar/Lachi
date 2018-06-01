@@ -16,7 +16,10 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding style="padding: 0%; margin: 0%; border: 0%;  width: 100%; height: 100%">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-card (click)="ticketSelected(diaria)" *ngFor="let diaria of diariaControl; let i = index;">
     <ion-grid>
       <ion-row>
