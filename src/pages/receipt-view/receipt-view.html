@@ -24,7 +24,7 @@
 
 
 <ion-content padding>
-  <button ion-button full outline disabled color="dark">Ticket # {{this.lenght}} C# {{_auxiliarService.miClosure.id}}</button>
+  <button ion-button full outline disabled color="dark">Ticket # {{this.lenght}}-{{_auxiliarService.miClosure.id}}</button>
   <ion-card *ngFor="let diaria of _auxiliarService.diariaDetalle; let i = index;">
     <ion-grid>
       <ion-row>
@@ -33,7 +33,7 @@
             {{diaria.number | number:'2.0-0'}}
           </ion-card-header>
           <!-- [innerHtml]=chica.lempiras  -->
-          <ion-card-content style="color: rgb(20, 11, 11); font-size: 30px; margin: 0%; padding: 0%; border: 0%">
+          <ion-card-content style="color: #488aff; font-size: 30px; margin: 0%; padding: 0%; border: 0%">
             {{diaria.lempiras | currency:'Lps.':true:'1.2-2'}}
             <ion-fab bottom right>
               <button ion-fab (click)="presentConfirmDeleteByNumber(diaria)" color="danger">
@@ -52,7 +52,7 @@
   </ion-card>
   <button ion-button full outline disabled color="dark">Total: {{this.getTotal() | currency:'Lps.':true:'1.2-2'}}</button>
   <button ion-button full outline (click)="showConfirmMessage()">Finalizar</button>
-  <button ion-button full outline color="danger" (click)="presentConfirmDeleteData()">Eliminar todo</button>
+  <button ion-button full outline color="danger" (click)="presentConfirmDeleteData()">Eliminar Ticket</button>
 </ion-content>
 <!-- 
 <ion-list>

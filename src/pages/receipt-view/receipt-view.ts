@@ -187,7 +187,7 @@ export class ReceiptViewPage {
   }
 
   showConfirmMessage() {
-    this.presentConfirm("Whatsapp", "Desea enviar via Whatsapp estos datos?", "Guardar", "Enviar y Guardar");
+    this.presentConfirm("Finalizar", "Desea finalizar la venta?", "Solo Guardar", "Enviar y Guardar");
   }
 
   getTotal(): number {
