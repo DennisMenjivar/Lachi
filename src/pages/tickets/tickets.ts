@@ -39,6 +39,14 @@ export class TicketsPage {
     this.getDiariaControl();
   }
 
+  getTotal(): number {
+    let total: number = 0;
+    this.diariaControl.forEach(element => {
+      total += element.total;
+    });
+    return total;
+  }
+
 
   getDiariaControl() {
     this.miControl = new DiariaControl(0, 0, '', 0, 0)

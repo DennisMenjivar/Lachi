@@ -20,6 +20,7 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <button ion-button full outline disabled color="dark">Total: {{this.getTotal() | currency:'Lps.':true:'1.2-2'}}</button>
   <ion-card (click)="ticketSelected(diaria)" *ngFor="let diaria of diariaControl; let i = index;">
     <ion-grid>
       <ion-row>
