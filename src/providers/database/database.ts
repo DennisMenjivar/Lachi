@@ -233,10 +233,25 @@ export class DatabaseProvider {
       });
   }
 
-  updateConsolidated(consolidated: Consolidated) {
+  updateConsolidatedPlus(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`UPDATE Consolidated SET lempiras = lempiras + ${consolidated.lempiras} WHERE number = ${consolidated.number} `, {}).then((result) => {
+          return 1;
+          // if (result.insertId) {
+          //   let miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
+          //   // El insertId contiene el id agregado en ese momento.
+          //   miConsolidated.id = parseInt(result.insertId);
+          //   return this.getConsolidatedByID(miConsolidated);
+          // }
+        })
+      });
+  }
+
+  updateConsolidatedMinus(consolidated: Consolidated) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE Consolidated SET lempiras = lempiras - ${consolidated.lempiras} WHERE number = ${consolidated.number} `, {}).then((result) => {
           return 1;
           // if (result.insertId) {
           //   let miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
@@ -346,6 +361,22 @@ export class DatabaseProvider {
   //     });
   // }
 
+  //-----AQUIIIII
+  editStockMinus(pedazo: Pedazo, consolidated: Consolidated) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE stocktaking SET pedazos = ? WHERE number = ? `, [pedazo.pedazos, pedazo.number]).then((result) => {
+          if (result.insertId) {
+            return this.getStockById(result.insertId).then(() => {
+              return this.database.executeSql(`UPDATE Consolidated SET lempiras = lempiras - ${consolidated.lempiras} WHERE number = ${consolidated.number} `, {}).then((result) => {
+                return 1;
+              });
+            });
+          }
+        })
+      });
+  }
+
   editStock(pedazo: Pedazo) {
     return this.isReady()
       .then(() => {
@@ -420,7 +451,7 @@ export class DatabaseProvider {
           })
       })
   }
-  //-----AQUIIIII
+
   editPedazo(pedazo: Pedazo) {
     return this.isReady()
       .then(() => {

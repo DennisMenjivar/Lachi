@@ -86,7 +86,7 @@ export class ReceiptViewPage {
           element.id = detalle.id;
           statusVar = 0;
           let miConsolidate: Consolidated = new Consolidated(0, 0, 'Usuario', element.number, element.lempiras, 0, String(new Date()), 0, 0);
-          this.database.updateConsolidated(miConsolidate).then((data) => {
+          this.database.updateConsolidatedPlus(miConsolidate).then((data) => {
             // Finalizo
           })
           // this.showToast("Diaria Detalle: " + detalle.toStringReceiptView());
