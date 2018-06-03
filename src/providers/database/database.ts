@@ -420,14 +420,19 @@ export class DatabaseProvider {
           })
       })
   }
-
+  //-----AQUIIIII
   editPedazo(pedazo: Pedazo) {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`UPDATE Pedazos SET number = ?, pedazos = ? WHERE number = ? `, [pedazo.number, pedazo.pedazos, pedazo.number]).then((result) => {
           if (result.insertId) {
-            // console.log("Data a Editar: ", result);
-            return this.getPedazosById(result.insertId);
+            return this.getPedazosById(result.insertId).then(() => {
+              return this.database.executeSql(`UPDATE stocktaking SET pedazos = ? WHERE number = ? `, [pedazo.pedazos, pedazo.number]).then((result) => {
+                if (result.insertId) {
+                  return this.getStockById(result.insertId);
+                }
+              })
+            })
           }
         })
       });
