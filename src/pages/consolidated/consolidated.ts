@@ -32,6 +32,8 @@ export class ConsolidatedPage {
     this.consolidated = [];
     this.database.getConsolidatedByClosure(this.miConsolidated).then((data: Consolidated[]) => {
       this.consolidated = data as Consolidated[];
+      console.log("Consolidated: ", data);
+      
     }, (error) => {
       console.log("Error al consultar: ", error);
     });

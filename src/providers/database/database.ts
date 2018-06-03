@@ -315,17 +315,17 @@ export class DatabaseProvider {
 
   // ----------------------------STOCKTAKING----------------------------------
 
-  createStock(pedazo: Pedazo) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`INSERT INTO stocktaking(number, pedazos, id_closure) VALUES(${pedazo.number}, ${pedazo.pedazos}, ${pedazo.id_closure}); `, {}).then((result) => {
-          if (result.insertId) {
-            // console.log("Data a Guardar: ", result);
-            return this.getStockById(result.insertId);
-          }
-        })
-      });
-  }
+  // createStock(pedazo: Pedazo) {
+  //   return this.isReady()
+  //     .then(() => {
+  //       return this.database.executeSql(`INSERT INTO stocktaking(number, pedazos, id_closure) VALUES(${pedazo.number}, ${pedazo.pedazos}, ${pedazo.id_closure}); `, {}).then((result) => {
+  //         if (result.insertId) {
+  //           // console.log("Data a Guardar: ", result);
+  //           return this.getStockById(result.insertId);
+  //         }
+  //       })
+  //     });
+  // }
 
   editStock(pedazo: Pedazo) {
     return this.isReady()
@@ -374,14 +374,17 @@ export class DatabaseProvider {
 
   // ------------------------------PEDAZOS--------------------------------
 
-  createPedazo(pedazo: Pedazo) {
+  createPedazo(pedazo: Pedazo, consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`INSERT INTO Pedazos(number, pedazos, id_closure) VALUES(${pedazo.number}, ${pedazo.pedazos}, ${pedazo.id_closure}); `, {}).then((result) => {
-          if (result.insertId) {
-            // console.log("Data a Guardar: ", result);
-            return this.getListPedazos(result.insertId);
-          }
+          return this.database.executeSql(`INSERT INTO stocktaking(number, pedazos, id_closure) VALUES(${pedazo.number}, ${pedazo.pedazos}, ${pedazo.id_closure}); `, {}).then((result) => {
+            return this.database.executeSql(`INSERT INTO Consolidated (id_user, user, number, lempiras, kind, date, status, id_closure) VALUES (${consolidated.id_user}, '${consolidated.user}',${consolidated.number},${consolidated.lempiras}, ${consolidated.kind},'${consolidated.date}',${consolidated.status},${consolidated.id_closure}); `, {}).then((result) => {
+              if (result.insertId) {
+                return 1;
+              }
+            })
+          });
         })
       });
   }

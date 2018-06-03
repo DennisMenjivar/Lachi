@@ -40,9 +40,9 @@ export class ControlPedazosPage {
 
   initialize() {
     this.getPedazos();
-    if (this.pedazos.length <= 0) {
-      this.createPedazos();
-    }
+    // if (this.pedazos.length <= 0) {
+    //   this.createPedazos();
+    // }
   }
 
   goToRangeNumber() {
@@ -53,24 +53,24 @@ export class ControlPedazosPage {
     this.navCtrl.push(this.RangeNumber, params);
   }
 
-  createPedazos() {
-    let status: boolean = false;
-    let cont: number = 0;
-    while (cont < 100) {
-      let miPedazo: Pedazo = new Pedazo(0, cont, 100, 0);
-      this.database.createPedazo(miPedazo).then((data) => {
-        status = true;
-      }, (error) => {
-        console.log("Error al crear: ", error);
-      });
-      cont++;
-    }
-    if (status = true) {
-      this.showToast("Numeros creados correctamente.")
-    } else {
-      this.showToast("Error al crear numeros.")
-    }
-  }
+  // createPedazos() {
+  //   let status: boolean = false;
+  //   let cont: number = 0;
+  //   while (cont < 100) {
+  //     let miPedazo: Pedazo = new Pedazo(0, cont, 100, 0);
+  //     this.database.createPedazo(miPedazo).then((data) => {
+  //       status = true;
+  //     }, (error) => {
+  //       console.log("Error al crear: ", error);
+  //     });
+  //     cont++;
+  //   }
+  //   if (status = true) {
+  //     this.showToast("Numeros creados correctamente.")
+  //   } else {
+  //     this.showToast("Error al crear numeros.")
+  //   }
+  // }
 
   doRefresh(refresher) {
     this.getPedazos();
