@@ -9,6 +9,7 @@ import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { DiariaControl } from '../../_models/DiariaControl.model';
 import { Consolidated } from '../../_models/Consolidated.model';
 import { Closure } from '../../_models/Closure.model';
+import { AuxiliarService } from '../../_lib/auxiliar.service';
 
 @Injectable()
 export class DatabaseProvider {
@@ -16,7 +17,8 @@ export class DatabaseProvider {
   private database: SQLiteObject;
   private dbReady = new BehaviorSubject<boolean>(false);
 
-  constructor(private platform: Platform, public http: HttpClient, public sqlite: SQLite) {
+
+  constructor(private platform: Platform, public http: HttpClient, public sqlite: SQLite, public _auxiliarService: AuxiliarService) {
     this.createDataBase();
   }
 
@@ -257,7 +259,7 @@ export class DatabaseProvider {
   getConsolidatedByStatus(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM Consolidated WHERE status = ${consolidated.status} ORDER BY id DESC`, [])
+        return this.database.executeSql(`SELECT * FROM Consolidated WHERE status = ${consolidated.status}`, [])
           .then((data) => {
             let lists: Consolidated[] = [];
             if (data.rows.length) {
@@ -272,6 +274,7 @@ export class DatabaseProvider {
                 detalle.date = data.rows.item(i).date;
                 detalle.status = parseInt(data.rows.item(i).status);
                 detalle.id_closure = parseInt(data.rows.item(i).id_closure);
+                this._auxiliarService.totalConsolidated += detalle.lempiras;
                 lists.push(detalle);
               }
             }

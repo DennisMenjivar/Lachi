@@ -12,7 +12,7 @@ export class AuxiliarService {
     miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
 
     totalTicket: number = 0;
-    
+    totalConsolidated: number = 0;
     diariaDetalle: DiariaDetalle[];
     stocks: Pedazo[];
     totalDataToSendViaWhatsapp: string = '';

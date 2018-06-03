@@ -40,8 +40,8 @@ export class RangeNumbersPage {
     let cont: number = 0;
     let date = String(new Date());
 
-    let consolidated: Consolidated = new Consolidated(0, 0, 'user', 0, 0, 0, date, 0, this._auxiliarService.miClosure.id);
     while (cont < 100) {
+      let consolidated: Consolidated = new Consolidated(0, 0, 'user', 0, 0, 0, date, 0, this._auxiliarService.miClosure.id);
       let miPedazo: Pedazo = new Pedazo(0, cont, 10000, 0);
       consolidated.number = cont;
       this.database.createPedazo(miPedazo, consolidated).then((data) => {
