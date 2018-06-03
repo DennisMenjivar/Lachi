@@ -20,13 +20,39 @@
 
   <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 55%">
     <div class="row">
+      <ion-card>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-card-header style="color: black; font-size: 20px; margin: 0%; padding: 0%; border: 0%">
+                Cierre # {{_auxiliarService.miClosure.id}} {{_auxiliarService.miClosure.description}}
+              </ion-card-header>
+              <ion-card-content style="color: black; font-size: 18px; margin: 0%; padding: 0%; border: 0%">
+                Total: {{_auxiliarService.totalConsolidated | currency:'Lps.':true:'1.2-2'}}
+              </ion-card-content>
+              <ion-card-content style="color: black; font-size: 18px; margin: 0%; padding: 0%; border: 0%">
+                Vendedor:
+              </ion-card-content>
+              <!-- <button ion-button icon-only (click)="compileData()" color="primary" clear>
+                              <ion-icon class="share-icon" name="logo-whatsapp"></ion-icon>
+                            </button> -->
+            </ion-col>
+            <ion-col>
+              <ion-card-header style="color: black; font-size: 15px; margin: 0%; padding: 0%; border: 0%; text-align: right;">
+                {{miConsolidated.date | date: 'dd/MM/yyyy hh:mm'}}
+              </ion-card-header>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
+    </div>
+    <div class="row">
       <div class="col-4" *ngFor="let b of consolidated" style="width: 25%; margin: 0%; padding: 0%; border: 0%">
         <button large ion-button style="width: 100%; margin: 0%; padding: 0%; border: 0%;height: 100%; background-color: transparent; color: black">{{b.number}}|{{b.lempiras}}</button>
       </div>
     </div>
     <div class="row">
-      <h3 style="width: 100%; text-align: right; text-decoration: underline;">{{_auxiliarService.totalConsolidated | currency:'Lps.':true:'1.2-2'}}</h3>
+      <button ion-button full outline disabled color="dark">Total: {{_auxiliarService.totalConsolidated | currency:'Lps.':true:'1.2-2'}}</button>
     </div>
   </div>
-
 </ion-content>

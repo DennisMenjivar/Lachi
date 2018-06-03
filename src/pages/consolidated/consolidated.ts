@@ -16,7 +16,8 @@ import { Consolidated } from '../../_models/Consolidated.model';
 })
 export class ConsolidatedPage {
 
-  miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
+  miDate = new Date();
+  miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, String(this.miDate), 0, 0);
   consolidated: Consolidated[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing, public _auxiliarService: AuxiliarService,
