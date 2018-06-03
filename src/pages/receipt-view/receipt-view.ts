@@ -10,6 +10,7 @@ import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 //library for social-sharing
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { DiariaControl } from '../../_models/DiariaControl.model';
+import { Consolidated } from '../../_models/Consolidated.model';
 
 @IonicPage()
 @Component({
@@ -84,6 +85,10 @@ export class ReceiptViewPage {
         this.database.CreateDiariaDetalle(element).then((detalle) => {
           element.id = detalle.id;
           statusVar = 0;
+          let miConsolidate: Consolidated = new Consolidated(0, 0, 'Usuario', element.number, element.lempiras, 0, String(new Date()), 0, 0);
+          this.database.updateConsolidated(miConsolidate).then((data) => {
+            // Finalizo
+          })
           // this.showToast("Diaria Detalle: " + detalle.toStringReceiptView());
         });
         this._auxiliarService.totalDataToSendViaWhatsapp += element.toStringReceiptView();

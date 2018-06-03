@@ -233,6 +233,21 @@ export class DatabaseProvider {
       });
   }
 
+  updateConsolidated(consolidated: Consolidated) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE Consolidated SET lempiras = lempiras + ${consolidated.lempiras} WHERE number = ${consolidated.number} `, {}).then((result) => {
+          return 1;
+          // if (result.insertId) {
+          //   let miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
+          //   // El insertId contiene el id agregado en ese momento.
+          //   miConsolidated.id = parseInt(result.insertId);
+          //   return this.getConsolidatedByID(miConsolidated);
+          // }
+        })
+      });
+  }
+
   getConsolidatedByID(consolidated: Consolidated) {
     return this.isReady()
       .then(() => {
@@ -257,6 +272,7 @@ export class DatabaseProvider {
   }
 
   getConsolidatedByStatus(consolidated: Consolidated) {
+    this._auxiliarService.totalConsolidated = 0;
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`SELECT * FROM Consolidated WHERE status = ${consolidated.status}`, [])
