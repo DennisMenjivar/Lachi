@@ -40,7 +40,7 @@ export class HomePage {
     _auxiliarService.diariaDetalle = [];
   }
 
-  numberSelected: Pedazo;
+  numberSelected: Pedazo = new Pedazo(0, 0, 0, 0);;
 
   loadStock() {
     this.database.getStock().then((data: Pedazo[]) => {
