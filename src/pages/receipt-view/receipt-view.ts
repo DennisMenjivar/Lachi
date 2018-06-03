@@ -69,23 +69,23 @@ export class ReceiptViewPage {
     this.miDiariaControl.date = String(this.currentDate);
     this.miDiariaControl.id_closure = this._auxiliarService.miClosure.id;
     var statusVar: number = -1;
-    let myControl = new DiariaControl(0, 0, '', 0, 0);
+    let myControlID = 0;
     this._auxiliarService.totalDataToSendViaWhatsapp = '';
 
     this.database.CreateDiariaControl(this.miDiariaControl).then((control) => {
       control.client = this.miDiaria.client;
-      myControl = control;
+      myControlID = control.id;
       this._auxiliarService.totalDataToSendViaWhatsapp += control.toStringToReceiptView();
     }).then((data) => {
       this._auxiliarService.diariaDetalle.forEach(element => {
-        element.id_control = myControl.id;
+        element.id_control = myControlID;
         element.status = 0;
         element.id_closure = this._auxiliarService.miClosure.id;
 
         this.database.CreateDiariaDetalle(element).then((detalle) => {
           element.id = detalle.id;
           statusVar = 0;
-          let miConsolidate: Consolidated = new Consolidated(0, 0, 'Usuario', element.number, element.lempiras, 0, String(new Date()), 0, 0);
+          let miConsolidate: Consolidated = new Consolidated(0, 0, 'Usuario', element.number, element.lempiras, 0, String(new Date()), 0, this._auxiliarService.miClosure.id);
           this.database.updateConsolidatedPlus(miConsolidate).then((data) => {
             // Finalizo
           })
