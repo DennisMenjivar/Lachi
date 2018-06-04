@@ -23,12 +23,10 @@
   </ion-refresher>
   <h3 style="text-align: left; color: #488aff; vertical-align: bottom; padding: 0%; margin: 0%; border: 0%">{{_auxiliarService.totalTicket | currency:'Lps.':true:'1.2-2'}}</h3>
   <div class="container" style="height: 17%; padding: 0%; margin: 0%; border: 0%">
-    <h2 style="vertical-align: text-bottom; text-align: center; color: black; padding: 0%; margin: 0%; border: 0%; width: 100%; text-decoration: underline;"
+    <h2 style="vertical-align: text-bottom; text-align: center; color: rgb(160, 160, 160); padding: 0%; margin: 0%; border: 0%; width: 100%; text-decoration: underline;"
       *ngIf="this.option == 'Lempiras'"> {{numberSelected.number | number : '2.0-0'}} </h2>
-    <h1 style="vertical-align: text-top; width: 100%; text-align: center;color: black; padding: 0%; margin: 0%; border: 0%"
-      *ngIf="this.option == 'Número'">{{principalText | number : '2.0-0'}}</h1>
-    <h1 style="vertical-align: text-top; width: 100%; text-align: center;color: black; padding: 0%; margin: 0%; border: 0%"
-      *ngIf="this.option == 'Lempiras'">{{principalText | number : '1.0-0'}}</h1>
+    <h1 style="vertical-align: text-top; width: 100%; text-align: center;color: black; padding: 0%; margin: 0%; border: 0%" *ngIf="this.option == 'Número'">{{principalText | number : '2.0-0'}}</h1>
+    <h1 style="vertical-align: text-top; width: 100%; text-align: center;color: black; padding: 0%; margin: 0%; border: 0%" *ngIf="this.option == 'Lempiras'">{{principalText | number : '1.0-0'}}</h1>
   </div>
   <h5 style="text-align: center;color: black; width: 100%">{{option}}</h5>
   <!-- <ion-grid>
@@ -45,7 +43,7 @@
   <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 55%">
     <div class="row" style="width: 100%; height: 100%">
       <div class="col-4" *ngFor="let b of principalButtons" style="width: 33.33%; margin: 0%; padding: 0%; border: 0%">
-        <button (click)="click(b)" large ion-button style="width: 100%; margin: 0%; padding: 0%; border: 0%;height: 100%; background-color: transparent; color: black">{{b.name}}</button>
+        <button (click)="click(b)" ion-button color="white" style="width: 100%; margin: 0%; padding: 0%; border: 0%;height: 100%; color: black">{{b.name}}</button>
       </div>
     </div>
   </div>
