@@ -38,6 +38,7 @@ export class HomePage {
     this.Clients = ClientsPage;
     this.loadButtons();
     _auxiliarService.diariaDetalle = [];
+    _auxiliarService.totalTicket = 0;
   }
 
   numberSelected: Pedazo = new Pedazo(0, 0, 0, 0);;

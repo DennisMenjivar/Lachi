@@ -32,7 +32,6 @@ export class RangeNumbersPage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public database: DatabaseProvider) {
-    this._auxiliarService.totalTicket = 0;
   }
 
   createPedazos() {

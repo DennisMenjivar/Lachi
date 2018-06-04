@@ -30,7 +30,6 @@ export class TicketsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public _auxiliarService: AuxiliarService,
     public database: DatabaseProvider) {
-    this._auxiliarService.totalTicket = 0;
     this.TicketDetailPage = TicketDetailPage;
     this.getDiariaControl();
   }

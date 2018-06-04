@@ -27,7 +27,6 @@ export class ConsolidatedPage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public database: DatabaseProvider) {
-    this._auxiliarService.totalTicket = 0;
     this.getConsolidated();
   }
 
