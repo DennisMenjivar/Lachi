@@ -22,11 +22,13 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <h3 style="text-align: left; color: #488aff; vertical-align: bottom; padding: 0%; margin: 0%; border: 0%">{{_auxiliarService.totalTicket | currency:'Lps.':true:'1.2-2'}}</h3>
-  <h2 style="vertical-align: bottom; text-align: center; color: black; padding: 0%; margin: 0%; border: 0%; width: 100%; text-decoration: underline;"
-    *ngIf="this.option == 'Lempiras'"> {{numberSelected.number | number : '2.0-0'}} </h2>
-  <div class="container" style="height: 15%; padding: 0%; margin: 0%; border: 0%">
-    <h1 style="vertical-align: bottom; width: 100%; text-align: center;color: black; vertical-align: center; padding: 0%; margin: 0%; border: 0%; height: 100%;" *ngIf="this.option == 'Número'">{{principalText | number : '2.0-0'}}</h1>
-    <h1 style="vertical-align: bottom; width: 100%; text-align: center;color: black; vertical-align: center; padding: 0%; margin: 0%; border: 0%; height: 100%" *ngIf="this.option == 'Lempiras'">{{principalText | number : '1.0-0'}}</h1>
+  <div class="container" style="height: 17%; padding: 0%; margin: 0%; border: 0%">
+    <h2 style="vertical-align: text-bottom; text-align: center; color: black; padding: 0%; margin: 0%; border: 0%; width: 100%; text-decoration: underline;"
+      *ngIf="this.option == 'Lempiras'"> {{numberSelected.number | number : '2.0-0'}} </h2>
+    <h1 style="vertical-align: text-top; width: 100%; text-align: center;color: black; padding: 0%; margin: 0%; border: 0%"
+      *ngIf="this.option == 'Número'">{{principalText | number : '2.0-0'}}</h1>
+    <h1 style="vertical-align: text-top; width: 100%; text-align: center;color: black; padding: 0%; margin: 0%; border: 0%"
+      *ngIf="this.option == 'Lempiras'">{{principalText | number : '1.0-0'}}</h1>
   </div>
   <h5 style="text-align: center;color: black; width: 100%">{{option}}</h5>
   <!-- <ion-grid>
