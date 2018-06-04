@@ -71,7 +71,7 @@ export class RangeNumbersPage {
     let cont: number = from;
     while (cont <= until) {
       let miPedazo: Pedazo = new Pedazo(cont, cont, amount, 0);
-      this.database.editPedazo(miPedazo).then((data) => {
+      this.database.editPedazoAndStocking(miPedazo).then((data) => {
         if (data) {
           this.showToast("Numeros editado correctamente.")
         }

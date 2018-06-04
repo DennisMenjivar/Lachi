@@ -217,7 +217,44 @@ export class DatabaseProvider {
       })
   }
 
+  createClosureFinish(closure: Closure) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE Closure SET status = 1`, {}).then((result) => {
+          return this.database.executeSql(`UPDATE Consolidated SET status = 1`, {}).then((result) => {
+            return this.database.executeSql(`UPDATE DiariaControl SET status = 1`, {}).then((result) => {
+              return this.database.executeSql(`UPDATE DiariaDetalle SET status = 1`, {}).then((result) => {
+                return this.database.executeSql(`INSERT INTO Closure (description, date, status, total, id_user, user, winningNumber) VALUES ('${closure.description}', '${closure.date}',${closure.status},${closure.total}, ${closure.id_user},'${closure.user}',${closure.winningNumber}); `, {}).then((result) => {
+                  if (result.insertId) {
+                    let miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+                    miClosure.id = parseInt(result.insertId);
+                    return this.getClosureByID(miClosure);
+                  }
+                })
+              });
+            });
+          });
+        });
+      });
+  }
+
   // ----------------------------CONSOLIDATED----------------------------------
+
+  createConsolidatedAndStock(consolidated: Consolidated, number: Number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`INSERT INTO Consolidated (id_user, user, number, lempiras, kind, date, status, id_closure) VALUES (${consolidated.id_user}, '${consolidated.user}',${consolidated.number},${consolidated.lempiras}, ${consolidated.kind},'${consolidated.date}',${consolidated.status},${consolidated.id_closure}); `, {}).then((result) => {
+          return this.database.executeSql(`SELECT * FROM Pedazos WHERE number = ${number} `, []).then((result) => {
+            if (result.rows.length) {
+              let pedazos = parseInt(result.rows.item(0).pedazos);
+              return this.database.executeSql(`UPDATE stocktaking SET pedazos = ? WHERE number = ? `, [pedazos, number]).then((result) => {
+                return 1;
+              });
+            }
+          });
+        });
+      });
+  }
 
   createConsolidated(consolidated: Consolidated) {
     return this.isReady()
@@ -452,7 +489,7 @@ export class DatabaseProvider {
       })
   }
 
-  editPedazo(pedazo: Pedazo) {
+  editPedazoAndStocking(pedazo: Pedazo) {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`UPDATE Pedazos SET number = ?, pedazos = ? WHERE number = ? `, [pedazo.number, pedazo.pedazos, pedazo.number]).then((result) => {
