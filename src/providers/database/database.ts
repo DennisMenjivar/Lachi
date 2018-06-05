@@ -134,7 +134,6 @@ export class DatabaseProvider {
         return this.database.executeSql(`INSERT INTO Closure (description, date, status, total, id_user, user, winningNumber) VALUES ('${closure.description}', '${closure.date}',${closure.status},${closure.total}, ${closure.id_user},'${closure.user}',${closure.winningNumber}); `, {}).then((result) => {
           if (result.insertId) {
             let miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
-            // El insertId contiene el id agregado en ese momento.
             miClosure.id = parseInt(result.insertId);
             return this.getClosureByID(miClosure);
           }
@@ -215,6 +214,7 @@ export class DatabaseProvider {
                 if (result.insertId) {
                   let miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
                   miClosure.id = parseInt(result.insertId);
+                  this.totalTotalConsolidated = 0;
                   return this.getClosureByID(miClosure);
                 }
               })

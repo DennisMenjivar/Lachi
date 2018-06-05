@@ -32,9 +32,10 @@ export class ConsolidatedPage {
 
   }
 
-  consolidated: Consolidated[] = [];
+  consolidated: Consolidated[];
 
   getConsolidated() {
+    this.consolidated = [];
     this.database.getConsolidatedFinal(0)
       .then((data) => {
         if (data) {
@@ -42,16 +43,16 @@ export class ConsolidatedPage {
         }
       });
   }
-
   myDate = String(new Date());
   createClosureFinish() {
     let closure = new Closure(0, '', this.myDate, 0, 0, 0, '', 0);
 
     this.database.createClosureFinish(closure).then((data) => {
       if (data) {
+        this._auxiliarService.miClosure = data;
         for (let index = 0; index < 100; index++) {
           this.database.createStock(index).then((data) => {
-
+            this.getConsolidated();
           });
         }
       }
