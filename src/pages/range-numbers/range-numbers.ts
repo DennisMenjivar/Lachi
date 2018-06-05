@@ -4,7 +4,6 @@ import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-an
 import { ToastController } from 'ionic-angular';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { DatabaseProvider } from '../../providers/database/database';
-import { Consolidated } from '../../_models/Consolidated.model';
 
 /**
  * Generated class for the RangeNumbersPage page.
@@ -40,10 +39,8 @@ export class RangeNumbersPage {
     let date = String(new Date());
     let idClosure: number = this._auxiliarService.miClosure.id;
     while (cont < 100) {
-      let consolidated: Consolidated = new Consolidated(0, 0, 'user', 0, 0, 0, date, 0, idClosure);
       let miPedazo: Pedazo = new Pedazo(0, cont, 10000, idClosure);
-      consolidated.number = cont;
-      this.database.createPedazo(miPedazo, consolidated).then((data) => {
+      this.database.createPedazo(miPedazo).then((data) => {
         status = true;
       }, (error) => {
         console.log("Error al crear: ", error);

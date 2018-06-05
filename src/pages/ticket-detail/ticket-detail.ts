@@ -9,7 +9,6 @@ import 'rxjs/add/operator/toPromise';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { DiariaControl } from '../../_models/DiariaControl.model';
 import { Pedazo } from '../../_models/Pedazo.model';
-import { Consolidated } from '../../_models/Consolidated.model';
 /**
  * Generated class for the TicketDetailPage page.
  *
@@ -67,13 +66,12 @@ export class TicketDetailPage {
 
   updateStockByNumber(number: number, pPedazos: number) {
     let pedazo = new Pedazo(0, 0, 0, 0);
-    let consolidated = new Consolidated(0, 0, '', number, pPedazos, 0, '', 0, this._auxiliarService.miClosure.id);
     this._auxiliarService.stocks.forEach(element => {
       if (number == element.number) {
         element.pedazos += pPedazos;
         pedazo.number = element.number;
         pedazo.pedazos = element.pedazos;
-        this.database.editStockMinus(pedazo, consolidated).then((data) => {
+        this.database.editStockMinus(pedazo).then((data) => {
         });
       }
     });

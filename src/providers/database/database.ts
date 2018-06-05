@@ -7,9 +7,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Pedazo } from '../../_models/Pedazo.model';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { DiariaControl } from '../../_models/DiariaControl.model';
-import { Consolidated } from '../../_models/Consolidated.model';
 import { Closure } from '../../_models/Closure.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
+import { Consolidated } from '../../_models/Consolidated.model';
 
 @Injectable()
 export class DatabaseProvider {
@@ -116,18 +116,6 @@ export class DatabaseProvider {
                 , winningNumber INTEGER);`, {})
           }).then(() => {
             return this.database.executeSql(
-              `CREATE TABLE IF NOT EXISTS Consolidated
-              (id INTEGER PRIMARY KEY AUTOINCREMENT
-                , id_user INTEGER
-                , user TEXT
-                , number INTEGER
-                , lempiras INTEGER
-                , kind INTEGER
-                , date TEXT
-                , status INTEGER
-                , id_closure INTEGER);`, {})
-          }).then(() => {
-            return this.database.executeSql(
               `CREATE TABLE IF NOT EXISTS stocktaking 
                   (id INTEGER PRIMARY KEY AUTOINCREMENT
                   , number INTEGER
@@ -221,167 +209,33 @@ export class DatabaseProvider {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`UPDATE Closure SET status = 1`, {}).then((result) => {
-          return this.database.executeSql(`UPDATE Consolidated SET status = 1`, {}).then((result) => {
-            return this.database.executeSql(`UPDATE DiariaControl SET status = 1`, {}).then((result) => {
-              return this.database.executeSql(`UPDATE DiariaDetalle SET status = 1`, {}).then((result) => {
-                return this.database.executeSql(`INSERT INTO Closure (description, date, status, total, id_user, user, winningNumber) VALUES ('${closure.description}', '${closure.date}',${closure.status},${closure.total}, ${closure.id_user},'${closure.user}',${closure.winningNumber}); `, {}).then((result) => {
-                  if (result.insertId) {
-                    let miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
-                    miClosure.id = parseInt(result.insertId);
-                    return this.getClosureByID(miClosure);
-                  }
-                })
-              });
+          return this.database.executeSql(`UPDATE DiariaControl SET status = 1`, {}).then((result) => {
+            return this.database.executeSql(`UPDATE DiariaDetalle SET status = 1`, {}).then((result) => {
+              return this.database.executeSql(`INSERT INTO Closure (description, date, status, total, id_user, user, winningNumber) VALUES ('${closure.description}', '${closure.date}',${closure.status},${closure.total}, ${closure.id_user},'${closure.user}',${closure.winningNumber}); `, {}).then((result) => {
+                if (result.insertId) {
+                  let miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+                  miClosure.id = parseInt(result.insertId);
+                  return this.getClosureByID(miClosure);
+                }
+              })
             });
           });
         });
       });
   }
 
-  // ----------------------------CONSOLIDATED----------------------------------
-
-  createConsolidatedAndStock(consolidated: Consolidated, number: Number) {
+  createStock(number: Number) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`INSERT INTO Consolidated (id_user, user, number, lempiras, kind, date, status, id_closure) VALUES (${consolidated.id_user}, '${consolidated.user}',${consolidated.number},${consolidated.lempiras}, ${consolidated.kind},'${consolidated.date}',${consolidated.status},${consolidated.id_closure}); `, {}).then((result) => {
-          return this.database.executeSql(`SELECT * FROM Pedazos WHERE number = ${number} `, []).then((result) => {
-            if (result.rows.length) {
-              let pedazos = parseInt(result.rows.item(0).pedazos);
-              return this.database.executeSql(`UPDATE stocktaking SET pedazos = ? WHERE number = ? `, [pedazos, number]).then((result) => {
-                return 1;
-              });
-            }
-          });
+        return this.database.executeSql(`SELECT * FROM Pedazos WHERE number = ${number} `, []).then((result) => {
+          if (result.rows.length) {
+            let pedazos = parseInt(result.rows.item(0).pedazos);
+            return this.database.executeSql(`UPDATE stocktaking SET pedazos = ? WHERE number = ? `, [pedazos, number]).then((result) => {
+              return 1;
+            });
+          }
         });
       });
-  }
-
-  createConsolidated(consolidated: Consolidated) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`INSERT INTO Consolidated (id_user, user, number, lempiras, kind, date, status, id_closure) VALUES (${consolidated.id_user}, '${consolidated.user}',${consolidated.number},${consolidated.lempiras}, ${consolidated.kind},'${consolidated.date}',${consolidated.status},${consolidated.id_closure}); `, {}).then((result) => {
-          if (result.insertId) {
-            let miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
-            // El insertId contiene el id agregado en ese momento.
-            miConsolidated.id = parseInt(result.insertId);
-            return this.getConsolidatedByID(miConsolidated);
-          }
-        })
-      });
-  }
-
-  updateConsolidatedPlus(consolidated: Consolidated) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`UPDATE Consolidated SET lempiras = lempiras + ${consolidated.lempiras} WHERE number = ${consolidated.number} `, {}).then((result) => {
-          return 1;
-          // if (result.insertId) {
-          //   let miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
-          //   // El insertId contiene el id agregado en ese momento.
-          //   miConsolidated.id = parseInt(result.insertId);
-          //   return this.getConsolidatedByID(miConsolidated);
-          // }
-        })
-      });
-  }
-
-  updateConsolidatedMinus(consolidated: Consolidated) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`UPDATE Consolidated SET lempiras = lempiras - ${consolidated.lempiras} WHERE number = ${consolidated.number} `, {}).then((result) => {
-          return 1;
-          // if (result.insertId) {
-          //   let miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
-          //   // El insertId contiene el id agregado en ese momento.
-          //   miConsolidated.id = parseInt(result.insertId);
-          //   return this.getConsolidatedByID(miConsolidated);
-          // }
-        })
-      });
-  }
-
-  getConsolidatedByID(consolidated: Consolidated) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id = ${consolidated.id} ORDER BY id DESC`, [])
-          .then((data) => {
-            if (data.rows.length) {
-              let detalle = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
-              detalle.id = parseInt(data.rows.item(0).id);
-              detalle.id_user = parseInt(data.rows.item(0).id_user);
-              detalle.user = data.rows.item(0).user;
-              detalle.number = parseInt(data.rows.item(0).number);
-              detalle.lempiras = parseInt(data.rows.item(0).lempiras);
-              detalle.kind = parseInt(data.rows.item(0).kind);
-              detalle.date = data.rows.item(0).date;
-              detalle.status = parseInt(data.rows.item(0).status);
-              detalle.id_closure = parseInt(data.rows.item(0).id_closure);
-              return detalle as Consolidated;
-            }
-            return null;
-          })
-      })
-  }
-
-  getConsolidatedByStatus(consolidated: Consolidated) {
-    this._auxiliarService.totalConsolidated = 0;
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`SELECT * FROM Consolidated WHERE status = ${consolidated.status}`, [])
-          .then((data) => {
-            let lists: Consolidated[] = [];
-            if (data.rows.length) {
-              for (let i = 0; i < data.rows.length; i++) {
-                let detalle: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
-                detalle.id = parseInt(data.rows.item(i).id);
-                detalle.id_user = parseInt(data.rows.item(i).id_user);
-                detalle.user = data.rows.item(i).user;
-                detalle.number = parseInt(data.rows.item(i).number);
-                detalle.lempiras = parseInt(data.rows.item(i).lempiras);
-                detalle.kind = parseInt(data.rows.item(i).kind);
-                detalle.date = data.rows.item(i).date;
-                detalle.status = parseInt(data.rows.item(i).status);
-                detalle.id_closure = parseInt(data.rows.item(i).id_closure);
-                this._auxiliarService.totalConsolidated += detalle.lempiras;
-                lists.push(detalle);
-              }
-            }
-            return lists;
-          })
-      })
-  }
-
-  getConsolidatedByClosure(consolidated: Consolidated) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`SELECT * FROM Consolidated WHERE id_closure = ${consolidated.id_closure} ORDER BY id DESC`, [])
-          .then((data) => {
-            let lists: Consolidated[] = [];
-            if (data.rows.length) {
-              for (let i = 0; i < data.rows.length; i++) {
-                let detalle: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, '', 0, 0);
-                detalle.id = parseInt(data.rows.item(i).id);
-                detalle.id_user = parseInt(data.rows.item(i).id_user);
-                detalle.user = data.rows.item(i).user;
-                detalle.number = parseInt(data.rows.item(i).number);
-                detalle.lempiras = parseInt(data.rows.item(i).lempiras);
-                detalle.kind = parseInt(data.rows.item(i).kind);
-                detalle.date = data.rows.item(i).date;
-                detalle.status = parseInt(data.rows.item(i).status);
-                detalle.id_closure = parseInt(data.rows.item(i).id_closure);
-                lists.push(detalle);
-              }
-            }
-            return lists;
-          })
-      })
-  }
-
-  removeConsolidatedByID(consolidated: Consolidated) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`DELETE FROM Consolidated WHERE id = ${consolidated.id} `, []);
-      })
   }
 
   // ----------------------------STOCKTAKING----------------------------------
@@ -399,16 +253,12 @@ export class DatabaseProvider {
   // }
 
   //-----AQUIIIII
-  editStockMinus(pedazo: Pedazo, consolidated: Consolidated) {
+  editStockMinus(pedazo: Pedazo) {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`UPDATE stocktaking SET pedazos = ? WHERE number = ? `, [pedazo.pedazos, pedazo.number]).then((result) => {
           if (result.insertId) {
-            return this.getStockById(result.insertId).then(() => {
-              return this.database.executeSql(`UPDATE Consolidated SET lempiras = lempiras - ${consolidated.lempiras} WHERE number = ${consolidated.number} `, {}).then((result) => {
-                return 1;
-              });
-            });
+            return this.getStockById(result.insertId);
           }
         })
       });
@@ -461,16 +311,12 @@ export class DatabaseProvider {
 
   // ------------------------------PEDAZOS--------------------------------
 
-  createPedazo(pedazo: Pedazo, consolidated: Consolidated) {
+  createPedazo(pedazo: Pedazo) {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`INSERT INTO Pedazos(number, pedazos, id_closure) VALUES(${pedazo.number}, ${pedazo.pedazos}, ${pedazo.id_closure}); `, {}).then((result) => {
           return this.database.executeSql(`INSERT INTO stocktaking(number, pedazos, id_closure) VALUES(${pedazo.number}, ${pedazo.pedazos}, ${pedazo.id_closure}); `, {}).then((result) => {
-            return this.database.executeSql(`INSERT INTO Consolidated (id_user, user, number, lempiras, kind, date, status, id_closure) VALUES (${consolidated.id_user}, '${consolidated.user}',${consolidated.number},${consolidated.lempiras}, ${consolidated.kind},'${consolidated.date}',${consolidated.status},${consolidated.id_closure}); `, {}).then((result) => {
-              if (result.insertId) {
-                return 1;
-              }
-            })
+            return -1
           });
         })
       });
@@ -542,6 +388,31 @@ export class DatabaseProvider {
               }
             }
             return lists;
+          })
+      })
+  }
+
+  //----------------------------CONSOLIDATED------------------------
+  getConsolidatedFinal(pStatus: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM DiariaDetalle WHERE status = ${pStatus} ORDER BY number ASC`, [])
+          .then((data) => {
+            let lists: Consolidated[] = [];
+            if (data.rows.length) {
+              for (let index = 0; index < 100; index++) {
+                var total: number = 0;
+                for (let i = 0; i < data.rows.length; i++) {
+                  let lempiras = parseInt(data.rows.item(i).lempiras);
+                  let number = parseInt(data.rows.item(i).number);
+                  if (number == index) {
+                    total += lempiras;
+                  }
+                }
+                lists.push(new Consolidated(0, 0, '', index, total, 0, '', 0, 0));
+              }
+            }
+            return lists as Consolidated[];
           })
       })
   }
@@ -704,7 +575,7 @@ export class DatabaseProvider {
         return this.database.executeSql(`UPDATE DiariaControl SET status = 7 WHERE id = ${control.id} `, [])
           .then(() => {
             // return this.database.executeSql(`DELETE FROM DiariaDetalle WHERE id_control = ${control.id}`, [])
-            return this.database.executeSql(`UPDATE DiariaDetalle SET status = 7 WHERE id = ${control.id}`, [])
+            return this.database.executeSql(`UPDATE DiariaDetalle SET status = 7 WHERE id_control = ${control.id}`, [])
           })
       })
   }

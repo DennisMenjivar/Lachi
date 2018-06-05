@@ -7,8 +7,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 //library for social-sharing
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { Consolidated } from '../../_models/Consolidated.model';
 import { Closure } from '../../_models/Closure.model';
+import { Consolidated } from '../../_models/Consolidated.model';
 
 @IonicPage()
 @Component({
@@ -18,8 +18,6 @@ import { Closure } from '../../_models/Closure.model';
 export class ConsolidatedPage {
 
   miDate = new Date();
-  miConsolidated: Consolidated = new Consolidated(0, 0, '', 0, 0, 0, String(this.miDate), 0, 0);
-  consolidated: Consolidated[];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -34,15 +32,15 @@ export class ConsolidatedPage {
 
   }
 
-  getConsolidated() {
-    this.consolidated = [];
-    this.database.getConsolidatedByStatus(this.miConsolidated).then((data: Consolidated[]) => {
-      this.consolidated = data as Consolidated[];
-      console.log("Consolidated: ", JSON.stringify(data));
+  consolidated: Consolidated[] = [];
 
-    }, (error) => {
-      console.log("Error al consultar: ", error);
-    });
+  getConsolidated() {
+    this.database.getConsolidatedFinal(0)
+      .then((data) => {
+        if (data) {
+          this.consolidated = data;
+        }
+      });
   }
 
   createClosureFinish() {
@@ -52,8 +50,7 @@ export class ConsolidatedPage {
     this.database.createClosureFinish(closure).then((data) => {
       if (data) {
         for (let index = 0; index < 100; index++) {
-          let consolidated = new Consolidated(0, 0, '', index, 0, 0, myDate, 0, data.id);
-          this.database.createConsolidatedAndStock(consolidated, index).then((data) => {
+          this.database.createStock(index).then((data) => {
 
           });
         }
