@@ -1,6 +1,6 @@
 import { Pedazo } from '../../_models/Pedazo.model';
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, IonicPage, AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { DatabaseProvider } from '../../providers/database/database';
@@ -30,7 +30,7 @@ export class RangeNumbersPage {
     public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-    public database: DatabaseProvider) {
+    public database: DatabaseProvider, public alertCtrl: AlertController) {
   }
 
   createPedazos() {
@@ -56,25 +56,49 @@ export class RangeNumbersPage {
 
   setNumbers() {
     if (this.from != null && this.until != null) {
-      this.setNumberRange(this.from, this.until, this.amount);
+      this.conditionRange(this.from, this.until, this.amount);
     } else if (this.from == null) {
       this.showToast("Ingrese un rango por favor.")
     }
   }
 
+  conditionRange(from: number, until: number, amount: number) {
+    this.presentLoading("Por favor espere..");
+    this.database.getDiariaLenghtByStatus()
+      .then((data) => {
+        if (data) {
+          this.loader.dismiss();
+          this.presentAlert();
+        } else {
+          this.setNumberRange(from, until, amount);
+        }
+      })
+  }
+
+  presentAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Error',
+      subTitle: 'No puede configurar numeros cuando tiene tickets ya vendidos.',
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
   setNumberRange(from: number, until: number, amount: number) {
-    let status: boolean = false;
+    let status: number = 0;
     let cont: number = from;
     while (cont <= until) {
-      let miPedazo: Pedazo = new Pedazo(cont, cont, amount, 0);
+      let miPedazo: Pedazo = new Pedazo(0, cont, amount, 0);
       this.database.editPedazoAndStocking(miPedazo).then((data) => {
         if (data) {
-          this.showToast("Numeros editado correctamente.")
+          status == 1;
         }
-      }, (error) => {
-        this.showToast("Error al editar numeros.")
       });
       cont++;
+    }
+    if (status = 1) {
+      this.loader.dismiss();
+      this.showToast("Numeros editados correctamente.")
     }
   }
 
