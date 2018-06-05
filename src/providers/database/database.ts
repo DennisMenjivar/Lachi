@@ -392,6 +392,7 @@ export class DatabaseProvider {
       })
   }
 
+  totalTotalConsolidated: number = 0;
   //----------------------------CONSOLIDATED------------------------
   getConsolidatedFinal(pStatus: number) {
     return this.isReady()
@@ -400,6 +401,7 @@ export class DatabaseProvider {
           .then((data) => {
             let lists: Consolidated[] = [];
             if (data.rows.length) {
+              this.totalTotalConsolidated = 0;
               for (let index = 0; index < 100; index++) {
                 var total: number = 0;
                 for (let i = 0; i < data.rows.length; i++) {
@@ -407,9 +409,14 @@ export class DatabaseProvider {
                   let number = parseInt(data.rows.item(i).number);
                   if (number == index) {
                     total += lempiras;
+                    this.totalTotalConsolidated += lempiras;
+                  } else {
+                    continue;
                   }
                 }
-                lists.push(new Consolidated(0, 0, '', index, total, 0, '', 0, 0));
+                if (total > 0) {
+                  lists.push(new Consolidated(0, 0, '', index, total, 0, '', 0, 0));
+                }
               }
             }
             return lists as Consolidated[];

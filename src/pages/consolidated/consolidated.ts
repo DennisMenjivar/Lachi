@@ -43,9 +43,9 @@ export class ConsolidatedPage {
       });
   }
 
+  myDate = String(new Date());
   createClosureFinish() {
-    let myDate = String(new Date());
-    let closure = new Closure(0, '', myDate, 0, 0, 0, '', 0);
+    let closure = new Closure(0, '', this.myDate, 0, 0, 0, '', 0);
 
     this.database.createClosureFinish(closure).then((data) => {
       if (data) {
