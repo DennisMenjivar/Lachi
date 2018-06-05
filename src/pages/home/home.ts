@@ -244,7 +244,7 @@ export class HomePage {
 
     const toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000
+      duration: 600
     });
     toast.present();
   }

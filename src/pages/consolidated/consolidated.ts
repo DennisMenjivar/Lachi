@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
-import { ToastController } from 'ionic-angular';
+import { ToastController, AlertController } from 'ionic-angular';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { DatabaseProvider } from '../../providers/database/database';
 import 'rxjs/add/operator/map';
@@ -24,7 +24,8 @@ export class ConsolidatedPage {
     public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-    public database: DatabaseProvider) {
+    public database: DatabaseProvider,
+    private alertCtrl: AlertController) {
     this.getConsolidated();
   }
 
@@ -61,6 +62,29 @@ export class ConsolidatedPage {
     });
   }
 
+  presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: "Cierre",
+      message: "Esta seguro que desea hacer cierre?",
+      buttons: [
+        {
+          text: 'Guardar y Enviar',
+          handler: () => {
+            this.createClosureFinish();
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            this.showToast("Cancelado!");
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   doRefresh(refresher) {
     this.getConsolidated();
     refresher.complete();
@@ -71,7 +95,7 @@ export class ConsolidatedPage {
 
     const toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000
+      duration: 700
     });
     toast.present();
   }
