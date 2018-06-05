@@ -40,6 +40,7 @@ export class ConsolidatedPage {
       .then((data) => {
         if (data) {
           this.consolidated = data;
+          this.loader.dismiss();
         }
       });
   }
@@ -56,7 +57,7 @@ export class ConsolidatedPage {
           });
         }
       }
-      this.presentLoading("Porfavor espere..");
+      this.presentLoading("Procesando, Porfavor espere..");
     });
   }
 
@@ -82,7 +83,7 @@ export class ConsolidatedPage {
   presentLoading(msg: string) {
     this.loader = this.loadingCtrl.create({
       content: msg
-      , duration: 12000
+      , duration: 120000
     });
     this.loader.present();
   }
