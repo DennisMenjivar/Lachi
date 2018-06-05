@@ -227,13 +227,6 @@ export class HomePage {
             this.createClosure();
           }
         }
-        , {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            this.presentConfirmCreateClosure();
-          }
-        }
       ]
     });
     alert.present();
