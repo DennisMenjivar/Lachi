@@ -37,6 +37,7 @@ export class RangeNumbersPage {
   }
 
   createPedazos() {
+    this.pedazos = [];
     let status: boolean = false;
     let cont: number = 0;
     let date = String(new Date());
