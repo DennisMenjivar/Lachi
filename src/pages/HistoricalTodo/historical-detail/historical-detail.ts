@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuxiliarService } from '../../../_lib/auxiliar.service';
 import { DatabaseProvider } from '../../../providers/database/database';
 import { DiariaControl } from '../../../_models/DiariaControl.model';
-import { TicketDetailPage } from '../../TicketsTodo/ticket-detail/ticket-detail';
+import { HistoricalTicketDetailPage } from '../historical-ticket-detail/historical-ticket-detail';
 import { Closure } from '../../../_models/Closure.model';
 
 @IonicPage()
@@ -22,7 +22,7 @@ export class HistoricalDetailPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public _auxiliarService: AuxiliarService,
     public database: DatabaseProvider) {
     this.miClosure = this.navParams.data.pClosure;
-    this.TicketDetailPage = TicketDetailPage;
+    this.TicketDetailPage = HistoricalTicketDetailPage;
     this.getDiariaControl();
   }
 

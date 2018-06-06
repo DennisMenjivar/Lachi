@@ -1,18 +1,30 @@
-<!--
-  Generated template for the HistoricalTicketDetailPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>HistoricalTicketDetail</ion-title>
+    <ion-title>Ticket Detalle</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <button ion-button full outline disabled color="dark">Fecha: {{this.miControl.date | date: 'dd/MM/yyyy'}}</button>
+  <ion-card *ngFor="let diaria of diariaDetalle let i = index;">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card-header style="color: black; font-size: 100px; margin: 0%; padding: 0%; border: 0%">
+            {{diaria.number | number:'2.0-0'}}
+          </ion-card-header>
+          <!-- [innerHtml]=chica.lempiras  -->
+          <ion-card-content style="color: rgb(20, 11, 11); font-size: 30px; margin: 0%; padding: 0%; border: 0%">
+            {{diaria.lempiras | currency:'Lps.':true:'1.2-2'}}
+          </ion-card-content>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <button ion-button full outline disabled color="dark">Total: {{this.miControl.total | currency:'Lps.':true:'1.2-2'}}</button>
+  <!-- <button ion-button full outline (click)="showConfirmMessage()">Finalizar</button> -->
+  <!-- <button ion-button full outline color="danger" (click)="presentConfirmDelete()">Eliminar Ticket</button> -->
 </ion-content>
