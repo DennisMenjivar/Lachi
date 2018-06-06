@@ -19,6 +19,8 @@ export class ConsolidatedPage {
 
   miDate = new Date();
 
+  activeContainer: boolean = true;
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public _auxiliarService: AuxiliarService,
@@ -51,10 +53,11 @@ export class ConsolidatedPage {
 
     this.database.createClosureFinish(closure).then((data) => {
       if (data) {
-        this._auxiliarService.miClosure = data;
+        //this._auxiliarService.miClosure = data;
         for (let index = 0; index < 100; index++) {
           this.database.createStock(index).then((data) => {
             this.getConsolidated();
+            this.activeContainer = false;
           });
         }
       }

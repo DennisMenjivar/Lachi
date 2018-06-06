@@ -25,7 +25,7 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 55%">
+  <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 55%" *ngIf="activeContainer">
     <div class="row">
       <ion-card>
         <ion-grid>
@@ -56,7 +56,7 @@
       <ion-grid>
         <ion-row>
           <ion-col *ngFor="let b of consolidated">
-            <button large ion-button style="background-color: aquamarine;width: 100%; margin: 0%; padding: 0%; border: 0%;height: 100%; color: black">{{b.number}}|{{b.lempiras}}</button>
+            <button large ion-button style="background-color: aquamarine;width: 100%; margin: 0%; padding: 0%; border: 0%;height: 100%; color: black">{{b.number | number:'2.0-0'}}|{{b.lempiras}}</button>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -64,5 +64,8 @@
     <div class="row">
       <button ion-button full outline disabled color="dark">Total: {{database.totalTotalConsolidated | currency:'Lps.':true:'1.2-2'}}</button>
     </div>
+  </div>
+  <div class="row" *ngIf="!activeContainer">
+    <button ion-button full outline disabled color="dark">Cierre exitoso</button>
   </div>
 </ion-content>

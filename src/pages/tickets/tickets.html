@@ -28,11 +28,11 @@
           <ion-card-header style="color: black; font-size: 20px; margin: 0%; padding: 0%; border: 0%">
             Ticket # {{diaria.id}}
           </ion-card-header>
-          <ion-card-content style="color: #488aff; font-size: 18px; margin: 0%; padding: 0%; border: 0%">
-            Total: {{diaria.total | currency:'Lps.':true:'1.2-2'}}
-          </ion-card-content>
           <ion-card-content style="color: black; font-size: 18px; margin: 0%; padding: 0%; border: 0%">
             Cliente: {{diaria.client}}
+          </ion-card-content>
+          <ion-card-content style="color: #488aff; font-size: 18px; margin: 0%; padding: 0%; border: 0%">
+            Total: {{diaria.total | currency:'Lps.':true:'1.2-2'}}
           </ion-card-content>
           <!-- <button ion-button icon-only (click)="compileData()" color="primary" clear>
                 <ion-icon class="share-icon" name="logo-whatsapp"></ion-icon>

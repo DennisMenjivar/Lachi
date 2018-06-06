@@ -22,7 +22,7 @@ export class DiariaControl {
     }
 
     toStringToReceiptView(): string {
-        return String("Ticket #: " + this.id + " - Cliente: " + this.client  + " - Cierre: " + this.id_closure + "\n")
+        return String("Ticket # " + this.id + "-" + this.id_closure + " -Cliente: " + this.client + "\n")
     }
 
     toStringNormal(): string {

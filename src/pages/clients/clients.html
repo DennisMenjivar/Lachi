@@ -8,7 +8,7 @@
 
   <ion-navbar>
     <ion-title>Clientes</ion-title>
-    <ion-buttons end>
+    <ion-buttons end *ngIf="clients == null">
       <button ion-button icon-only (click)="createNewClient()">
         <ion-icon name="add"></ion-icon>
       </button>

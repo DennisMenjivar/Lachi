@@ -16,7 +16,7 @@ export class ClientsPage {
 
   private ReceiptView
 
-  clients: any;
+  clients: any = null;
   miDiaria: DiariaDetalle;
 
   constructor(public navCtrl: NavController,
