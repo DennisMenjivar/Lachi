@@ -47,9 +47,10 @@ export class ConsolidatedPage {
         }
       });
   }
+
   myDate = String(new Date());
   createClosureFinish() {
-    let closure = new Closure(0, '', this.myDate, 0, 0, 0, '', 0);
+    let closure = new Closure(this._auxiliarService.miClosure.id, '', this.myDate, 0, this.database.totalTotalConsolidated, 0, '', 0);
 
     this.database.createClosureFinish(closure).then((data) => {
       if (data) {

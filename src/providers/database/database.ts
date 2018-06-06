@@ -194,6 +194,7 @@ export class DatabaseProvider {
                 detalle.date = data.rows.item(i).date;
                 detalle.status = parseInt(data.rows.item(i).status);
                 detalle.id_user = parseInt(data.rows.item(i).id_user);
+                detalle.total = parseInt(data.rows.item(i).total);
                 detalle.user = data.rows.item(i).user;
                 detalle.winningNumber = parseInt(data.rows.item(i).winningNumber);
                 lists.push(detalle);
@@ -207,7 +208,7 @@ export class DatabaseProvider {
   createClosureFinish(closure: Closure) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`UPDATE Closure SET status = 1`, {}).then((result) => {
+        return this.database.executeSql(`UPDATE Closure SET status = 1, total = ${closure.total}, date = '${closure.date}' WHERE id = ${closure.id}`, {}).then((result) => {
           return this.database.executeSql(`UPDATE DiariaControl SET status = 1`, {}).then((result) => {
             return this.database.executeSql(`UPDATE DiariaDetalle SET status = 1`, {}).then((result) => {
               this.totalTotalConsolidated = 0;
@@ -390,6 +391,7 @@ export class DatabaseProvider {
   totalTotalConsolidated: number = 0;
   //----------------------------CONSOLIDATED------------------------
   getConsolidatedFinal(pStatus: number) {
+    this.totalTotalConsolidated = 0;
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`SELECT * FROM DiariaDetalle WHERE status = ${pStatus} ORDER BY number ASC`, [])
