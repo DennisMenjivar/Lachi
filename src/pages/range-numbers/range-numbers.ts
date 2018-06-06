@@ -37,6 +37,7 @@ export class RangeNumbersPage {
   }
 
   createPedazos() {
+    this.presentLoading("Espere un momento, por favor..")
     this.pedazos = [];
     let status: boolean = false;
     let cont: number = 0;
@@ -52,7 +53,8 @@ export class RangeNumbersPage {
       cont++;
     }
     if (status = true) {
-      this.showToast("Numeros creados correctamente.")
+      this.showToast("Numeros creados correctamente.");
+      this.navCtrl.pop();
     } else {
       this.showToast("Error al crear numeros.")
     }
@@ -102,7 +104,8 @@ export class RangeNumbersPage {
     }
     if (status = 1) {
       this.loader.dismiss();
-      this.showToast("Numeros editados correctamente.")
+      this.showToast("Numeros editados correctamente.");
+      this.navCtrl.pop();
     }
   }
 
@@ -120,7 +123,7 @@ export class RangeNumbersPage {
 
     const toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000
+      duration: 800
     });
     toast.present();
   }
@@ -132,6 +135,7 @@ export class RangeNumbersPage {
   presentLoading(msg: string) {
     this.loader = this.loadingCtrl.create({
       content: msg
+      , duration: 80000
     });
     this.loader.present();
   }

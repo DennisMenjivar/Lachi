@@ -22,10 +22,10 @@
 
 <ion-content padding>
   <ion-item>
-    <ion-input type="tel" min="0" max="99" [value]="from" [(ngModel)]="from" placeholder="Desde" clearInput></ion-input>
+    <ion-input type="tel" [value]="from" [(ngModel)]="from" placeholder="Desde" clearInput></ion-input>
   </ion-item>
   <ion-item>
-    <ion-input type="tel" min="0" max="99" [value]="until" [(ngModel)]="until" placeholder="Hasta" clearInput></ion-input>
+    <ion-input type="tel" [value]="until" [(ngModel)]="until" placeholder="Hasta" clearInput></ion-input>
   </ion-item>
   <ion-item>
     <ion-input type="tel" [value]="amount" [(ngModel)]="amount" placeholder="Cantidad" clearInput></ion-input>

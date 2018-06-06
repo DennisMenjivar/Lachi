@@ -30,6 +30,11 @@ export class ControlPedazosPage {
     this.initialize();
   }
 
+  ionViewDidEnter() {
+    this.getPedazos();
+    this.loader.dismiss();
+  }
+
   getPedazos() {
     this.pedazos = [];
     this.database.getPedazos().then((data: Pedazo[]) => {
