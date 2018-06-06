@@ -608,6 +608,30 @@ export class DatabaseProvider {
       })
   }
 
+  getDiariaControlByIDClosure(id_closure: number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM DiariaControl WHERE id_closure = ${id_closure} ORDER BY id DESC`, [])
+          .then((data) => {
+            let lists: DiariaControl[] = [];
+            if (data.rows.length) {
+              for (let i = 0; i < data.rows.length; i++) {
+                let control = new DiariaControl(0, 0, '', 0, 0);
+                control.id = data.rows.item(i).id;
+                control.id_client = data.rows.item(i).id_client;
+                control.client = data.rows.item(i).client;
+                control.total = data.rows.item(i).total;
+                control.date = data.rows.item(i).date;
+                control.status = data.rows.item(i).status;
+                control.id_closure = id_closure;
+                lists.push(control);
+              }
+            }
+            return lists;
+          })
+      })
+  }
+
   getDiariaLenghtByStatus() {
     return this.isReady()
       .then(() => {

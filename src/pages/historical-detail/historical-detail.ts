@@ -1,26 +1,27 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AuxiliarService } from '../../../_lib/auxiliar.service';
-import { DatabaseProvider } from '../../../providers/database/database';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
-import { DiariaControl } from '../../../_models/DiariaControl.model';
-import { TicketDetailPage } from '../ticket-detail/ticket-detail';
+import { AuxiliarService } from '../../_lib/auxiliar.service';
+import { DatabaseProvider } from '../../providers/database/database';
+import { DiariaControl } from '../../_models/DiariaControl.model';
+import { TicketDetailPage } from '../TicketsTodo/ticket-detail/ticket-detail';
+import { Closure } from '../../_models/Closure.model';
 
 @IonicPage()
 @Component({
-  selector: 'page-tickets',
-  templateUrl: 'tickets.html',
+  selector: 'page-historical-detail',
+  templateUrl: 'historical-detail.html',
 })
-export class TicketsPage {
+export class HistoricalDetailPage {
 
   private TicketDetailPage
 
   miControl: DiariaControl;
   diariaControl: DiariaControl[];
+  miClosure: Closure;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public _auxiliarService: AuxiliarService,
     public database: DatabaseProvider) {
+    this.miClosure = this.navParams.data.pClosure;
     this.TicketDetailPage = TicketDetailPage;
     this.getDiariaControl();
   }
@@ -39,9 +40,8 @@ export class TicketsPage {
 
 
   getDiariaControl() {
-    this.miControl = new DiariaControl(0, 0, '', 0, 0)
     this.diariaControl = [];
-    this.database.getDiariaControlByStatus(this.miControl).then((data: DiariaControl[]) => {
+    this.database.getDiariaControlByIDClosure(this.miClosure.id).then((data: DiariaControl[]) => {
       this.diariaControl = data as DiariaControl[];
     }, (error) => {
       console.log("Error al consultar: ", error);
@@ -49,6 +49,7 @@ export class TicketsPage {
   }
 
   ionViewDidLoad() {
+
   }
 
   ticketSelected(control: DiariaControl) {

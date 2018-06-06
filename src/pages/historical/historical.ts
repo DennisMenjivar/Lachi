@@ -6,6 +6,7 @@ import { DatabaseProvider } from '../../providers/database/database';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { Closure } from '../../_models/Closure.model';
+import { HistoricalDetailPage } from '../historical-detail/historical-detail'
 
 
 /**
@@ -22,14 +23,17 @@ import { Closure } from '../../_models/Closure.model';
 })
 export class HistoricalPage {
 
+  private tickers
+
   closures: Closure[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public _auxiliarService: AuxiliarService, public toastCtrl: ToastController, public loadingCtrl: LoadingController, public database: DatabaseProvider, private alertCtrl: AlertController) {
+    this.tickers = HistoricalDetailPage;
     this.getClosures();
   }
 
   ionViewDidLoad() {
-    
+
   }
 
   getClosures() {
@@ -39,6 +43,13 @@ export class HistoricalPage {
         this.closures = data;
       }
     });
+  }
+
+  goToTickets(closure: Closure) {
+    var params = {
+      pClosure: closure
+    };
+    this.navCtrl.push(this.tickers, params);
   }
 
 }
