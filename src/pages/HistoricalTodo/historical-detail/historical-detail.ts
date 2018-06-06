@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AuxiliarService } from '../../_lib/auxiliar.service';
-import { DatabaseProvider } from '../../providers/database/database';
-import { DiariaControl } from '../../_models/DiariaControl.model';
-import { TicketDetailPage } from '../TicketsTodo/ticket-detail/ticket-detail';
-import { Closure } from '../../_models/Closure.model';
+import { AuxiliarService } from '../../../_lib/auxiliar.service';
+import { DatabaseProvider } from '../../../providers/database/database';
+import { DiariaControl } from '../../../_models/DiariaControl.model';
+import { TicketDetailPage } from '../../TicketsTodo/ticket-detail/ticket-detail';
+import { Closure } from '../../../_models/Closure.model';
 
 @IonicPage()
 @Component({

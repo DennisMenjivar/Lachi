@@ -16,8 +16,9 @@ import { RangeNumbersPage } from '../pages/ControlPedazos/range-numbers/range-nu
 import { TicketsPage } from '../pages/TicketsTodo/tickets/tickets';
 import { TicketDetailPage } from '../pages/TicketsTodo/ticket-detail/ticket-detail';
 import { ConsolidatedPage } from '../pages/consolidated/consolidated';
-import { HistoricalPage } from '../pages/historical/historical';
-import { HistoricalDetailPage } from '../pages/historical-detail/historical-detail';
+import { HistoricalPage } from '../pages/HistoricalTodo/historical/historical';
+import { HistoricalDetailPage } from '../pages/HistoricalTodo/historical-detail/historical-detail';
+import { HistoricalTicketDetailPage } from '../pages/HistoricalTodo/historical-ticket-detail/historical-ticket-detail';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { DatabaseProvider } from '../providers/database/database';
@@ -37,7 +38,8 @@ import { HttpClientModule } from '@angular/common/http';
     TicketDetailPage,
     ConsolidatedPage,
     HistoricalPage,
-    HistoricalDetailPage
+    HistoricalDetailPage,
+    HistoricalTicketDetailPage
   ],
   imports: [
     HttpModule,
@@ -58,7 +60,8 @@ import { HttpClientModule } from '@angular/common/http';
     TicketDetailPage,
     ConsolidatedPage,
     HistoricalPage,
-    HistoricalDetailPage
+    HistoricalDetailPage,
+    HistoricalTicketDetailPage
   ],
   providers: [
     StatusBar,

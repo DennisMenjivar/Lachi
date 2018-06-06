@@ -8,7 +8,7 @@ import { SendDataPage } from '../pages/send-data/send-data';
 import { ControlPedazosPage } from '../pages/ControlPedazos/control-pedazos/control-pedazos';
 import { TicketsPage } from '../pages/TicketsTodo/tickets/tickets';
 import { ConsolidatedPage } from '../pages/consolidated/consolidated';
-import { HistoricalPage } from '../pages/historical/historical';
+import { HistoricalPage } from '../pages/HistoricalTodo/historical/historical';
 
 @Component({
   templateUrl: 'app.html'
