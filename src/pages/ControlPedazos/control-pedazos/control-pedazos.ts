@@ -1,9 +1,9 @@
-import { Pedazo } from '../../_models/Pedazo.model';
+import { Pedazo } from '../../../_models/Pedazo.model';
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, IonicPage } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
-import { AuxiliarService } from '../../_lib/auxiliar.service';
-import { DatabaseProvider } from '../../providers/database/database';
+import { AuxiliarService } from '../../../_lib/auxiliar.service';
+import { DatabaseProvider } from '../../../providers/database/database';
 import { RangeNumbersPage } from '../range-numbers/range-numbers';
 
 @IonicPage()

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ToastController, AlertController } from 'ionic-angular';
-import { AuxiliarService } from '../../_lib/auxiliar.service';
-import { DatabaseProvider } from '../../providers/database/database';
+import { AuxiliarService } from '../../../_lib/auxiliar.service';
+import { DatabaseProvider } from '../../../providers/database/database';
 // import { Http } from '@angular/http'; // don't forget to import HttpModule in app.module.ts
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
-import { DiariaControl } from '../../_models/DiariaControl.model';
-import { Pedazo } from '../../_models/Pedazo.model';
+import { DiariaDetalle } from '../../../_models/DiariaDetalle.model';
+import { DiariaControl } from '../../../_models/DiariaControl.model';
+import { Pedazo } from '../../../_models/Pedazo.model';
 /**
  * Generated class for the TicketDetailPage page.
  *

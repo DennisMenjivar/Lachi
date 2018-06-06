@@ -11,10 +11,10 @@ import { ReceiptViewPage } from '../pages/receipt-view/receipt-view';
 import { AuxiliarService } from '../_lib/auxiliar.service'
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { SendDataPage } from '../pages/send-data/send-data';
-import { ControlPedazosPage } from '../pages/control-pedazos/control-pedazos';
-import { RangeNumbersPage } from '../pages/range-numbers/range-numbers'
-import { TicketsPage } from '../pages/tickets/tickets';
-import { TicketDetailPage } from '../pages/ticket-detail/ticket-detail';
+import { ControlPedazosPage } from '../pages/ControlPedazos/control-pedazos/control-pedazos';
+import { RangeNumbersPage } from '../pages/ControlPedazos/range-numbers/range-numbers';
+import { TicketsPage } from '../pages/TicketsTodo/tickets/tickets';
+import { TicketDetailPage } from '../pages/TicketsTodo/ticket-detail/ticket-detail';
 import { ConsolidatedPage } from '../pages/consolidated/consolidated';
 import { HistoricalPage } from '../pages/historical/historical';
 import 'rxjs/add/operator/map';

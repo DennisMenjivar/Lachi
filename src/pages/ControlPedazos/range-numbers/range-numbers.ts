@@ -1,9 +1,9 @@
-import { Pedazo } from '../../_models/Pedazo.model';
+import { Pedazo } from '../../../_models/Pedazo.model';
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, IonicPage, AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
-import { AuxiliarService } from '../../_lib/auxiliar.service';
-import { DatabaseProvider } from '../../providers/database/database';
+import { AuxiliarService } from '../../../_lib/auxiliar.service';
+import { DatabaseProvider } from '../../../providers/database/database';
 
 /**
  * Generated class for the RangeNumbersPage page.

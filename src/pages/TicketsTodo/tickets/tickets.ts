@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 // import { ToastController } from 'ionic-angular';
-import { AuxiliarService } from '../../_lib/auxiliar.service';
-import { DatabaseProvider } from '../../providers/database/database';
+import { AuxiliarService } from '../../../_lib/auxiliar.service';
+import { DatabaseProvider } from '../../../providers/database/database';
 // import { Http } from '@angular/http'; // don't forget to import HttpModule in app.module.ts
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 //library for social-sharing
-import { DiariaControl } from '../../_models/DiariaControl.model';
+import { DiariaControl } from '../../../_models/DiariaControl.model';
 import { TicketDetailPage } from '../ticket-detail/ticket-detail';
 /**
  * Generated class for the TicketsPage page.

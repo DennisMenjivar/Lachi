@@ -5,8 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { SendDataPage } from '../pages/send-data/send-data';
-import { ControlPedazosPage } from '../pages/control-pedazos/control-pedazos';
-import { TicketsPage } from '../pages/tickets/tickets';
+import { ControlPedazosPage } from '../pages/ControlPedazos/control-pedazos/control-pedazos';
+import { TicketsPage } from '../pages/TicketsTodo/tickets/tickets';
 import { ConsolidatedPage } from '../pages/consolidated/consolidated';
 import { HistoricalPage } from '../pages/historical/historical';
 
@@ -29,8 +29,8 @@ export class MyApp {
       { title: 'Tickets', component: TicketsPage },
       // { title: 'Enviar Datos', component: SendDataPage },
       { title: 'Cierre', component: ConsolidatedPage },
+      { title: 'Historial', component: HistoricalPage },
       { title: 'Configurar Números', component: ControlPedazosPage },
-      { title: 'Historial', component: HistoricalPage }
     ];
 
   }
