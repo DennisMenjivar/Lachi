@@ -7,7 +7,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Editar Numeros</ion-title>
-    <ion-buttons end>
+    <ion-buttons end *ngIf="pedazos == null">
       <button ion-button icon-only (click)="createPedazos()">
         <ion-icon name="add"></ion-icon>
       </button>

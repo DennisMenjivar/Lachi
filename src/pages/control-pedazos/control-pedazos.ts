@@ -15,7 +15,7 @@ export class ControlPedazosPage {
 
   private RangeNumber
 
-  pedazos: any;
+  pedazos: Pedazo[];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -31,7 +31,8 @@ export class ControlPedazosPage {
   }
 
   getPedazos() {
-    this.database.getPedazos().then((data: any) => {
+    this.pedazos = [];
+    this.database.getPedazos().then((data: Pedazo[]) => {
       this.pedazos = data;
     }, (error) => {
       console.log("Error al consultar: ", error);
@@ -40,15 +41,12 @@ export class ControlPedazosPage {
 
   initialize() {
     this.getPedazos();
-    // if (this.pedazos.length <= 0) {
-    //   this.createPedazos();
-    // }
   }
 
   goToRangeNumber() {
     // this.initialize();
     var params = {
-      // pChica: this.miChica
+      pPedazos: this.pedazos
     };
     this.navCtrl.push(this.RangeNumber, params);
   }

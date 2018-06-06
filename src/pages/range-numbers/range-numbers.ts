@@ -25,12 +25,15 @@ export class RangeNumbersPage {
 
   number: number;
 
+  pedazos: Pedazo[];
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public _auxiliarService: AuxiliarService,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public database: DatabaseProvider, public alertCtrl: AlertController) {
+    this.pedazos = navParams.data.pPedazos;
   }
 
   createPedazos() {

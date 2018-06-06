@@ -349,16 +349,15 @@ export class DatabaseProvider {
   getPedazos() {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql("SELECT * FROM Pedazos", [])
+        return this.database.executeSql("SELECT * FROM Pedazos ORDER BY number ASC", [])
           .then((data) => {
-            let lists = [];
-            if (data.rows.length > 0) {
+            let lists: Pedazo[] = null;
+            if (data.rows.length) {
+              lists = [];
               for (let i = 0; i < data.rows.length; i++) {
-                lists.push({
-                  number: data.rows.item(i).number,
-                  pedazos: data.rows.item(i).pedazos,
-                  id_closure: data.rows.item(i).id_closure
-                });
+                let number = data.rows.item(i).number;
+                let pedazos = data.rows.item(i).pedazos;
+                lists.push(new Pedazo(0, number, pedazos, 0));
               }
             }
             return lists;
