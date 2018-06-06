@@ -1,0 +1,38 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Historial</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card *ngFor="let closure of closures">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card-header style="color: black; font-size: 20px; margin: 0%; padding: 0%; border: 0%">
+            Cierre # {{closure.id}} {{closure.description}}
+          </ion-card-header>
+          <ion-card-content style="color: black; font-size: 18px; margin: 0%; padding: 0%; border: 0%">
+            Vendedor:
+          </ion-card-content>
+        </ion-col>
+        <ion-col>
+          <ion-card-header style="color: black; font-size: 15px; margin: 0%; padding: 0%; border: 0%; text-align: right;">
+            {{closure.date | date: 'dd/MM/yyyy hh:mm'}}
+          </ion-card-header>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-card-content style="color: black; font-size: 18px; margin: 0%; padding: 0%; border: 0%; width: 100%">
+          Total: {{closure.total | currency:'Lps.':true:'1.2-2'}}
+        </ion-card-content>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>

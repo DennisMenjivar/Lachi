@@ -16,6 +16,7 @@ import { RangeNumbersPage } from '../pages/range-numbers/range-numbers'
 import { TicketsPage } from '../pages/tickets/tickets';
 import { TicketDetailPage } from '../pages/ticket-detail/ticket-detail';
 import { ConsolidatedPage } from '../pages/consolidated/consolidated';
+import { HistoricalPage } from '../pages/historical/historical';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { DatabaseProvider } from '../providers/database/database';
@@ -33,7 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
     RangeNumbersPage,
     TicketsPage,
     TicketDetailPage,
-    ConsolidatedPage
+    ConsolidatedPage,
+    HistoricalPage
   ],
   imports: [
     HttpModule,
@@ -52,7 +54,8 @@ import { HttpClientModule } from '@angular/common/http';
     RangeNumbersPage,
     TicketsPage,
     TicketDetailPage,
-    ConsolidatedPage
+    ConsolidatedPage,
+    HistoricalPage
   ],
   providers: [
     StatusBar,

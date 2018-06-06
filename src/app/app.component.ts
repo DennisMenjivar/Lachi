@@ -8,6 +8,7 @@ import { SendDataPage } from '../pages/send-data/send-data';
 import { ControlPedazosPage } from '../pages/control-pedazos/control-pedazos';
 import { TicketsPage } from '../pages/tickets/tickets';
 import { ConsolidatedPage } from '../pages/consolidated/consolidated';
+import { HistoricalPage } from '../pages/historical/historical';
 
 @Component({
   templateUrl: 'app.html'
@@ -29,6 +30,7 @@ export class MyApp {
       // { title: 'Enviar Datos', component: SendDataPage },
       { title: 'Cierre', component: ConsolidatedPage },
       { title: 'Configurar Números', component: ControlPedazosPage },
+      { title: 'Historial', component: HistoricalPage }
     ];
 
   }
