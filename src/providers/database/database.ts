@@ -183,7 +183,7 @@ export class DatabaseProvider {
   getClosures() {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`SELECT * FROM Closure ORDER BY id DESC`, [])
+        return this.database.executeSql(`SELECT * FROM Closure WHERE status = 1 ORDER BY id DESC`, [])
           .then((data) => {
             let lists: Closure[] = [];
             if (data.rows.length) {
@@ -192,7 +192,7 @@ export class DatabaseProvider {
                 detalle.id = parseInt(data.rows.item(i).id);
                 detalle.description = data.rows.item(i).description;
                 detalle.date = data.rows.item(i).date;
-                detalle.status = parseInt(data.rows.item(i).status);
+                detalle.status = 1;
                 detalle.id_user = parseInt(data.rows.item(i).id_user);
                 detalle.total = parseInt(data.rows.item(i).total);
                 detalle.user = data.rows.item(i).user;
