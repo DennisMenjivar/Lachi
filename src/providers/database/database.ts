@@ -205,6 +205,15 @@ export class DatabaseProvider {
       })
   }
 
+  setWinningNumber(closure: Closure) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE Closure SET winningNumber = ${closure.winningNumber} WHERE id = ${closure.id}`, {}).then((result) => {
+          return 1;
+        });
+      });
+  }
+
   createClosureFinish(closure: Closure) {
     return this.isReady()
       .then(() => {

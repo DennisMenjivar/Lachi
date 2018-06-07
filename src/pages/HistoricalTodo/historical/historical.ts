@@ -45,11 +45,85 @@ export class HistoricalPage {
     });
   }
 
+  conditionWinnigNumber(closure: Closure) {
+    if (closure.winningNumber == 0) {
+      this.presentConfirm(closure);
+    } else {
+      this.goToTickets(closure);
+    }
+  }
+
   goToTickets(closure: Closure) {
     var params = {
       pClosure: closure
     };
     this.navCtrl.push(this.tickers, params);
+  }
+
+  presentConfirm(closure: Closure) {
+    let alert = this.alertCtrl.create({
+      title: 'Número Ganador',
+      message: 'Desea ingresar el numero ganador?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            this.goToTickets(closure);
+          }
+        },
+        {
+          text: 'Si',
+          handler: () => {
+            this.presentPrompt(closure);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  presentPrompt(closure: Closure) {
+    let alert = this.alertCtrl.create({
+      title: 'Número Ganador',
+      message: 'Ingrese el número ganador',
+      inputs: [
+        {
+          name: 'number',
+          placeholder: 'Número',
+          type: 'tel'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: data => {
+            this.goToTickets(closure);
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: data => {
+            closure.winningNumber = data.number;
+            this.database.setWinningNumber(closure).then((data) => {
+              if (data) {
+                this.showToast("Número ganador ingresado.")
+              }
+            })
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  showToast(msg: string) {
+    const toast = this.toastCtrl.create({
+      message: msg,
+      duration: 800
+    });
+    toast.present();
   }
 
 }
