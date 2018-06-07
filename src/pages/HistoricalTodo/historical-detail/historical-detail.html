@@ -17,7 +17,8 @@
 
 
 <ion-content padding>
-  <button ion-button full outline disabled color="dark">Total: {{this.getTotal() | currency:'Lps.':true:'1.2-2'}}</button>
+  <button ion-button full outline disabled color="dark">Total ventas: {{this.getTotal() | currency:'Lps.':true:'1.2-2'}}</button>
+  <button ion-button full outline disabled color="dark">Total ganado: {{this.getTotal() | currency:'Lps.':true:'1.2-2'}}</button>
   <ion-card (click)="ticketSelected(diaria)" *ngFor="let diaria of diariaControl; let i = index;">
     <ion-grid>
       <ion-row>

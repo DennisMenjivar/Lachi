@@ -24,7 +24,7 @@
 
 
 <ion-content padding>
-  <button ion-button full outline disabled color="dark">Ticket # {{this.lenght}}-{{_auxiliarService.miClosure.id}}</button>
+  <button ion-button full outline disabled color="dark">Ticket # {{_auxiliarService.miClosure.id}}-{{this.lenght}}</button>
   <ion-card *ngFor="let diaria of _auxiliarService.diariaDetalle; let i = index;">
     <ion-grid>
       <ion-row>

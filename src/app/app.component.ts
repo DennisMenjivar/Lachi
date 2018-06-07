@@ -29,8 +29,8 @@ export class MyApp {
       { title: 'Tickets', component: TicketsPage },
       // { title: 'Enviar Datos', component: SendDataPage },
       { title: 'Cierre', component: ConsolidatedPage },
-      { title: 'Historial', component: HistoricalPage },
-      { title: 'Configurar Números', component: ControlPedazosPage },
+      { title: 'Pagos e Historial', component: HistoricalPage },
+      { title: 'Configurar Límites', component: ControlPedazosPage },
     ];
 
   }

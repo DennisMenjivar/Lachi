@@ -205,15 +205,6 @@ export class DatabaseProvider {
       })
   }
 
-  setWinningNumber(closure: Closure) {
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`UPDATE Closure SET winningNumber = ${closure.winningNumber} WHERE id = ${closure.id}`, {}).then((result) => {
-          return 1;
-        });
-      });
-  }
-
   createClosureFinish(closure: Closure) {
     return this.isReady()
       .then(() => {
@@ -249,6 +240,52 @@ export class DatabaseProvider {
         });
       });
   }
+
+  // -----WINNING NUMBER
+
+  setWinningNumber(closure: Closure) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE Closure SET winningNumber = ${closure.winningNumber} WHERE id = ${closure.id}`, {}).then((result) => {
+          return 1;
+        });
+      });
+  }
+
+  totalWinning: number = 0;
+  getTicketsWinning(winningNumber: number) {
+    this.totalWinning = 0;
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`SELECT * FROM DiariaDetalle WHERE number = ${winningNumber} ORDER BY number ASC`, [])
+          .then((data) => {
+            let lists: Consolidated[] = [];
+            if (data.rows.length) {
+              this.totalWinning = 0;
+              for (let index = 0; index < 100; index++) {
+                var total: number = 0;
+                for (let i = 0; i < data.rows.length; i++) {
+                  let lempiras = parseInt(data.rows.item(i).lempiras);
+                  let number = parseInt(data.rows.item(i).number);
+                  let id_control = parseInt(data.rows.item(i).id_control);
+                  if (number == index) {
+                    total += lempiras;
+                    this.totalWinning += lempiras;
+                  } else {
+                    continue;
+                  }
+                }
+                if (total > 0) {
+                  lists.push(new Consolidated(0, 0, '', index, total, 0, '', 0, 0));
+                }
+              }
+            }
+            return lists as Consolidated[];
+          })
+      })
+  }
+
+
 
   // ----------------------------STOCKTAKING----------------------------------
 
