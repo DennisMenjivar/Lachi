@@ -7,8 +7,9 @@ export class Closure {
     id_user: number;
     user: string;
     winningNumber: number;
+    totalWinning: number;
 
-    constructor(id: number, description: string, date: string, status: number, total: number, id_user: number, user: string, winningNumber: number) {
+    constructor(id: number, description: string, date: string, status: number, total: number, id_user: number, user: string, winningNumber: number, totalWinning: number) {
         this.id = id;
         this.description = description;
         this.date = date;
@@ -17,5 +18,6 @@ export class Closure {
         this.id_user = id_user;
         this.user = user;
         this.winningNumber = winningNumber;
+        this.totalWinning = totalWinning;
     }
 }

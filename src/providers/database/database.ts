@@ -113,7 +113,8 @@ export class DatabaseProvider {
                 , total INTEGER
                 , id_user INTEGER
                 , user TEXT
-                , winningNumber INTEGER);`, {})
+                , winningNumber INTEGER
+                , totalWinning INTEGER);`, {})
           }).then(() => {
             return this.database.executeSql(
               `CREATE TABLE IF NOT EXISTS stocktaking 
@@ -131,9 +132,9 @@ export class DatabaseProvider {
   createClosure(closure: Closure) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`INSERT INTO Closure (description, date, status, total, id_user, user, winningNumber) VALUES ('${closure.description}', '${closure.date}',${closure.status},${closure.total}, ${closure.id_user},'${closure.user}',${closure.winningNumber}); `, {}).then((result) => {
+        return this.database.executeSql(`INSERT INTO Closure (description, date, status, total, id_user, user, winningNumber, totalWinning) VALUES ('${closure.description}', '${closure.date}',${closure.status},${closure.total}, ${closure.id_user},'${closure.user}',${closure.winningNumber},${closure.totalWinning}); `, {}).then((result) => {
           if (result.insertId) {
-            let miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+            let miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0, 0);
             miClosure.id = parseInt(result.insertId);
             return this.getClosureByID(miClosure);
           }
@@ -147,7 +148,7 @@ export class DatabaseProvider {
         return this.database.executeSql(`SELECT * FROM Closure WHERE id = ${closure.id} ORDER BY id DESC`, [])
           .then((data) => {
             if (data.rows.length) {
-              let closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+              let closure = new Closure(0, '', '', 0, 0, 0, '', 0, 0);
               closure.id = parseInt(data.rows.item(0).id);
               closure.description = data.rows.item(0).description;
               closure.date = data.rows.item(0).date;
@@ -156,6 +157,7 @@ export class DatabaseProvider {
               closure.id_user = parseInt(data.rows.item(0).id_user);
               closure.user = data.rows.item(0).user;
               closure.winningNumber = parseInt(data.rows.item(0).winningNumber);
+              closure.totalWinning = parseInt(data.rows.item(0).totalWinning);
               return closure as Closure;
             }
             return null;
@@ -169,7 +171,7 @@ export class DatabaseProvider {
         return this.database.executeSql(`SELECT * FROM Closure WHERE status = 0 ORDER BY id DESC`, [])
           .then((data) => {
             if (data.rows.length) {
-              let closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+              let closure = new Closure(0, '', '', 0, 0, 0, '', 0, 0);
               closure.id = parseInt(data.rows.item(0).id);
               closure.description = data.rows.item(0).description;
               closure.date = data.rows.item(0).date;
@@ -188,7 +190,7 @@ export class DatabaseProvider {
             let lists: Closure[] = [];
             if (data.rows.length) {
               for (let i = 0; i < data.rows.length; i++) {
-                let detalle: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+                let detalle: Closure = new Closure(0, '', '', 0, 0, 0, '', 0, 0);
                 detalle.id = parseInt(data.rows.item(i).id);
                 detalle.description = data.rows.item(i).description;
                 detalle.date = data.rows.item(i).date;
@@ -197,6 +199,7 @@ export class DatabaseProvider {
                 detalle.total = parseInt(data.rows.item(i).total);
                 detalle.user = data.rows.item(i).user;
                 detalle.winningNumber = parseInt(data.rows.item(i).winningNumber);
+                detalle.totalWinning = parseInt(data.rows.item(i).totalWinning);
                 lists.push(detalle);
               }
             }
@@ -246,44 +249,48 @@ export class DatabaseProvider {
   setWinningNumber(closure: Closure) {
     return this.isReady()
       .then(() => {
-        return this.database.executeSql(`UPDATE Closure SET winningNumber = ${closure.winningNumber} WHERE id = ${closure.id}`, {}).then((result) => {
-          return 1;
-        });
+        return this.database.executeSql(`SELECT sum(lempiras) AS totalW FROM DiariaDetalle WHERE number = ${closure.winningNumber} AND id_closure = ${closure.id}`, [])
+          .then((data) => {
+            let totalWinn = parseInt(data.rows.item(0).totalW);
+            return this.database.executeSql(`UPDATE Closure SET winningNumber = ${closure.winningNumber}, totalWinning = ${totalWinn}  WHERE id = ${closure.id}`, {}).then((result) => {
+              return totalWinn;
+            });
+          })
       });
   }
 
-  totalWinning: number = 0;
-  getTicketsWinning(winningNumber: number) {
-    this.totalWinning = 0;
-    return this.isReady()
-      .then(() => {
-        return this.database.executeSql(`SELECT * FROM DiariaDetalle WHERE number = ${winningNumber} ORDER BY number ASC`, [])
-          .then((data) => {
-            let lists: Consolidated[] = [];
-            if (data.rows.length) {
-              this.totalWinning = 0;
-              for (let index = 0; index < 100; index++) {
-                var total: number = 0;
-                for (let i = 0; i < data.rows.length; i++) {
-                  let lempiras = parseInt(data.rows.item(i).lempiras);
-                  let number = parseInt(data.rows.item(i).number);
-                  let id_control = parseInt(data.rows.item(i).id_control);
-                  if (number == index) {
-                    total += lempiras;
-                    this.totalWinning += lempiras;
-                  } else {
-                    continue;
-                  }
-                }
-                if (total > 0) {
-                  lists.push(new Consolidated(0, 0, '', index, total, 0, '', 0, 0));
-                }
-              }
-            }
-            return lists as Consolidated[];
-          })
-      })
-  }
+  // sumTotalwinning(winningNumber: number, id_closure: number) {
+  //   return this.isReady()
+  //     .then(() => {
+  //       return this.database.executeSql(`SELECT sum(lempiras) AS totalW FROM DiariaDetalle WHERE number = ${winningNumber} AND id_closure = ${id_closure}`, [])
+  //         .then((data) => {
+  //           let total: number = 0;
+  //           if (data.rows.length) {
+  //             total = parseInt(data.rows.item(0).totalW);
+  //           }
+  //           return total;
+  //         })
+  //     })
+  // }
+
+  // getTicketsWinning(winningNumber: number, id_closure: number) {
+  //   return this.isReady()
+  //     .then(() => {
+  //       return this.database.executeSql(`SELECT * FROM DiariaDetalle WHERE number = ${winningNumber} AND id_closure = ${id_closure} ORDER BY number ASC`, [])
+  //         .then((data) => {
+  //           let lists: Consolidated[] = [];
+  //           if (data.rows.length) {
+  //             for (let i = 0; i < data.rows.length; i++) {
+  //               let lempiras = parseInt(data.rows.item(i).lempiras);
+  //               let number = parseInt(data.rows.item(i).number);
+  //               let id_control = parseInt(data.rows.item(i).id_control);
+  //               lists.push(new Consolidated(0, 0, '', number, lempiras, 0, '', 0, 0));
+  //             }
+  //           }
+  //           return lists as Consolidated[];
+  //         })
+  //     })
+  // }
 
 
 
@@ -492,7 +499,7 @@ export class DatabaseProvider {
       })
   }
 
-  payNumber(id:number) {
+  payNumber(id: number) {
     return this.isReady()
       .then(() => {
         return this.database.executeSql(`UPDATE DiariaDetalle SET paid = 2 WHERE id = ${id}`, {}).then((result) => {

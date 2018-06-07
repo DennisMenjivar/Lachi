@@ -108,6 +108,7 @@ export class HistoricalPage {
             closure.winningNumber = data.number;
             this.database.setWinningNumber(closure).then((data) => {
               if (data) {
+                closure.totalWinning = data;
                 this.showToast("Número ganador ingresado.")
               }
             })

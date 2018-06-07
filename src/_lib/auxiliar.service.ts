@@ -9,7 +9,7 @@ import { Closure } from '../_models/Closure.model';
 export class AuxiliarService {
 
     closureStatus: boolean = false;
-    miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0);
+    miClosure: Closure = new Closure(0, '', '', 0, 0, 0, '', 0, 0);
 
     totalTicket: number = 0;
     totalConsolidated: number = 0;
