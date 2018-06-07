@@ -16,11 +16,21 @@
           <ion-card-header style="color: black; font-size: 100px; margin: 0%; padding: 0%; border: 0%">
             {{diaria.number | number:'2.0-0'}}
           </ion-card-header>
-          <!-- [innerHtml]=chica.lempiras  -->
           <ion-card-content style="color: rgb(20, 11, 11); font-size: 30px; margin: 0%; padding: 0%; border: 0%">
             {{diaria.lempiras | currency:'Lps.':true:'1.2-2'}}
+            <ion-fab bottom right *ngIf="diaria.paid == 1 || diaria.paid == 2">
+              <button ion-fab (click)="pay(diaria)" color="danger">
+                <ion-icon *ngIf="diaria.paid == 1" name="star-outline"></ion-icon>
+                <ion-icon *ngIf="diaria.paid == 2" name="star"></ion-icon>
+              </button>
+            </ion-fab>
           </ion-card-content>
         </ion-col>
+        <!-- <ion-col>
+          <button ion-button icon-only *ngIf="diaria.paid == 1" color="primary" clear>
+            <ion-icon class="share-icon" name="logo-whatsapp"></ion-icon>
+          </button>
+        </ion-col> -->
       </ion-row>
     </ion-grid>
   </ion-card>

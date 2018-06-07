@@ -492,6 +492,15 @@ export class DatabaseProvider {
       })
   }
 
+  payNumber(id:number) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`UPDATE DiariaDetalle SET paid = 2 WHERE id = ${id}`, {}).then((result) => {
+          return 1;
+        })
+      });
+  }
+
   CreateDiariaDetalle(diaria: DiariaDetalle) {
     return this.isReady()
       .then(() => {

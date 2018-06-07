@@ -29,9 +29,16 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-card-content style="color: black; font-size: 18px; margin: 0%; padding: 0%; border: 0%; width: 100%">
-          Total: {{closure.total | currency:'Lps.':true:'1.2-2'}}
-        </ion-card-content>
+        <ion-col>
+          <ion-card-content style="color: black; font-size: 18px; margin: 0%; padding: 0%; border: 0%; width: 100%">
+            Total: {{closure.total | currency:'Lps.':true:'1.2-2'}}
+          </ion-card-content>
+        </ion-col>
+        <ion-col *ngIf="closure.winningNumber != 0">
+          <ion-card-content style="color: tomato; font-size: 18px; margin: 0%; padding: 0%; border: 0%; width: 100%; text-align: right;">
+            NG: {{closure.winningNumber | number:'2.0-0'}}
+          </ion-card-content>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card>

@@ -26,10 +26,6 @@ export class HistoricalDetailPage {
     this.getDiariaControl();
   }
 
-  ionViewDidEnter() {
-    this.getDiariaControl();
-  }
-
   getTotal(): number {
     let total: number = 0;
     this.diariaControl.forEach(element => {
@@ -54,7 +50,8 @@ export class HistoricalDetailPage {
 
   ticketSelected(control: DiariaControl) {
     var params = {
-      pControl: control
+      pControl: control,
+      pWinningNumber: this.miClosure.winningNumber
     };
     this.navCtrl.push(this.TicketDetailPage, params);
   }

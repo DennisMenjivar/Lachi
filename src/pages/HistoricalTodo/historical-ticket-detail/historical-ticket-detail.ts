@@ -11,6 +11,7 @@ import { Pedazo } from '../../../_models/Pedazo.model';
 @Component({
   selector: 'page-historical-ticket-detail',
   templateUrl: 'historical-ticket-detail.html',
+  styles: ['historical-ticket-detail.scss'],
 })
 export class HistoricalTicketDetailPage {
 
@@ -28,12 +29,29 @@ export class HistoricalTicketDetailPage {
 
   }
 
+
+
   getDiariaDetalle() {
     this.diariaDetalle = [];
     this.database.getDiariaDetalleByIdControl(this.miDetalle).then((data: DiariaDetalle[]) => {
       this.diariaDetalle = data as DiariaDetalle[];
+      data.forEach(element => {
+        if (this.navParams.data.pWinningNumber == element.number) {
+          if (element.paid == 0) {
+            element.paid = 1;
+          } else if (element.paid == 2) {
+            element.paid = 2;
+          }
+        }
+      });
     }, (error) => {
       console.log("Error al consultar: ", error);
+    });
+  }
+
+  pay(diaria: DiariaDetalle) {
+    this.database.payNumber(diaria.id).then((data) => {
+      diaria.paid = 2;
     });
   }
 
