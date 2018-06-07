@@ -465,7 +465,8 @@ export class DatabaseProvider {
                   }
                 }
                 if (total > 0) {
-                  lists.push(new Consolidated(0, 0, '', index, total, 0, '', 0, 0));
+                  let id_closure = parseInt(data.rows.item(0).id_closure);
+                  lists.push(new Consolidated(0, 0, '', index, total, 0, '', 0, id_closure));
                 }
               }
             }

@@ -36,7 +36,7 @@
         <ion-col>
           <ion-card-content style="color: black; font-size: 18px; margin: 0%; padding: 0%; border: 0%; width: 100%">
             Total ganado: {{closure.totalWinning | currency:'Lps.':true:'1.2-2'}}
-            <ion-card-content style="color: tomato; font-size: 18px; margin: 0%; padding: 0%; border: 0%; width: 100%; text-align: right;">
+            <ion-card-content *ngIf="closure.winningNumber != 0" style="color: tomato; font-size: 18px; margin: 0%; padding: 0%; border: 0%; width: 100%; text-align: right;">
               NG: {{closure.winningNumber | number:'2.0-0'}}
             </ion-card-content>
           </ion-card-content>

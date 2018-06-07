@@ -27,7 +27,7 @@ export class ConsolidatedPage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public database: DatabaseProvider,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController, private socialSharing: SocialSharing) {
     this.getConsolidated();
   }
 
@@ -48,12 +48,39 @@ export class ConsolidatedPage {
       });
   }
 
+  whatsappShare(msg: string) {
+    this.socialSharing.shareViaWhatsApp(msg, null, null);
+  }
+
+  sendJSONDATA() {
+    let dataToSend: any[] = [];
+    this.consolidated.forEach(element => {
+      dataToSend.push({
+        seller: element.user,
+        closure: element.id_closure,
+        number: element.number,
+        lempiras: element.lempiras,
+      });
+    });
+    let data = JSON.stringify(dataToSend);
+    this.whatsappShare(data);
+  }
+
+  dataReceived: string = '[{"date":"","seller":"","closure":4,"number":2,"lempiras":20,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":25,"lempiras":50,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":52,"lempiras":50,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":63,"lempiras":30,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":65,"lempiras":50,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":69,"lempiras":90,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":81,"lempiras":10,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":87,"lempiras":70,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":92,"lempiras":20,"turno":"Turno","total":0}]'
+
+  readJSONDATA() {
+    for (var data of JSON.parse(this.dataReceived)) {
+      console.log("Consolidado: ", data.closure);
+    }
+  }
+
   myDate = String(new Date());
   createClosureFinish() {
     let closure = new Closure(this._auxiliarService.miClosure.id, '', this.myDate, 0, this.database.totalTotalConsolidated, 0, '', 0, 0);
 
     this.database.createClosureFinish(closure).then((data) => {
       if (data) {
+        this.sendJSONDATA();
         //this._auxiliarService.miClosure = data;
         for (let index = 0; index < 100; index++) {
           this.database.createStock(index).then((data) => {
