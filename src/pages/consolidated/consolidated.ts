@@ -67,13 +67,22 @@ export class ConsolidatedPage {
     this.whatsappShare(data);
   }
 
+  sendCSVData() {
+    let dataToSend: string = '';
+    this.consolidated.forEach(element => {
+      dataToSend += element.toStringCSV();
+    });
+    this.whatsappShare(dataToSend);
+  }
+
   myDate = String(new Date());
   createClosureFinish() {
     let closure = new Closure(this._auxiliarService.miClosure.id, '', this.myDate, 0, this.database.totalTotalConsolidated, 0, '', 0, 0);
 
     this.database.createClosureFinish(closure).then((data) => {
       if (data) {
-        this.sendJSONDATA();
+        // this.sendJSONDATA();
+        this.sendCSVData();
         //this._auxiliarService.miClosure = data;
         for (let index = 0; index < 100; index++) {
           this.database.createStock(index).then((data) => {

@@ -20,4 +20,8 @@ export class Consolidated {
         this.status = status;
         this.id_closure = id_closure;
     }
+
+    toStringCSV(): string {
+        return this.number + "," + this.lempiras + "\n";
+    }
 }
