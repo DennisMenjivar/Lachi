@@ -22,6 +22,6 @@ export class Consolidated {
     }
 
     toStringCSV(): string {
-        return this.number + "," + this.lempiras + "\n";
+        return this.number + ";" + this.lempiras + "\n";
     }
 }
