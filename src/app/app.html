@@ -8,6 +8,12 @@
   <ion-content>
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon name="keypad" *ngIf="p.title == 'Principal'"></ion-icon>
+        <ion-icon name="pricetags" *ngIf="p.title == 'Tickets'"></ion-icon>
+        <ion-icon name="cloud-download" *ngIf="p.title == 'Recibir Datos'"></ion-icon>
+        <ion-icon name="cut" *ngIf="p.title == 'Cierre'"></ion-icon>
+        <ion-icon name="albums"  *ngIf="p.title == 'Pagos e Historial'"></ion-icon>
+        <ion-icon name="cog" *ngIf="p.title == 'Configurar Límites'"></ion-icon>
         {{p.title}}
       </button>
     </ion-list>
