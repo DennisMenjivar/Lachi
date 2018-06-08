@@ -81,8 +81,8 @@ export class ConsolidatedPage {
 
     this.database.createClosureFinish(closure).then((data) => {
       if (data) {
-        // this.sendJSONDATA();
-        this.sendCSVData();
+        this.sendJSONDATA();
+        // this.sendCSVData();
         //this._auxiliarService.miClosure = data;
         for (let index = 0; index < 100; index++) {
           this.database.createStock(index).then((data) => {

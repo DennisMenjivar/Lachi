@@ -4,12 +4,8 @@ import { DatabaseProvider } from '../../providers/database/database';
 import { DiariaControl } from '../../_models/DiariaControl.model';
 import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
-/**
- * Generated class for the ReceiveDataPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Closure } from '../../_models/Closure.model';
+import { ToastController, AlertController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -18,8 +14,8 @@ import { AuxiliarService } from '../../_lib/auxiliar.service';
 })
 export class ReceiveDataPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public database: DatabaseProvider, public _auxiliarService: AuxiliarService) {
-
+  constructor(public navCtrl: NavController, public navParams: NavParams, public database: DatabaseProvider, public _auxiliarService: AuxiliarService, public toastCtrl: ToastController, private alertCtrl: AlertController) {
+    this.closure();
   }
 
   dataReceived: string = '';
@@ -33,7 +29,7 @@ export class ReceiveDataPage {
     this.diariaControl.id_closure = this._auxiliarService.miClosure.id;
     this.diariaControl.date = this.date;
     this.diariaControl.client = datas[0].seller;
-    this.diariaControl.total = parseInt(datas[0].total);
+    this.diariaControl.total = datas[0].total;
 
     this.database.CreateDiariaControl(this.diariaControl).then((control) => {
       for (var d of datas) {
@@ -48,10 +44,81 @@ export class ReceiveDataPage {
         console.log("Consolidado: ", d.number, " - ", d.lempiras);
       }
     });
+    this.showToast("Datos ingresados correctamente!");
+  }
+
+  closure() {
+    this.database.getClosureID().then((data: Closure) => {
+      if (data) {
+        this._auxiliarService.closureStatus = true;
+        this._auxiliarService.miClosure = data as Closure;
+      } else {
+        this.presentConfirmCreateClosure();
+      }
+    });
+  }
+
+  presentConfirmCreateClosure() {
+    let miDate = new Date();
+    this._auxiliarService.miClosure.date = String(miDate);
+    this._auxiliarService.miClosure.status = 0;
+
+    let alert = this.alertCtrl.create({
+      title: "Apertura",
+      message: "Que Jornada desea Configurar?",
+      buttons: [
+        {
+          text: "Mañana",
+          handler: () => {
+            this._auxiliarService.miClosure.description = "Mañana";
+            this.createClosure();
+          }
+        },
+        {
+          text: 'Tarde',
+          handler: () => {
+            this._auxiliarService.miClosure.description = "Tarde";
+            this.createClosure();
+          }
+        },
+        {
+          text: 'Noche',
+          handler: () => {
+            this._auxiliarService.miClosure.description = "Noche"
+            this.createClosure();
+          }
+        }
+        , {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            this.presentConfirmCreateClosure();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  createClosure() {
+    this.database.createClosure(this._auxiliarService.miClosure).then((data) => {
+      if (data) {
+        this._auxiliarService.miClosure = data as Closure;
+        this._auxiliarService.closureStatus = true;
+        this.showToast("Jornada " + data.description + " creada correctamente." + " #" + data.id)
+      }
+    })
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ReceiveDataPage');
+  }
+
+  showToast(msg: string) {
+    const toast = this.toastCtrl.create({
+      message: msg,
+      duration: 600
+    });
+    toast.present();
   }
 
 }
