@@ -509,6 +509,15 @@ export class DatabaseProvider {
       });
   }
 
+  CreateFastDiariaDetalle(diaria: DiariaDetalle) {
+    return this.isReady()
+      .then(() => {
+        return this.database.executeSql(`INSERT INTO DiariaDetalle(id_control, number, lempiras, id_client, client, date, status, id_closure, paid) VALUES(${diaria.id_control}, ${diaria.number}, ${diaria.lempiras}, ${diaria.id_client}, '${diaria.client}', '${diaria.date}', ${diaria.status}, ${diaria.id_closure}, ${diaria.paid}); `, {}).then((result) => {
+          return 1;
+        })
+      });
+  }
+
   CreateDiariaDetalle(diaria: DiariaDetalle) {
     return this.isReady()
       .then(() => {

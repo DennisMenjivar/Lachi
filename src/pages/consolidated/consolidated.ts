@@ -60,18 +60,11 @@ export class ConsolidatedPage {
         closure: element.id_closure,
         number: element.number,
         lempiras: element.lempiras,
+        total: this.database.totalTotalConsolidated
       });
     });
     let data = JSON.stringify(dataToSend);
     this.whatsappShare(data);
-  }
-
-  dataReceived: string = '[{"date":"","seller":"","closure":4,"number":2,"lempiras":20,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":25,"lempiras":50,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":52,"lempiras":50,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":63,"lempiras":30,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":65,"lempiras":50,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":69,"lempiras":90,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":81,"lempiras":10,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":87,"lempiras":70,"turno":"Turno","total":0},{"date":"","seller":"","closure":4,"number":92,"lempiras":20,"turno":"Turno","total":0}]'
-
-  readJSONDATA() {
-    for (var data of JSON.parse(this.dataReceived)) {
-      console.log("Consolidado: ", data.closure);
-    }
   }
 
   myDate = String(new Date());
