@@ -19,6 +19,7 @@ import { ConsolidatedPage } from '../pages/consolidated/consolidated';
 import { HistoricalPage } from '../pages/HistoricalTodo/historical/historical';
 import { HistoricalDetailPage } from '../pages/HistoricalTodo/historical-detail/historical-detail';
 import { HistoricalTicketDetailPage } from '../pages/HistoricalTodo/historical-ticket-detail/historical-ticket-detail';
+import { ReceiveDataPage } from '../pages/receive-data/receive-data';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { DatabaseProvider } from '../providers/database/database';
@@ -39,7 +40,8 @@ import { HttpClientModule } from '@angular/common/http';
     ConsolidatedPage,
     HistoricalPage,
     HistoricalDetailPage,
-    HistoricalTicketDetailPage
+    HistoricalTicketDetailPage,
+    ReceiveDataPage
   ],
   imports: [
     HttpModule,
@@ -61,7 +63,8 @@ import { HttpClientModule } from '@angular/common/http';
     ConsolidatedPage,
     HistoricalPage,
     HistoricalDetailPage,
-    HistoricalTicketDetailPage
+    HistoricalTicketDetailPage,
+    ReceiveDataPage
   ],
   providers: [
     StatusBar,
