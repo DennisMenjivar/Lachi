@@ -26,6 +26,7 @@ import { DatabaseProvider } from '../providers/database/database';
 import { SQLite } from '@ionic-native/sqlite';
 import { HttpClientModule } from '@angular/common/http';
 import { Clipboard } from '@ionic-native/clipboard';
+import { PopoverDataReceivedComponent } from '../components/popover-data-received/popover-data-received';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { Clipboard } from '@ionic-native/clipboard';
     HistoricalPage,
     HistoricalDetailPage,
     HistoricalTicketDetailPage,
-    ReceiveDataPage
+    ReceiveDataPage,
+    PopoverDataReceivedComponent
   ],
   imports: [
     HttpModule,
@@ -65,7 +67,8 @@ import { Clipboard } from '@ionic-native/clipboard';
     HistoricalPage,
     HistoricalDetailPage,
     HistoricalTicketDetailPage,
-    ReceiveDataPage
+    ReceiveDataPage,
+    PopoverDataReceivedComponent
   ],
   providers: [
     Clipboard,

@@ -5,26 +5,33 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>ReceiveData</ion-title>
+    <ion-title>Recibir Datos</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%">
+<ion-content padding style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%" class="no-scroll">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="container" style="margin: 1%; border: 0%; padding: 0%; width: 100%; height: 10%">
-    <button ion-button full outline (click)="paste()">Pegar</button>
+    <button ion-button full outline (click)="paste()" *ngIf="dataReceived == ''">Pegar</button>
+    <button ion-button full outline (click)="reloadJSONDATA()" *ngIf="dataReceived != ''">Procesar Información</button>
   </div>
   <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%">
     <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 80%">
       <ion-item style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%">
-        <ion-textarea placeholder="Ingrese los datos recibidos" *ngIf="dataReceived != ''"
-          [(ngModel)]="dataReceived" disabled="true"></ion-textarea>
+        <ion-textarea placeholder="Ingrese los datos recibidos" *ngIf="dataReceived != ''" [(ngModel)]="dataReceived" disabled="true"></ion-textarea>
       </ion-item>
     </div>
   </div>
