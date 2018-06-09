@@ -16,11 +16,16 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-item>
-    <ion-textarea placeholder="Ingrese los datos recibidos" [(ngModel)]="dataReceived"></ion-textarea>
-  </ion-item>
-  <ion-item>
-    <button ion-button full outline (click)="reloadJSONDATA()">Cargar datos</button>
-  </ion-item>
+<ion-content padding style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%">
+  <div class="container" style="margin: 1%; border: 0%; padding: 0%; width: 100%; height: 10%">
+    <button ion-button full outline (click)="paste()">Pegar</button>
+  </div>
+  <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%">
+    <div class="container" style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 80%">
+      <ion-item style="margin: 0%; border: 0%; padding: 0%; width: 100%; height: 100%">
+        <ion-textarea placeholder="Ingrese los datos recibidos" *ngIf="dataReceived != ''"
+          [(ngModel)]="dataReceived" disabled="true"></ion-textarea>
+      </ion-item>
+    </div>
+  </div>
 </ion-content>

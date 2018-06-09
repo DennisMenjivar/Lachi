@@ -25,6 +25,7 @@ import 'rxjs/add/operator/toPromise';
 import { DatabaseProvider } from '../providers/database/database';
 import { SQLite } from '@ionic-native/sqlite';
 import { HttpClientModule } from '@angular/common/http';
+import { Clipboard } from '@ionic-native/clipboard';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReceiveDataPage
   ],
   providers: [
+    Clipboard,
     StatusBar,
     SplashScreen,
     AuxiliarService,

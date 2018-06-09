@@ -6,16 +6,29 @@ import { DiariaDetalle } from '../../_models/DiariaDetalle.model';
 import { AuxiliarService } from '../../_lib/auxiliar.service';
 import { Closure } from '../../_models/Closure.model';
 import { ToastController, AlertController } from 'ionic-angular';
+import { Clipboard } from '@ionic-native/clipboard';
 
 @IonicPage()
 @Component({
   selector: 'page-receive-data',
   templateUrl: 'receive-data.html',
+  styles: ['receive-data.scss']
 })
 export class ReceiveDataPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public database: DatabaseProvider, public _auxiliarService: AuxiliarService, public toastCtrl: ToastController, private alertCtrl: AlertController) {
+  constructor(private clipboard: Clipboard, public navCtrl: NavController, public navParams: NavParams, public database: DatabaseProvider, public _auxiliarService: AuxiliarService, public toastCtrl: ToastController, private alertCtrl: AlertController) {
     this.closure();
+  }
+
+  paste() {
+    this.clipboard.paste().then(
+      (resolve: string) => {
+        this.dataReceived = resolve;
+      },
+      (reject: string) => {
+        alert('Error: ' + reject);
+      }
+    );
   }
 
   dataReceived: string = '';
@@ -44,6 +57,7 @@ export class ReceiveDataPage {
         console.log("Consolidado: ", d.number, " - ", d.lempiras);
       }
     });
+    this.dataReceived = '';
     this.showToast("Datos ingresados correctamente!");
   }
 

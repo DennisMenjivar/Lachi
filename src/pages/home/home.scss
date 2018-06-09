@@ -1,5 +1,7 @@
 page-home {
-
+  .no-scroll .scroll-content{
+    overflow: hidden;
+  }
 }
 
 @media screen and (max-width: 1024px) {
