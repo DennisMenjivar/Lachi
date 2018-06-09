@@ -40,6 +40,13 @@ export class ReceiveDataPage {
     );
   }
 
+  validateFormat(): boolean {
+    if (this.dataReceived.indexOf('[{') > -1 && this.dataReceived.indexOf('}]') > -1) {
+      return true;
+    }
+    return false;
+  }
+
   dataReceived: string = '';
   date: string = String(new Date());
   diariaControl: DiariaControl = new DiariaControl(0, 0, '', 0, 0);
@@ -47,27 +54,31 @@ export class ReceiveDataPage {
 
   datas: any;
   reloadJSONDATA() {
-    this.datas = JSON.parse(this.dataReceived);
-    this.diariaControl.id_closure = this._auxiliarService.miClosure.id;
-    this.diariaControl.date = this.date;
-    this.diariaControl.client = this.datas[0].seller;
-    this.diariaControl.total = this.datas[0].total;
+    if (this.validateFormat()) {
+      this.datas = JSON.parse(this.dataReceived);
+      this.diariaControl.id_closure = this._auxiliarService.miClosure.id;
+      this.diariaControl.date = this.date;
+      this.diariaControl.client = this.datas[0].seller;
+      this.diariaControl.total = this.datas[0].total;
 
-    this.database.CreateDiariaControl(this.diariaControl).then((control) => {
-      for (var d of this.datas) {
-        this.diariaDetalle = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
-        this.diariaDetalle.id_closure = this._auxiliarService.miClosure.id;
-        this.diariaDetalle.number = d.number;
-        this.diariaDetalle.lempiras = d.lempiras;
-        this.diariaDetalle.client = d.seller;
-        this.diariaDetalle.id_control = control.id;
-        this.diariaDetalle.date = this.date;
-        this.database.CreateFastDiariaDetalle(this.diariaDetalle);
-        console.log("Consolidado: ", d.number, " - ", d.lempiras);
-      }
-    });
-    this.dataReceived = '';
-    this.showToast("Datos ingresados correctamente!");
+      this.database.CreateDiariaControl(this.diariaControl).then((control) => {
+        for (var d of this.datas) {
+          this.diariaDetalle = new DiariaDetalle(0, 0, 0, 0, 0, '', '', 0, 0, 0);
+          this.diariaDetalle.id_closure = this._auxiliarService.miClosure.id;
+          this.diariaDetalle.number = d.number;
+          this.diariaDetalle.lempiras = d.lempiras;
+          this.diariaDetalle.client = d.seller;
+          this.diariaDetalle.id_control = control.id;
+          this.diariaDetalle.date = this.date;
+          this.database.CreateFastDiariaDetalle(this.diariaDetalle);
+          console.log("Consolidado: ", d.number, " - ", d.lempiras);
+        }
+      });
+      this.dataReceived = '';
+      this.showToast("Datos ingresados correctamente!");
+    } else {
+      this.showToast("Formato Incorrecto!");
+    }
   }
 
   closure() {
