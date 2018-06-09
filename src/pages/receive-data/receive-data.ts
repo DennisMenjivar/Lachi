@@ -32,6 +32,7 @@ export class ReceiveDataPage {
     this.clipboard.paste().then(
       (resolve: string) => {
         this.dataReceived = resolve;
+        this.datas = JSON.parse(resolve);
       },
       (reject: string) => {
         alert('Error: ' + reject);
@@ -46,7 +47,7 @@ export class ReceiveDataPage {
 
   datas: any;
   reloadJSONDATA() {
-    this.datas = JSON.parse(this.dataReceived)
+    this.datas = JSON.parse(this.dataReceived);
     this.diariaControl.id_closure = this._auxiliarService.miClosure.id;
     this.diariaControl.date = this.date;
     this.diariaControl.client = this.datas[0].seller;
@@ -143,6 +144,7 @@ export class ReceiveDataPage {
     toast.present();
   }
   doRefresh(refresher) {
+    this.datas = null;
     this.dataReceived = '';
     refresher.complete();
   }
