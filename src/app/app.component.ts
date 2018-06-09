@@ -9,7 +9,6 @@ import { ControlPedazosPage } from '../pages/ControlPedazos/control-pedazos/cont
 import { TicketsPage } from '../pages/TicketsTodo/tickets/tickets';
 import { ConsolidatedPage } from '../pages/consolidated/consolidated';
 import { HistoricalPage } from '../pages/HistoricalTodo/historical/historical';
-import { ReceiveDataPage } from '../pages/receive-data/receive-data';
 
 @Component({
   templateUrl: 'app.html'
@@ -28,7 +27,6 @@ export class MyApp {
     this.pages = [
       { title: 'Principal', component: HomePage },
       { title: 'Tickets', component: TicketsPage },
-      { title: 'Recibir Datos', component: ReceiveDataPage },
       { title: 'Cierre', component: ConsolidatedPage },
       { title: 'Pagos e Historial', component: HistoricalPage },
       { title: 'Configurar Límites', component: ControlPedazosPage },
