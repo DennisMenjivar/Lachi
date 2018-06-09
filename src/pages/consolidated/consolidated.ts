@@ -52,15 +52,16 @@ export class ConsolidatedPage {
     this.socialSharing.shareViaWhatsApp(msg, null, null);
   }
 
+  totalToSend: number = 0;
   sendJSONDATA() {
     let dataToSend: any[] = [];
     this.consolidated.forEach(element => {
       dataToSend.push({
-        seller: element.user,
+        seller: 'General',
         closure: element.id_closure,
         number: element.number,
         lempiras: element.lempiras,
-        total: this.database.totalTotalConsolidated
+        total: this.totalToSend,
       });
     });
     let data = JSON.stringify(dataToSend);
@@ -78,7 +79,7 @@ export class ConsolidatedPage {
   myDate = String(new Date());
   createClosureFinish() {
     let closure = new Closure(this._auxiliarService.miClosure.id, '', this.myDate, 0, this.database.totalTotalConsolidated, 0, '', 0, 0);
-
+    this.totalToSend = this.database.totalTotalConsolidated;
     this.database.createClosureFinish(closure).then((data) => {
       if (data) {
         this.sendJSONDATA();
